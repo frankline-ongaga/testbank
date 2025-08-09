@@ -1,0 +1,22 @@
+#owl-main .item, #owl-main.height-md .item
+{
+	height: 550px !important;
+}
+
+.navbar-collapse.collapse.animate-after {
+ 
+ background-color: #021a3a;
+
+}
+.animate-after .navbar-nav > li > a {
+
+   color: #ffffff;
+
+}
+.animate-after .navbar-nav > li > a :hover{
+
+   background-color: #ffffff !important;
+   color:#021a3a !important;
+
+}
+
