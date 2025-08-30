@@ -5,7 +5,6 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
 
 
 /*
@@ -59,9 +58,11 @@ $routes->get('/', 'Home::index');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override('My404'); // Custom 404 controller
+//$routes->set404Override('My404'); // Custom 404 controller
 
 // Static Pages
+$routes->get('/', 'Home::index');
+
 $routes->get('pricing', 'Home::pricing');
 $routes->get('order_now', 'Home::order_now');
 $routes->get('how_it_works', 'Home::how_it_works');
@@ -109,4 +110,3 @@ $routes->post('admin/saveUser', 'Admin::saveUser');
 $routes->get('admin/editUser/(:num)', 'Admin::editUser/$1');
 $routes->post('admin/updateUser', 'Admin::updateUser');
 $routes->get('admin/deleteUser/(:num)', 'Admin::deleteUser/$1');
-
