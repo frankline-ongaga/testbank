@@ -31,3 +31,4 @@ class StudyCategorySeeder extends Seeder
 }
 
 
+

@@ -44,3 +44,4 @@ class InstructorUserSeeder extends Seeder
 
 
 
+

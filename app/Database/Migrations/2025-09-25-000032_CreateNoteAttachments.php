@@ -57,3 +57,4 @@ class CreateNoteAttachments extends Migration
     }
 }
 
+

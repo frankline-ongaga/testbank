@@ -17,6 +17,8 @@ $routes->get('/', 'Home::index');
 $routes->get('login', 'Auth::showLogin');
 $routes->get('login/student', 'Auth::showLoginStudent');
 $routes->post('login/student', 'Auth::loginStudent');
+$routes->get('login/client', 'Auth::showLoginStudent');
+$routes->post('login/client', 'Auth::loginStudent');
 $routes->get('login/instructor', 'Auth::showLoginInstructor');
 $routes->post('login/instructor', 'Auth::loginInstructor');
 $routes->get('login/admin', 'Auth::showLoginAdmin');

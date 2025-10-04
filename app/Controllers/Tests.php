@@ -65,8 +65,21 @@ class Tests extends BaseController
         if (!in_array($currentRole, ['admin', 'instructor'])) {
             return redirect()->to('/tests')->with('error', 'Access denied');
         }
+        
+        // Load questions list for selection
+        // Show most recent 200 questions; adjust as needed
+        $questions = $this->questionModel
+            ->orderBy('id', 'DESC')
+            ->findAll(200);
 
-        $data = ['title' => 'Create Test'];
+        // Optionally load categories for filter (left empty if not using taxonomy here)
+        $categories = [];
+
+        $data = [
+            'title' => 'Create Test',
+            'questions' => $questions,
+            'categories' => $categories,
+        ];
         
         if ($currentRole === 'admin') {
             return view('admin/layout/header', $data)
@@ -121,7 +134,7 @@ class Tests extends BaseController
 
     public function store()
     {
-        $currentRole = $this->roleSession->getCurrentRole();
+        $currentRole = session()->get('current_role') ?: '';
         
         // Only admin and instructors can create tests
         if (!in_array($currentRole, ['admin', 'instructor'])) {
@@ -160,6 +173,12 @@ class Tests extends BaseController
             ? 'Test created and activated'
             : 'Test created and submitted for approval';
 
+        if ($currentRole === 'admin') {
+            return redirect()->to('/admin/tests')->with('message', $message);
+        }
+        if ($currentRole === 'instructor') {
+            return redirect()->to('/instructor/tests')->with('message', $message);
+        }
         return redirect()->to('/tests')->with('message', $message);
     }
 

@@ -19,3 +19,4 @@ class AddSubcategoryIdToNotes extends Migration
 }
 
 
+

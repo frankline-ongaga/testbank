@@ -41,3 +41,4 @@ class CreateStudyCategories extends Migration
 }
 
 
+

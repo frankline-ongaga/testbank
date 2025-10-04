@@ -1,8 +1,4 @@
-<div class="admin-page-header">
-    <div class="admin-page-title">
-        <h1><?= esc($title ?? 'Access Plans') ?></h1>
-    </div>
-</div>
+<?php /* Simplified: packages only */ ?>
 
 <div class="admin-content" style="max-width: 1100px; margin: 0 auto;">
     <?php if (session()->getFlashdata('message')): ?>
@@ -22,26 +18,28 @@
             border: 1px solid rgba(0,0,0,.06);
             border-radius: 14px;
             transition: transform .2s ease, box-shadow .2s ease;
+            overflow: hidden;
         }
         .plan-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,.08); }
         .plan-price { font-size: 2.25rem; font-weight: 800; }
         .plan-badge { position: absolute; top: 10px; right: 12px; }
         .feature-item { display:flex; align-items:center; gap:.5rem; color:#374151; }
         .feature-item i { color:#10b981; }
+        .plan-accent {
+            height: 6px;
+            background: linear-gradient(90deg, rgba(99,102,241,1) 0%, rgba(139,92,246,1) 50%, rgba(16,185,129,1) 100%);
+        }
+        .card-subtext { color: #6b7280; }
     </style>
 
-    <div class="pricing-hero text-center">
-        <h4 class="mb-1">Unlock Your Full NCLEX Prep</h4>
-        <p class="mb-0" style="opacity:.95">One-time payment • No auto-renewals • Instant access</p>
-    </div>
-
-    <div class="row g-4 justify-content-center">
+    <div id="plans" class="row g-4 justify-content-center">
         <div class="col-md-6 col-lg-5">
-            <div class="plan-card h-100 position-relative">
+            <div class="card plan-card h-100 position-relative">
+                <div class="plan-accent"></div>
                 <div class="card-body p-4 text-center">
                     <div class="h6 text-muted mb-1">1-Month Access</div>
                     <div class="plan-price mb-1">$49</div>
-                    <div class="text-muted mb-3">30 days of full access</div>
+                    <div class="card-subtext mb-3">30 days of full access</div>
                     <div class="text-start small d-grid gap-2">
                         <div class="feature-item"><i class="fa-solid fa-check"></i><span>Unlimited practice tests</span></div>
                         <div class="feature-item"><i class="fa-solid fa-check"></i><span>4,000+ NCLEX-style questions</span></div>
@@ -50,18 +48,20 @@
                     </div>
                 </div>
                 <div class="card-footer bg-transparent text-center p-3">
+                    <div class="small text-muted mb-2">Checkout securely with PayPal</div>
                     <div id="paypal-monthly"></div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-6 col-lg-5">
-            <div class="plan-card h-100 position-relative border-primary">
+            <div class="card plan-card h-100 position-relative border-primary">
                 <span class="badge bg-warning text-dark plan-badge">Best Value</span>
+                <div class="plan-accent"></div>
                 <div class="card-body p-4 text-center">
                     <div class="h6 text-muted mb-1">3-Month Access</div>
                     <div class="plan-price mb-1">$99</div>
-                    <div class="text-muted mb-3">90 days of full access</div>
+                    <div class="card-subtext mb-3">90 days of full access</div>
                     <div class="text-start small d-grid gap-2">
                         <div class="feature-item"><i class="fa-solid fa-check"></i><span>Everything in 1-Month Access</span></div>
                         <div class="feature-item"><i class="fa-solid fa-check"></i><span>Save $48 vs monthly plan</span></div>
@@ -70,20 +70,14 @@
                     </div>
                 </div>
                 <div class="card-footer bg-transparent text-center p-3">
+                    <div class="small text-muted mb-2">Checkout securely with PayPal</div>
                     <div id="paypal-quarterly"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="card mt-4">
-        <div class="card-body text-center">
-            <div class="d-inline-flex align-items-center gap-2 text-muted">
-                <i class="fa-solid fa-shield-halved text-primary"></i>
-                <span>No subscriptions • Secure payments by PayPal • Instant activation</span>
-            </div>
-        </div>
-    </div>
+    
 
     <script src="https://www.paypal.com/sdk/js?client-id=<?= esc(getenv('PAYPAL_SANDBOX_CLIENT_ID')) ?>&currency=USD&intent=capture"></script>
     <script>

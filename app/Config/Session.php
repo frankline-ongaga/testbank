@@ -57,7 +57,7 @@ class Session extends BaseConfig
      *
      * IMPORTANT: You are REQUIRED to set a valid save path!
      */
-    public string $savePath = WRITEPATH . 'session';
+    public string $savePath = '/opt/lampp/htdocs/testbank/writable/session';
 
     /**
      * --------------------------------------------------------------------------
@@ -78,7 +78,7 @@ class Session extends BaseConfig
      *
      * How many seconds between CI regenerating the session ID.
      */
-    public int $timeToUpdate = 300;
+    public int $timeToUpdate = 0;
 
     /**
      * --------------------------------------------------------------------------

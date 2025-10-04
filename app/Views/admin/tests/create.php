@@ -85,16 +85,20 @@
                                         <input type="checkbox" class="form-check-input" name="question_ids[]" 
                                value="<?= $q['id'] ?>" <?= in_array($q['id'], old('question_ids', [])) ? 'checked' : '' ?>>
                                         <label class="form-check-label">
-                                            <?= esc($q['content']) ?>
+                                            <?= esc($q['stem'] ?? $q['content'] ?? ('Question #' . $q['id'])) ?>
                                             <div class="mt-1">
-                                                <span class="badge bg-primary"><?= esc($q['category'] ?? '') ?></span>
-                                                <span class="badge bg-secondary"><?= esc($q['difficulty'] ?? '') ?></span>
+                                                <?php if (!empty($q['type'])): ?>
+                                                    <span class="badge bg-info"><?= esc(strtoupper($q['type'])) ?></span>
+                                                <?php endif; ?>
                                             </div>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
+                        <?php if (empty($questions)): ?>
+                            <div class="text-muted small px-2 py-3">No questions found. Create questions first to add them to a test.</div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
