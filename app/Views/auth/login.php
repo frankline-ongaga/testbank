@@ -1,4 +1,4 @@
-<div class="container py-5" style="max-width:720px;">
+<div class="container py-5" style="max-width:720px; margin-top:96px;">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm">

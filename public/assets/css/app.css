@@ -2925,7 +2925,7 @@ footer .copyright_row P {
   position: relative;
 }
 .hero-banner-1 .content .text_block {
-  padding-top: 192px;
+  padding-top: 0;
 }
 @media (max-width: 991px) {
   .hero-banner-1 .content .text_block {

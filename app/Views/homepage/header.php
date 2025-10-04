@@ -22,6 +22,27 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/css/course.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('static/css/mystyle.css'); ?>">
 
+  <style>
+    /* Hide sticky header placeholder to remove gap above hero */
+    .stricky-header { display: none !important; }
+
+    /* Make header overlay the hero (transparent over top) */
+    header { position: absolute; top: 0; left: 0; right: 0; z-index: 1000; background: transparent !important; }
+    .main-menu, .main-menu__block { background: transparent !important; }
+    .main-menu__block { padding-top: 8px; padding-bottom: 8px; }
+    /* Ensure hero sits at the very top */
+    .hero-banner-1 { margin-top: 0 !important; padding-top: 0 !important; }
+    .hero-banner-1 .container { padding-top: 0 !important; margin-top: 0 !important; }
+    .hero-banner-1 .content, .hero-banner-1 .text_block { margin-top: 0 !important; }
+    /* Add breathing room under the transparent header */
+    .hero-banner-1 .content .text_block { padding-top: 96px !important; }
+    #main-wrapper { margin-top: 0 !important; }
+    /* Force-remove any top padding set via CSS vars */
+    .main-wrapper { padding-top: 0 !important; }
+    .main-menu { box-shadow: none !important; margin: 0 !important; }
+  </style>
+  </style>
+
 
 
 </head>
