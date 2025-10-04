@@ -13,8 +13,8 @@
   <link rel="shortcut icon" type="image/x-icon" href="assets/media/favicon.png">
 
   <!-- All CSS files -->
-  <link rel="stylesheet" href="<?php echo base_url('assets/vendor/bootstrap/css/bootstrap.min.css'); ?>">
-  <link rel="stylesheet" href="<?php echo base_url('assets/vendor/fontawesome/font-awesome.css'); ?>">
+  <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/slickslider/slick.css'); ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/jquery-magnific-popup/jquery.magnific-popup.css'); ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/animate/animate.min.css'); ?>">
@@ -73,8 +73,8 @@
             <div class="main-menu__left">
 
               <div class="main-menu__logo">
-                <a href="index.html">
-                  <img src="assets/media/logo.png" alt="Educate">
+                <a href="<?= base_url(); ?>">
+                  <img src="<?= base_url('assets/media/logo.png'); ?>" alt="Educate">
                 </a>
               </div>
 
@@ -84,13 +84,11 @@
 
                      <li><a href="<?php echo base_url('how_it_works'); ?>">How It Works</a></li>
                   
-                     <li> <a href="<?php echo base_url('teas'); ?>">TEAS</a> </li>
 
-                     <li> <a href="<?php echo base_url('nclex'); ?>">NCLEX</a> </li>
+                     <li> <a href="#">NCLEX</a> </li>
 
-                     <li> <a href="<?php echo base_url('hesi2'); ?>">HESI A2</a> </li>
 
-                    <li> <a href="<?php echo base_url('blog'); ?>">Blog</a> </li>
+                    <li> <a href="#">Blog</a> </li>
 
                   <li class="dropdown ">
                     <a href="javascript:void(0);">Services</a>
@@ -104,9 +102,9 @@
             </div>
             <div class="main-menu__right">
               
-              <a href="<?php echo base_url('client'); ?>" class="educate-btn sec"><span class="educate-btn__curve"></span>Account </a>
-              <a href="<?php echo base_url('order_now'); ?>" class="educate-btn sm d-xl-flex d-none"><span
-                  class="educate-btn__curve"></span>Order Now</a>
+              <a href="<?php echo base_url('login/student'); ?>" class="educate-btn sec"><span class="educate-btn__curve"></span>Account </a>
+              <a href="#" class="educate-btn sm d-xl-flex d-none"><span
+                  class="educate-btn__curve"></span>Get Started</a>
               <a href="#" class="main-menu__toggler mobile-nav__toggler">
                 <i class="fa fa-bars"></i>
               </a>

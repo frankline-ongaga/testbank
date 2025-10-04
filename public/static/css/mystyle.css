@@ -1,0 +1,1 @@
+:root{--menu-offset:24px}@media(min-width:992px){:root{--menu-offset:32px}}.main-wrapper{padding-top:var(--menu-offset)}.main-menu{position:sticky;top:0;z-index:1000} .stricked-menu{position:sticky;top:0} body{scroll-padding-top:var(--menu-offset)}

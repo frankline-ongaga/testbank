@@ -96,8 +96,9 @@
   <!-- back-to-top-end -->
 
   <!-- Jquery Js -->
-  <script src="<?php echo base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/vendor/jquery/jquery-3.6.3.min.js'); ?>"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>window.jQuery || document.write('<script src="<?php echo base_url('assets/js/jquery-3.6.0.min.js'); ?>"><\/script>')</script>
+  <script src="<?php echo base_url('assets/js/bootstrap.bundle.min.js'); ?>"></script>
   <script src="<?php echo base_url('assets/vendor/jquery-appear/jquery-appear.js'); ?>"></script>
   <script src="<?php echo base_url('assets/vendor/jquery-validator/jquery-validator.js'); ?>"></script>
   <script src="<?php echo base_url('assets/vendor/countdown/jquery.countdown.min.js'); ?>"></script>

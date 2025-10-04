@@ -1,0 +1,38 @@
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Study Library</h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <?php foreach (($categories ?? []) as $cat): ?>
+                        <a href="<?= base_url('client/study/'.$cat['id'].'/subcategories') ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= (int)$cat['id'] === (int)$category['id'] ? 'active' : '' ?>">
+                            <span><?= esc($cat['name']) ?></span>
+                            <i class="fa-solid fa-chevron-right <?= (int)$cat['id'] === (int)$category['id'] ? 'text-white' : 'text-muted' ?>"></i>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h5 class="mb-3"><i class="fa-regular fa-folder-open me-2"></i><?= esc($category['name']) ?></h5>
+            <div class="row">
+                <?php foreach (($subcategories ?? []) as $sub): ?>
+                <div class="col-md-6 mb-3">
+                    <a class="text-decoration-none" href="<?= base_url('client/study/subcategory/'.$sub['id'].'/questions') ?>">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="mb-1"><i class="fa-regular fa-folder me-2"></i><?= esc($sub['name']) ?></h6>
+                                <div class="text-muted small"><?= esc($sub['description'] ?? '') ?></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+

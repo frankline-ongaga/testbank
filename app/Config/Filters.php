@@ -34,6 +34,8 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'auth'          => \App\Filters\AuthFilter::class,
+        'admin'         => \App\Filters\AdminFilter::class,
     ];
 
     /**
@@ -69,13 +71,10 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            // 'honeypot',
-            // 'csrf',
-            // 'invalidchars',
+            // Disable CSRF for now per request
         ],
         'after' => [
-            // 'honeypot',
-            // 'secureheaders',
+            'toolbar',
         ],
     ];
 
@@ -103,5 +102,37 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'auth' => [
+            'before' => [
+                'client',
+                'client/*',
+                'admin',
+                'admin/*',
+                'instructor',
+                'instructor/*',
+                'index.php/client',
+                'index.php/client/*',
+                'index.php/admin',
+                'index.php/admin/*',
+                'index.php/instructor',
+                'index.php/instructor/*',
+            ],
+            'except' => [
+                'login',
+                'login/*',
+                'register',
+                'forgot',
+                'reset/*'
+            ]
+        ],
+        'admin' => [
+            'before' => [
+                'admin',
+                'admin/*',
+                'index.php/admin',
+                'index.php/admin/*',
+            ],
+        ],
+    ];
 }
