@@ -17,15 +17,15 @@
               <div class="footer_widget">
                 <h5 class="medium-black mb-16">Quick Links</h5>
                 <ul class="unstyled list">
-                  <li><a href=""><i class="fad fa-chevron-right"></i>Courses</a></li>
-                  <li><a href=""><i class="fad fa-chevron-right"></i>Join a Career</a></li>
-                  <li><a href=""><i class="fad fa-chevron-right"></i>Upcoming Events</a></li>
+                  <li><a href="#"><i class="fad fa-chevron-right"></i>Get Started</a></li>
+                  <li><a href="#"><i class="fad fa-chevron-right"></i>Login</a></li>
+                  <li><a href="#"><i class="fad fa-chevron-right"></i>How It Works</a></li>
                 </ul>
               </div>
             </div>
             <div class="col-xl-4 col-lg-3 col-sm-6">
               <div class="footer_widget">
-                <h5 class="medium-black mb-16">Explore</h5>
+                <h5 class="medium-black mb-16">Payment</h5>
                 <ul class="unstyled list">
                   <li><a href="about.html"><i class="fad fa-chevron-right"></i>About Us</a></li>
                   <li><a href="gallery.html"><i class="fad fa-chevron-right"></i>Gallery</a></li>
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="copyright_row">
-        <p>©2024 Educate All Rights Reserved.</p>
+        <p>©<?= Date('Y'); ?> NCLEX Prep Course. All Rights Reserved.</p>
       </div>
     </footer>
     <!-- Footer Area End -->
@@ -109,6 +109,23 @@
 
   <!-- Site Scripts -->
   <script src="<?php echo base_url('assets/js/app.js'); ?>"></script>
+
+   <script type="text/javascript">
+    (function () {
+        var options = {
+            whatsapp: "+1 (206) 350-4565", // WhatsApp number
+            call: "+1 (206) 350-4565", // Call phone number
+            call_to_action: "Message us", // Call to action
+            button_color: "#FF318E", // Color of button
+            position: "left", // Position may be 'right' or 'left'
+            order: "whatsapp,call", // Order of buttons
+        };
+        var proto = document.location.protocol, host = "getbutton.io", url = proto + "//static." + host;
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+        s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+        var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+    })();
+</script>
 </body>
 
 </html>

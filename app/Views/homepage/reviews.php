@@ -1,214 +1,231 @@
-  <main>
-        <!-- Page Title -->
-        <section class="page-heading parallax effect-section" style="background-image: url(static/img/bg-banner-1.webp);">
-            <div class="mask bg-dark-gradient opacity-8"></div>
-            <div class="container position-relative text-center">
-                <h1 class="display-6 text-white mb-3">What Our Client <mark>Says About Us?</mark></h1>
-                <ol class="breadcrumb light m-0 text-center">
-                    <li class="breadcrumb-item "><a class="text-reset" href="<?php echo base_url(); ?>"><i class="bi bi-house-fill"></i> Home</a></li>
-                    <li class="breadcrumb-item active text-white-50" aria-current="page">Reviews </li>
-                </ol>
-            </div>
-        </section>
-        <!-- End Page Title -->
- <!-- Section -->
-        <section class="section bg-secondary-light">
+
+     <style>
+         .testimonial_card_2{
+
+            width: 100% !important;
+            margin-bottom: 20px;
+         }
+         .testimonial_card_2 .testimonial .review_text {
+
+            font-size: 16px !important;
+
+          }
+     </style>
+
+
+        <!-- Page Title Banner Start -->
+        <section class="page_title_banner">
             <div class="container">
-                <div class="row">
-                    
-                    <div class="col-lg-12 my-3">
-                    <div class="col-lg-12 my-3 center-rating">
-    <span class="bg-secondary-light text-secondary px-3 py-1 rounded">Rated 4.9 of 5</span>
-</div>
-
-                        <h3 class="display-6 my-4"></mark></h3>
-                      
+                <div class="content">
+                    <div class="title">
+                        <h1>Reviews</h1>
+                        <img src="assets/media/shapes/tag-2.png" alt="" class="tag">
                     </div>
-
-                        <div class="reviews-section" data-items="2" data-nav-arrow="false" data-nav-dots="true" data-md-items="2" data-sm-items="2" data-xs-items="1" data-xx-items="1" data-space="0" data-autoplay="true">
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avawom.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“I was struggling with my personal statement for law school until I found EssayPrompt.org. They helped me focus my story and strengthen my message. I got accepted into my top-choice program! Highly recommend their services.”
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Nadia K., </h6>
-                                        <p class="m-0 small text-primary">Law School Applicant, USA</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avaman.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“As a non-native English speaker, I had trouble making my writing sound natural. EssayPrompt.org edited my scholarship essay without changing my ideas. It passed AI detection and grammar tools perfectly!”
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Kenji T., </h6>
-                                        <p class="m-0 small text-primary">Undergraduate Student, Japan</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avawom.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“My nursing school essay was full of emotion but poorly structured. Their editors helped organize it and make it impactful. I got two interview invites the same week I submitted it.”
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Laura M., </h6>
-                                        <p class="m-0 small text-primary">Nursing Applicant, Canada</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avaman.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“They turned my cluttered resume into a clean, professional document. I’ve gotten compliments from interviewers and landed two internships so far.”
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Brian L., 
-</h6>
-                                        <p class="m-0 small text-primary">Business Student, USA</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avawom.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“I needed help with a book review and thematic analysis for my English class. They broke down the story and helped me write a strong argument. I got an A!”
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Emily S., 
-</h6>
-                                        <p class="m-0 small text-primary">English Major, UK</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avaman.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“I had used a free AI tool for my personal statement and it got flagged. EssayPrompt.org rewrote the whole thing manually and made it sound like my voice. It passed all checks.”
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Jorge P., 
- </h6>
-                                        <p class="m-0 small text-primary">Graduate Applicant, Mexico</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avawom.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“Their team helped me rewrite my scholarship essay to be more focused and powerful. I received a full-tuition scholarship to study abroad. I’m so grateful!”
-
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Fatima A., </h6>
-                                        <p class="m-0 small text-primary">Scholarship Applicant, Nigeria </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avaman.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“I submitted my research proposal for editing, and they returned it within 24 hours—perfectly polished. The feedback was detailed and professional. Saved me from a lot of stress.”
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Isaac D., 
-</h6>
-                                        <p class="m-0 small text-primary">Master's Student, Ghana</p>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avawom.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“The SOP I submitted was edited line-by-line. They improved the flow, added transitions, and helped me emphasize my goals. My professor even said it was the best she’s seen.”
-
-
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Neha R.,  </h6>
-                                        <p class="m-0 small text-primary">International Applicant, India </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avawom.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“The team was always available for questions, even on weekends. They really care about helping students succeed. I’ll definitely use them again for my thesis.”
-
-
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Sophia B., </h6>
-                                        <p class="m-0 small text-primary">Social Work Student, Australia</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                             <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avawom.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“As an international student, I needed help writing in formal academic English. EssayPrompt.org didn’t just fix grammar—they helped me express ideas clearly. Their editors are patient and skilled.”
-
-
-
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Anna K., </h6>
-                                        <p class="m-0 small text-primary">Business School Applicant, Ukraine</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                             <div class="card m-2 mb-4">
-                                <div class="card-body text-center py-8 px-6">
-                                    <div class="avatar avatar-xl overflow-hidden rounded-circle mb-5">
-                                        <img src="static/img/avaman.webp" title="" alt="">
-                                    </div>
-                                    <p class="lead">“The SOP I submitted was full of long, confusing sentences. They revised it beautifully and made it sound natural. It passed AI detection and plagiarism checks too.”
-
-
-
-</p>
-                                    <div class="pt-2">
-                                        <h6 class="mb-2 h6">— Ahmed S., </h6>
-                                        <p class="m-0 small text-primary">Computer Science Applicant, Pakistan</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="educate-tilt"
+                        data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
+                        <img src="assets/media/resources/page_title.png" alt="" class="main_img">
                     </div>
+                    <img src="assets/media/shapes/circle-lines-2.png" alt="" class="circle_vector">
                 </div>
             </div>
         </section>
-              <?php include 'cta.php'; ?>
+        <!-- Page Title Banner End -->
 
-        <!-- End Section -->
-       
+        <!-- About Area Start -->
+        <section class="py-60">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 mb-48 mb-lg-0">
+                        <!-- Testimonials Area Start -->
+    <section class="py-60">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 offset-xl-0 offset-lg-1 order-xl-1 order-2">
+              <div class="testimonial_card_2">
+               
+                <div class="testimonial">
+                  <h4 class="mb-16">Sarah M., NCLEX-RN Graduate</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">NCLEXPrepCourse.org was my ultimate study partner. The realistic NCLEX practice questions and in-depth rationales helped me understand concepts I had struggled with in nursing school. I passed the NCLEX on my first try!
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+              <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16">James K., NCLEX-PN Student</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">The adaptive learning system targeted my weak areas. With consistent practice and tutor guidance, I felt confident on exam day and passed my PN exam with ease.
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+              <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16">Maria L., Nursing Exit Exam</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">The platform’s simulated exit exams mirrored my school’s assessment style. I could track my progress and focus on my weak topics. Thanks to NCLEXPrepCourse.org, I passed my exit exam without stress.
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+
+                <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16">Kevin R., Nursing Entrance Exam</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">I used NCLEXPrepCourse.org for my HESI A2 preparation. The timed practice tests and diagnostics helped me focus my studies. I scored high and got accepted into nursing school!
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+
+                <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16"> Lisa T., NCLEX-RN Candidate</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">The tutoring sessions were a game-changer. I received step-by-step explanations for tricky questions and learned how to think like a nurse. The platform’s practice tests were just like the real NCLEX.
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+
+               <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16">Rachel P., ATI Exam Prep</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">NCLEXPrepCourse.org helped me master ATI concepts through adaptive quizzes. The rationales explained not just the answers but the reasoning behind them. I felt fully prepared for the exam.
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+
+                <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16">Daniel S., NCLEX-RN Graduate</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">I tried multiple prep courses, but NCLEXPrepCourse.org offered the best combination of practice questions, analytics, and tutor support. I felt ready and passed my NCLEX on the first attempt.
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+
+                  <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16">Emily F., NCLEX-PN Student</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">I loved how the platform focused on my weaker areas using adaptive learning. The case-based questions prepared me for real-life scenarios, and the tutor feedback clarified everything I didn’t understand.
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+
+                <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16">Priya K., Nursing Exit Exam</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">The subject-specific practice tests helped me strengthen my knowledge in med-surg and pharmacology. I would recommend NCLEXPrepCourse.org to every nursing student preparing for exit exams.
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+
+                <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16">Omar H., Nursing Entrance Exam</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">TI used NCLEXPrepCourse.org to prepare for my TEAS exam. The diagnostic reports showed me exactly where to improve, and the timed practice tests helped me pace myself.
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+
+                  <div class="testimonial_card_2">
+             
+                <div class="testimonial">
+                  <h4 class="mb-16">Jessica L., NCLEX-RN Candidate</h4>
+                  <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                      class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                  <p class="review_text">Next-Gen NCLEX-style questions on NCLEXPrepCourse.org were excellent. I practiced case studies and scenario-based questions that mirrored what I saw on exam day.
+                  </p>
+                </div>
+                <div class="quote_block"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                  <path
+                    d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                </svg>
+              </div>
+
+          </div>
+        
+        </div>
+      </div>
+    </section>
+    <!-- Testimonials Area End -->
+                    </div>
+                
+                </div>
+            </div>
+        </section>
+        <!-- About Area End -->
+
        

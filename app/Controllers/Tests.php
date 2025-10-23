@@ -4,11 +4,13 @@ namespace App\Controllers;
 
 use App\Models\TestModel;
 use App\Models\QuestionModel;
+use App\Models\SubscriptionModel;
 
 class Tests extends BaseController
 {
     protected $testModel;
     protected $questionModel;
+    protected $subs;
     
 
     public function __construct()
@@ -16,12 +18,21 @@ class Tests extends BaseController
         helper(['form', 'url']);
         $this->testModel = new TestModel();
         $this->questionModel = new QuestionModel();
-        
+        $this->subs = new SubscriptionModel();
     }
 
     public function index()
     {
         $currentRole = session()->get('current_role') ?: 'client';
+        
+        // Clients must be subscribed to access tests
+        if ($currentRole === 'client') {
+            $userId = (int) (session()->get('user_id') ?? 0);
+            $activeSub = $this->subs->getActiveForUser($userId);
+            if (!$activeSub) {
+                return redirect()->to('/client/subscription')->with('error', 'Subscribe to access practice tests.');
+            }
+        }
         
         // Get tests based on role
         if ($currentRole === 'admin') {

@@ -283,6 +283,30 @@ class Home extends BaseController
         $data['title'] = "Professional essay writing and editing service";
         $data['description'] = "We are a one-stop solution for all types of custom papers including case studies, lab reports, term papers, dissertation papers, thesis papers, research papers, PowerPoint presentations, projects, and much more. Our essay writing service has professional writers with several years of experience in writing papers on any topic and discipline. Some of these disciplines include statistics, finance, accounting, economics, physics, mathematics, chemistry, law, engineering, nursing, medicine, programming, computer science, and much more.";
 
+        // Load study categories and their subcategories for dynamic homepage tabs
+        $categoryModel = new \App\Models\StudyCategoryModel();
+        $subcategoryModel = new \App\Models\StudySubcategoryModel();
+
+        $categories = $categoryModel->orderBy('name', 'ASC')->findAll();
+        $subcategoriesByCategoryId = [];
+        if (!empty($categories)) {
+            $categoryIds = array_map(static function ($c) { return $c['id']; }, $categories);
+            if (!empty($categoryIds)) {
+                $subs = $subcategoryModel->whereIn('category_id', $categoryIds)
+                    ->orderBy('name', 'ASC')
+                    ->findAll();
+                foreach ($subs as $sub) {
+                    $cid = $sub['category_id'];
+                    if (!isset($subcategoriesByCategoryId[$cid])) {
+                        $subcategoriesByCategoryId[$cid] = [];
+                    }
+                    $subcategoriesByCategoryId[$cid][] = $sub;
+                }
+            }
+        }
+        $data['studyCategories'] = $categories; // array of ['id','name','slug','description']
+        $data['studySubcategoriesByCategoryId'] = $subcategoriesByCategoryId; // map cid => subcategory[]
+
         return view('homepage/header', $data)
              . view('homepage/index', $data)
              . view('homepage/footer', $data);
@@ -327,7 +351,7 @@ class Home extends BaseController
     
 
 
-    public function how_it_works(): string
+    public function how_it_works()
     {
         // $data = $this->getCalculationVariables();
 
@@ -342,15 +366,27 @@ class Home extends BaseController
     /**
      * Pricing page
      */
-    public function pricing(): string
+    public function pricing()
     {
-        $data = $this->getCalculationVariables();
+        //$data = $this->getCalculationVariables();
 
         $data['title'] = "EssayPrompt pricing";
         $data['description'] = "EssayPrompt pricing plan is based on academic level, number of pages and urgency. Enjoy our rates that are way below market rates. Also, get to enjoy a lot of discounts in form of coupons.";
 
         return view('homepage/header', $data)
              . view('homepage/pricing', $data)
+             . view('homepage/footer');
+    }
+
+     public function reviews()
+    {
+        //$data = $this->getCalculationVariables();
+
+        $data['title'] = "EssayPrompt pricing";
+        $data['description'] = "EssayPrompt pricing plan is based on academic level, number of pages and urgency. Enjoy our rates that are way below market rates. Also, get to enjoy a lot of discounts in form of coupons.";
+
+        return view('homepage/header', $data)
+             . view('homepage/reviews', $data)
              . view('homepage/footer');
     }
 

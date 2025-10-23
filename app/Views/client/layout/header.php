@@ -17,6 +17,15 @@
         .admin-content { max-width: 100% !important; }
     </style>
     <?php endif; ?>
+    <script>
+        // Apply saved theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('admin-theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('theme-dark-loading');
+            }
+        })();
+    </script>
 </head>
 <body class="admin-body">
 <div class="admin-layout <?= $isStudy ? 'fullwidth' : '' ?>">

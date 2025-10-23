@@ -20,10 +20,21 @@
             <div class="row">
                 <?php foreach (($subcategories ?? []) as $sub): ?>
                 <div class="col-md-6 mb-3">
-                    <a class="text-decoration-none" href="<?= base_url('client/study/subcategory/'.$sub['id'].'/questions') ?>">
+                    <?php 
+                        $isFree = isset($freeSubcategoryId) && (int)$freeSubcategoryId === (int)$sub['id'];
+                        $href = base_url('client/study/subcategory/'.$sub['id'].'/questions');
+                    ?>
+                    <a class="text-decoration-none" href="<?= $href ?>">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h6 class="mb-1"><i class="fa-regular fa-folder me-2"></i><?= esc($sub['name']) ?></h6>
+                                <h6 class="mb-1 d-flex align-items-center justify-content-between">
+                                    <span><i class="fa-regular fa-folder me-2"></i><?= esc($sub['name']) ?></span>
+                                    <?php if ($isFree): ?>
+                                        <span class="badge bg-success">Free</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-primary">Pro</span>
+                                    <?php endif; ?>
+                                </h6>
                                 <div class="text-muted small"><?= esc($sub['description'] ?? '') ?></div>
                             </div>
                         </div>

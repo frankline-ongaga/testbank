@@ -25,6 +25,7 @@ $routes->get('login/admin', 'Auth::showLoginAdmin');
 $routes->post('login/admin', 'Auth::loginAdmin');
 $routes->get('register', 'Auth::showRegister');
 $routes->post('register', 'Auth::register');
+$routes->post('oauth/google', 'Auth::google');
 $routes->get('forgot', 'Auth::showForgotPassword');
 $routes->post('forgot', 'Auth::sendReset');
 $routes->get('reset/(:any)', 'Auth::showReset/$1');

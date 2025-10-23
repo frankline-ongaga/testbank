@@ -1,9 +1,10 @@
+<?php $role = session()->get('current_role'); ?>
 <div class="row g-3">
     <div class="col-12 col-md-6 col-lg-3">
         <div class="card h-100">
             <div class="card-body">
-                <div class="text-muted small mb-1">Total Tests</div>
-                <div class="h3 mb-0"><?= esc($total_tests ?? 0) ?></div>
+                <div class="text-muted small mb-1"><?= $role === 'client' ? 'My Attempts' : 'Total Tests' ?></div>
+                <div class="h3 mb-0"><?= $role === 'client' ? esc($total_attempts ?? 0) : esc($total_tests ?? 0) ?></div>
             </div>
         </div>
     </div>
@@ -23,6 +24,7 @@
             </div>
         </div>
     </div>
+    <?php if ($role !== 'client'): ?>
     <div class="col-12 col-md-6 col-lg-3">
         <div class="card h-100">
             <div class="card-body">
@@ -31,6 +33,7 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
 </div>
 
 <div class="card mt-3">

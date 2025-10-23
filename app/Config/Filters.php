@@ -123,7 +123,12 @@ class Filters extends BaseFilters
                 'login/*',
                 'register',
                 'forgot',
-                'reset/*'
+                'reset/*',
+                // Public study access for onboarding
+                'client/study',
+                'client/study/*',
+                'index.php/client/study',
+                'index.php/client/study/*'
             ]
         ],
         'admin' => [

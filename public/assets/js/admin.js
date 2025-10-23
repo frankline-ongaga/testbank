@@ -29,8 +29,10 @@
             
             if (theme === 'dark') {
                 this.body.classList.add('theme-dark');
+                document.documentElement.classList.add('theme-dark-loading');
             } else {
                 this.body.classList.remove('theme-dark');
+                document.documentElement.classList.remove('theme-dark-loading');
             }
             
             localStorage.setItem('admin-theme', theme);

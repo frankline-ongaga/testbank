@@ -27,6 +27,15 @@ class AuthFilter implements FilterInterface
             $segmentIndex = 1;
         }
         $role = $segments[$segmentIndex] ?? '';
+
+        // Allow public access to study library for onboarding
+        // e.g. /client/study, /client/study/* and their index.php variants
+        if (in_array(strtolower($role), ['client'])) {
+            $next = strtolower($segments[$segmentIndex + 1] ?? '');
+            if ($next === 'study') {
+                return; // bypass auth for client/study routes
+            }
+        }
         if (!in_array($role, ['admin', 'instructor', 'client'])) {
             // Skip auth check for login routes
             if ($role === 'login') {

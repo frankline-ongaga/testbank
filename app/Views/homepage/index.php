@@ -3,32 +3,32 @@
     <!-- Hero Banner Start -->
     <section class="hero-banner-1">
       <div class="container">
+        <img src="<?= base_url('assets/media/acenclex.png'); ?>" alt="" class="main-img">
         <div class="icons">
-          <img src="assets/media/shapes/dollar.png" alt="" class="dollar wow zoomIn" data-wow-delay="400ms">
-          <img src="assets/media/shapes/mic.png" alt="" class="mic wow zoomIn" data-wow-delay="500ms">
-          <img src="assets/media/shapes/light.png" alt="" class="light wow zoomIn" data-wow-delay="600ms">
-          <img src="assets/media/shapes/camera.png" alt="" class="camera wow zoomIn" data-wow-delay="700ms">
+        
+          <img src="<?= base_url('assets/media/shapes/light.png'); ?>" alt="nclex test bank help" class="light wow zoomIn" data-wow-delay="600ms">
+        
         </div>
         <div class="content">
           <div class="text_block wow fadeInUp" data-wow-delay="800ms">
             <div class="row">
-              <div class="col-xl-6 col-lg-8">
-                <img src="assets/media/shapes/tag.png" alt="" class="mb-24 tag wow slideInDown" data-wow-delay="550ms">
-                <h1 class="mb-16 title">master your nursing<span class="fm-sec"> school content <img
-                      src="assets/media/shapes/rocket.png" alt="" class="rocket wow zoomIn"
+              <div class="col-xl-8 col-lg-10">
+                <img src="<?= base_url('assets/media/shapes/tag.png'); ?>" alt="" class="mb-24 tag wow slideInDown" data-wow-delay="550ms">
+                <h1 class="mb-16 title">Master your NCLEX-RN/PN prep with nclexprepcourse practice tests and exams.<span class="fm-sec"> school content <img
+                      src="<?= base_url('assets/media/shapes/rocket.png'); ?>" alt="" class="rocket wow zoomIn"
                       data-wow-delay="700ms"></span></h1>
                 <h4 class="mb-48">Start with naxlex to improve your scores</h4>
 
-                <!-- Categories -->
+                <!-- Dynamic Categories Pills -->
+                <?php if (!empty($studyCategories)) : ?>
                            <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="pill">ATI TEAS 7</a>
-    <a href="#" class="pill">NURSING TEST BANKS</a>
-    <a href="#" class="pill">HESI A2</a>
-    <a href="#" class="pill">NCLEX</a>
-    <a href="#" class="pill">EXIT EXAMS</a>
+                    <?php foreach ($studyCategories as $cat): ?>
+                      <a href="#<?= esc(!empty($cat['slug']) ? $cat['slug'] : ('cat'.$cat['id'])) ?>" class="pill" data-bs-toggle="tab"><?= esc($cat['name']) ?></a>
+                    <?php endforeach; ?>
+                  </div>
   </div>
-</div><br>
+                <?php endif; ?>
 
 
 
@@ -37,7 +37,7 @@
 
                 <div class="btn_block">
                   <a href="<?php echo base_url('order_now'); ?>" class="educate-btn sec"><span class="educate-btn__curve"></span>Order Now </a>
-                  <img src="assets/media/shapes/arrow.png" alt="" class="arrow">
+                  <img src="<?= base_url('assets/media/shapes/arrow.png'); ?>" alt="" class="arrow">
                 </div>
                 
               </div>
@@ -48,433 +48,56 @@
           <div class="card_block">
             <h6 class="mb-4p">Award Winning Courses</h6>
             <p>Based on Latest Knowledge</p>
-            <img src="assets/media/shapes/target-2.png" alt="" class="target_icon">
+            <img src="<?= base_url('assets/media/shapes/target-2.png'); ?>" alt="" class="target_icon">
           </div>
         </div>
-        <img src="assets/media/banners/hero-banner-1/main-img.png" alt="" class="main-img">
       </div>
     </section>
     <!-- Hero Banner End -->
 
     <!-- Features Area Start -->
-    <section class="py-60">
-      <div class="container">
-        <div class="row row-gap-4">
-          <div class="col-xl-3 col-sm-6 wow fadeInUp" data-wow-delay="200ms">
-            <div class="feature__card mb-24 mb-xl-0">
-              <div class="feature__icon">
-                <img src="assets/media/icons/Pricing.png" alt="">
-              </div>
-              <div class="feature__content">
-                <h5 class="mb-8">Free Trials</h5>
-                <p>Lorem ipsum dolor sit amet cons ectetur. Non convallis sed id.</p>
-                <img src="assets/media/shapes/feture-bg-shape.png" alt="" class="feature-bg-shape">
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 wow fadeInUp" data-wow-delay="400ms">
-            <div class="feature__card mb-24 mb-xl-0">
-              <div class="feature__icon">
-                <img src="assets/media/icons/Quality.png" alt="">
-              </div>
-              <div class="feature__content">
-                <h5 class="mb-8">Lifetime Access</h5>
-                <p>Lorem ipsum dolor sit amet cons ectetur. Non convallis sed id.</p>
-                <img src="assets/media/shapes/feture-bg-shape.png" alt="" class="feature-bg-shape">
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 wow fadeInUp" data-wow-delay="600ms">
-            <div class="feature__card mb-24 mb-sm-0">
-              <div class="feature__icon">
-                <img src="assets/media/icons/Check-mark.png" alt="">
-              </div>
-              <div class="feature__content">
-                <h5 class="mb-8">Best Teachers</h5>
-                <p>Lorem ipsum dolor sit amet cons ectetur. Non convallis sed id.</p>
-                <img src="assets/media/shapes/feture-bg-shape.png" alt="" class="feature-bg-shape">
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 wow fadeInUp" data-wow-delay="800ms">
-            <div class="feature__card">
-              <div class="feature__icon">
-                <img src="assets/media/icons/Support.png" alt="">
-              </div>
-              <div class="feature__content">
-                <h5 class="mb-8">24/7 Support</h5>
-                <p>Lorem ipsum dolor sit amet cons ectetur. Non convallis sed id.</p>
-                <img src="assets/media/shapes/feture-bg-shape.png" alt="" class="feature-bg-shape">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    
     <!-- Features Area End -->
 
 
 
         <!-- Course Detail Area Start -->
-        <section class="course_testbank py-60">
+    <section class="course_testbank pt-60 pb-60" style="min-height:450px;">
   <div class="container">
+    <?php if (!empty($studyCategories)) : ?>
     <ul class="nav nav-tabs justify-content-center mb-4" id="testbankTabs" role="tablist">
+      <?php $isFirst = true; foreach ($studyCategories as $cat) : $tabId = !empty($cat['slug']) ? $cat['slug'] : ('cat' . $cat['id']); ?>
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#fundamentals" type="button" role="tab">Fundamentals</button>
+        <button class="nav-link <?= ($isFirst ? 'active' : '') ?>" data-bs-toggle="tab" data-bs-target="#<?= esc($tabId) ?>" type="button" role="tab"><?= esc($cat['name']) ?></button>
       </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pharmacology" type="button" role="tab">Pharmacology</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#exitexams" type="button" role="tab">Exit Exams</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#medicalsurgical" type="button" role="tab">Medical Surgical</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pathophysiology" type="button" role="tab">Pathophysiology</button>
-      </li>
-
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nursingtestbank" type="button" role="tab">Nursing Test Bank</button>
-      </li>
-
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#maternalnewborn" type="button" role="tab">Maternal & Newborn</button>
-      </li>
+      <?php $isFirst = false; endforeach; ?>
     </ul>
 
     <div class="tab-content" id="testbankTabContent">
-      <!-- Fundamentals Tab -->
-      <div class="tab-pane fade show active" id="fundamentals" role="tabpanel">
+      <?php $isFirstPane = true; foreach ($studyCategories as $cat) : $tabId = !empty($cat['slug']) ? $cat['slug'] : ('cat' . $cat['id']); $subs = $studySubcategoriesByCategoryId[$cat['id']] ?? []; ?>
+      <div class="tab-pane fade <?= ($isFirstPane ? 'show active' : '') ?>" id="<?= esc($tabId) ?>" role="tabpanel">
         <div class="row g-4">
+          <?php if (!empty($subs)) : foreach ($subs as $sub) : ?>
           <div class="col-md-4">
             <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Vital Signs Measurement</h5>
-              </div>
-            </div>
-
-
-          </div>
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Safety Fall</h5>
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0"><?= esc($sub['name']) ?></h5>
+                <a href="<?= base_url('client/study/' . $cat['id'] . '/subcategories') ?>" class="btn btn-sm btn-primary">View</a>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Oxygen Therapy</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Oxygen Therapy</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Oxygen Therapy</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Oxygen Therapy</h5>
-              </div>
-            </div>
-          </div>
-          <!-- Add more cards as needed -->
+          <?php endforeach; else : ?>
+          <div class="col-12"><p class="text-muted mb-0">No subcategories available.</p></div>
+          <?php endif; ?>
         </div>
       </div>
-
-      <!-- Pharmacology Tab -->
-      <div class="tab-pane fade" id="pharmacology" role="tabpanel">
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Medication Administration</h5>
+      <?php $isFirstPane = false; endforeach; ?>
               </div>
-            </div>
-          </div>
+    <?php endif; ?>
 
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Medication Administration</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Medication Administration</h5>
-              </div>
-            </div>
-          </div>
-          <!-- Add more cards -->
-        </div>
-      </div>
-
-      <!-- Exit Exams Tab -->
-      <div class="tab-pane fade" id="exitexams" role="tabpanel">
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">NCLEX Review</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">NCLEX Review</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">NCLEX Review</h5>
-              </div>
-            </div>
-          </div>
-          <!-- Add more cards -->
-        </div>
-      </div>
-
-      <!-- Medical Surgical Tab -->
-      <div class="tab-pane fade" id="medicalsurgical" role="tabpanel">
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Pre/Post Op Care</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Pre/Post Op Care</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Pre/Post Op Care</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Pre/Post Op Care</h5>
-              </div>
-            </div>
-          </div>
-          <!-- Add more cards -->
-        </div>
-      </div>
-
-      <!-- Pathophysiology Tab -->
-      <div class="tab-pane fade" id="pathophysiology" role="tabpanel">
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Chronic Illnesses</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Chronic Illnesses</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Chronic Illnesses</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Chronic Illnesses</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Chronic Illnesses</h5>
-              </div>
-            </div>
-          </div>
-          <!-- Add more cards -->
-        </div>
-      </div>
-
-      <!-- Pnursingtestbank Tab -->
-      <div class="tab-pane fade" id="nursingtestbank" role="tabpanel">
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">RN</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">LPN</h5>
-              </div>
-            </div>
-          </div>
-
-          <!-- Add more cards -->
-        </div>
-      </div>
-
-
-
-        <!-- maternalnewborn Tab -->
-      <div class="tab-pane fade" id="maternalnewborn" role="tabpanel">
-        <div class="row g-4">
-          
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Postpartum Disorders: DVT, Pulmonary Embolism</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Physiological And Physical Changes In Pregnancy</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Prenatal Diagnostic Tests And Procedures</h5>
-              </div>
-            </div>
-          </div>
-
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Pre-eclampsia, Eclampsia</h5>
-              </div>
-            </div>
-          </div>
-
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Pre-term Labor</h5>
-              </div>
-            </div>
-          </div>
-
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Contraception</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Prolonged and Obstructed Labor and Ruptured Uterus</h5>
-              </div>
-            </div>
-          </div>
-
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Phases of Maternal Role Attainment</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Postpartum Depression</h5>
-              </div>
-            </div>
-          </div>
-
-          
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Umbilical cord prolapse</h5>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">PROM and PPROM
-</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Newborn Complications</h5>
-              </div>
-            </div>
-          </div>
+    <?php if (empty($studyCategories)) : ?>
+      <div class="text-center text-muted">No categories found yet.</div>
+    <?php endif; ?>
 
           <!-- Add more cards -->
         </div>
@@ -495,28 +118,22 @@
 
        
  <!-- Course Detail Area Start -->
-        <section class="course_detail py-60">
+        <section class="course_detail pt-0 pb-60">
             <div class="container">
                 <div class="row">
                      <div class="col-lg-6">
                         <div class="heading mb-16">
-                            <h3><span>ATI TEAS</span></h3>
+                            <h3><span>NCLEX-RN (Registered Nurse Licensure Exam)</span></h3>
                         </div>
 
                         <div class="tab-content">
                             <div id="overview" class="overview tab-pane active">
-                                <p class="mb-24">Lorem ipsum dolor sit amet consectetur. </p>
-                                <ul class="unstyled points">
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                </ul>
+                                <p class="mb-24">The NCLEX-RN is a rigorous test that evaluates critical thinking, nursing judgment, and clinical decision-making.
+NCLEXPrepCourse prepares you for success through:
+                                </p>
+ <p class="mb-24">
+Realistic NCLEX-RN Simulations: Our practice tests replicate the computer-adaptive testing (CAT) format used in the real NCLEX. Questions adjust to your performance, helping you build confidence and endurance. </p>
+                             
                             </div>
                            
                             
@@ -524,28 +141,15 @@
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="pill">VIEW MORE DETAILS</a>
+    <a href="#" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
-                         <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-sm-6">
-                                <div class="author_block_card mb-16">
-                                    <div class="author_img">
-                                        <img src="assets/media/users/u-8.png" alt="">
-                                    </div>
-                                    <div class="author_detail">
-                                        <h5 class="mb-4p"><a href="team-detail.html">Olivia White</a></h5>
-                                        <p> Thanks to Naxlex.com, I aced my TEAS 7 test with flying colors! Their comprehensive resources and expert guidance made all the difference. </p>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
+                       
                     </div>
                     <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="assets/media/resources/course-detail.png" alt="" class="br-20 mb-24">
+                            <img src="<?= base_url('assets/media/resources/course-detail.png'); ?>" alt="" class="br-20 mb-24">
                         </div>
                     </div>
                 </div>
@@ -565,29 +169,23 @@
                    <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="assets/media/resources/about-1.png" alt=""  class="br-20 mb-24">
+                            <img src="<?= base_url('assets/media/resources/about-1.png'); ?>" alt=""  class="br-20 mb-24">
 
                         </div>
                     </div>
                      <div class="col-lg-6">
                         <div class="heading mb-16">
-                            <h3><span>ATI TEAS</span></h3>
+                            <h3><span>NCLEX-PN (Practical/Vocational Nurse Licensure Exam)</span></h3>
                         </div>
 
                         <div class="tab-content">
                             <div id="overview" class="overview tab-pane active">
-                                <p class="mb-24">Lorem ipsum dolor sit amet consectetur. </p>
-                                <ul class="unstyled points">
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                </ul>
+                                <p class="mb-24">
+The NCLEX-PN focuses on safe and effective care at the practical nursing level.
+NCLEXPrepCourse helps LPN and LVN candidates excel through: </p>
+<p class="mb-24">
+Tailored PN Practice Tests: Content is customized to the PN scope of practice—delegation, safety, and patient care.</p>
+                              
                             </div>
                            
                             
@@ -595,23 +193,10 @@
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="pill">VIEW MORE DETAILS</a>
+    <a href="#" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
-                         <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-sm-6">
-                                <div class="author_block_card mb-16">
-                                    <div class="author_img">
-                                        <img src="assets/media/users/u-8.png" alt="">
-                                    </div>
-                                    <div class="author_detail">
-                                        <h5 class="mb-4p"><a href="team-detail.html">Olivia White</a></h5>
-                                        <p> Thanks to Naxlex.com, I aced my TEAS 7 test with flying colors! Their comprehensive resources and expert guidance made all the difference. </p>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
+                      
                     </div>
                    
                 </div>
@@ -628,23 +213,17 @@
                 <div class="row">
                      <div class="col-lg-6">
                         <div class="heading mb-16">
-                            <h3><span>ATI TEAS</span></h3>
+                            <h3><span>Nursing Exit Exams</span></h3>
                         </div>
 
                         <div class="tab-content">
                             <div id="overview" class="overview tab-pane active">
-                                <p class="mb-24">Lorem ipsum dolor sit amet consectetur. </p>
-                                <ul class="unstyled points">
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                </ul>
+                                <p class="mb-24">Nursing school exit exams are designed to determine readiness for the NCLEX.
+NCLEXPrepCourse helps students prepare effectively by providing:
+ </p>
+<p class="mb-24">
+Comprehensive Review Tests: Simulated exit exams that assess knowledge across all nursing content areas. </p>
+                            
                             </div>
                            
                             
@@ -652,28 +231,15 @@
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="pill">VIEW MORE DETAILS</a>
+    <a href="#" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
-                         <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-sm-6">
-                                <div class="author_block_card mb-16">
-                                    <div class="author_img">
-                                        <img src="assets/media/users/u-8.png" alt="">
-                                    </div>
-                                    <div class="author_detail">
-                                        <h5 class="mb-4p"><a href="team-detail.html">Olivia White</a></h5>
-                                        <p> Thanks to Naxlex.com, I aced my TEAS 7 test with flying colors! Their comprehensive resources and expert guidance made all the difference. </p>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
+                      
                     </div>
                     <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="assets/media/resources/course-detail.png" alt="" class="br-20 mb-24">
+                            <img src="<?= base_url('assets/media/resources/course-detail.png'); ?>" alt="" class="br-20 mb-24">
                         </div>
                     </div>
                 </div>
@@ -695,29 +261,22 @@
                    <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="assets/media/resources/about-1.png" alt=""  class="br-20 mb-24">
+                            <img src="<?= base_url('assets/media/resources/about-1.png'); ?>" alt=""  class="br-20 mb-24">
 
                         </div>
                     </div>
                      <div class="col-lg-6">
                         <div class="heading mb-16">
-                            <h3><span>ATI TEAS</span></h3>
+                            <h3><span>Nursing Entrance Exams (HESI A2, TEAS, etc.)</span></h3>
                         </div>
 
                         <div class="tab-content">
                             <div id="overview" class="overview tab-pane active">
-                                <p class="mb-24">Lorem ipsum dolor sit amet consectetur. </p>
-                                <ul class="unstyled points">
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                </ul>
+                                <p class="mb-24">For aspiring nurses entering school, NCLEXPrepCourse provides tools to excel on entrance exams like HESI A2 or ATI TEAS through:
+                                </p>
+<p class="mb-24">
+Subject-Focused Review: Covers core subjects such as reading comprehension, grammar, vocabulary, math, anatomy, and science. </p>
+                              
                             </div>
                            
                             
@@ -725,23 +284,10 @@
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="pill">VIEW MORE DETAILS</a>
+    <a href="#" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
-                         <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-sm-6">
-                                <div class="author_block_card mb-16">
-                                    <div class="author_img">
-                                        <img src="assets/media/users/u-8.png" alt="">
-                                    </div>
-                                    <div class="author_detail">
-                                        <h5 class="mb-4p"><a href="team-detail.html">Olivia White</a></h5>
-                                        <p> Thanks to Naxlex.com, I aced my TEAS 7 test with flying colors! Their comprehensive resources and expert guidance made all the difference. </p>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
+                    
                     </div>
                    
                 </div>
@@ -765,23 +311,17 @@
                 <div class="row">
                      <div class="col-lg-6">
                         <div class="heading mb-16">
-                            <h3><span>ATI TEAS</span></h3>
+                            <h3><span>HESI & ATI Exam Preparation</span></h3>
                         </div>
 
                         <div class="tab-content">
                             <div id="overview" class="overview tab-pane active">
-                                <p class="mb-24">Lorem ipsum dolor sit amet consectetur. </p>
-                                <ul class="unstyled points">
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                    <li class="mb-16"><i class="fal fa-check"></i>
-                                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                    </li>
-                                </ul>
+                                <p class="mb-24">HESI and ATI exams are key indicators of nursing knowledge and predictors of NCLEX readiness.
+                                </p>
+<p class="mb-24">                          
+  NCLEXPrepCourse supports students preparing for these with:
+</p>
+                             
                             </div>
                            
                             
@@ -789,272 +329,172 @@
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="pill">VIEW MORE DETAILS</a>
+    <a href="#" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
-                         <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-sm-6">
-                                <div class="author_block_card mb-16">
-                                    <div class="author_img">
-                                        <img src="assets/media/users/u-8.png" alt="">
-                                    </div>
-                                    <div class="author_detail">
-                                        <h5 class="mb-4p"><a href="team-detail.html">Olivia White</a></h5>
-                                        <p> Thanks to Naxlex.com, I aced my TEAS 7 test with flying colors! Their comprehensive resources and expert guidance made all the difference. </p>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
+                       
                     </div>
                     <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="assets/media/resources/course-detail.png" alt="" class="br-20 mb-24">
+                            <img src="<?= base_url('assets/media/resources/course-detail.png'); ?>" alt="" class="br-20 mb-24">
                         </div>
                     </div>
                 </div>
                 
                 
             </div>
-        </section><br><br>
+        </section>
+
+  <section class="py-60">
+      <div class="container">
+        <h2>Why NCLEX Prep Course</h2>
+        <div class="row row-gap-4">
+          <div class="col-xl-3 col-sm-6 wow fadeInUp" data-wow-delay="200ms">
+            <div class="feature__card mb-24 mb-xl-0">
+              <div class="feature__icon">
+                <img width="50px" src="<?= base_url('assets/media/icons/adaptive.png'); ?>" alt="adaptive nclex prep materials">
+              </div>
+              <div class="feature__content">
+                <h5 class="mb-8">Adaptive Learning System</h5>
+                <p class="left">Personalized question delivery ensures that your study time targets areas of weakness.</p>
+                <img src="<?= base_url('assets/media/shapes/feture-bg-shape.png'); ?>" alt="" class="feature-bg-shape">
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 wow fadeInUp" data-wow-delay="400ms">
+            <div class="feature__card mb-24 mb-xl-0">
+              <div class="feature__icon">
+                <img width="50px" src="<?= base_url('assets/media/icons/qa.png'); ?>" alt="latest updated nclex test banks.">
+              </div>
+              <div class="feature__content">
+                <h5 class="mb-8">Updated Question Banks</h5>
+                <p class="left">Content is regularly reviewed and aligned with the latest NCLEX, HESI, and ATI guidelines.</p>
+                <img src="<?= base_url('assets/media/shapes/feture-bg-shape.png'); ?>" alt="" class="feature-bg-shape">
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 wow fadeInUp" data-wow-delay="600ms">
+            <div class="feature__card mb-24 mb-sm-0">
+              <div class="feature__icon">
+                <img  width="50px" src="<?= base_url('assets/media/icons/chat.png'); ?>"  alt="user and mobile friendly dashboard for nclex">
+              </div>
+              <div class="feature__content">
+                <h5 class="mb-8">User & Mobile Friendly Dashboard</h5>
+                <p class="left">Easy navigation for students to take quizzes, track progress, and review past performances across devices. </p>
+                <img src="<?= base_url('assets/media/shapes/feture-bg-shape.png'); ?>" alt="" class="feature-bg-shape">
+              </div>
+            </div>
+          </div>
+      
+            <div class="col-xl-3 col-sm-6 wow fadeInUp" data-wow-delay="800ms">
+            <div class="feature__card">
+              <div class="feature__icon">
+                <img width="50px" src="<?= base_url('assets/media/icons/supportivelearning.png'); ?>"  alt="NCLEX supportive learning">
+              </div>
+              <div class="feature__content">
+                <h5 class="mb-8">Supportive Learning Environment</h5>
+                <p class="left">Offers explanations that teach core concepts, not just test answers.</p>
+                <img src="<?= base_url('assets/media/shapes/feture-bg-shape.png'); ?>" alt="" class="feature-bg-shape">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     
 
-    <!-- Brands Area Start -->
-    <div class="py-80 bg-white">
-      <div class="brands-slider">
-        <div class="brand">
-          <img src="assets/media/brand/barnd-1.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-2.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-3.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-4.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-5.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-6.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-1.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-2.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-3.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-4.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-5.png" alt="">
-        </div>
-        <div class="brand">
-          <img src="assets/media/brand/barnd-6.png" alt="">
-        </div>
-      </div>
-    </div>
-    <!-- Brands Area End -->
+ 
 
     
     <!-- Courses Area Start -->
-    <section class="courses-1 py-60">
+  <section class="testimonials py-60">
       <div class="container">
-        <div class="section-title mb-48">
-          <div class="heading">
-                          <h6 class="color-primary mb-8">–––– Testimonials</h6>
-
-
-            <h2>Student’s Stories!<img src="assets/media/shapes/quote3d.png" alt="" class="quote_icon">
- <br> Some Awesome  <span class="fm-sec">Comments By Our Students!</span></h2>
+        <div class="row">
+          <div class="col-xl-5">
+            <div class="testimonials_text_block">
+              <img src="<?= base_url('assets/media/shapes/quote3d.png'); ?>" alt="" class="quote_icon">
+              <h6 class="color-primary mb-8">–––– Testimonials</h6>
+              <h2 class="mb-16">Student’s Stories! Some Awesome Comments By Our <span class="fm-sec">Students!</span>
+              </h2>
+              <p>Lorem ipsum dolor sit amet consectetur. Non convallis sed id aliquam tempus. Volutpat tortor tincidunt
+                egestas sit risus donec.</p>
+              <img src="<?= base_url('assets/media/shapes/vector-2.png'); ?>" alt="" class="vector_hol">
+              <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="" class="dots_group">
+            </div>
           </div>
-          <a href="<?php echo base_url('reviews'); ?>" class="educate-btn d-md-block d-none"><span class="educate-btn__curve"></span>View
-            All</a>
-        </div>
-      </div>
-      <div class="courses-slider">
-        <!-- Slide Item  -->
-        <div class="course__card mb-24">
-          
-          <div class="course__card__content">
-            <div class="left__block">
-              <h4 class="mb-4p"><a href="course-detail.html">Photoshop Course</a></h4>
+          <div class="col-xl-7 col-lg-10 offset-xl-0 offset-lg-1">
+            <div class="testimonials_slider_1_block">
+              <img src="<?= base_url('assets/media/shapes/bg-elements-1.png'); ?>" alt="" class="bg_elements">
+              <div class="testimonials_slider">
+                <div class="card-block">
+                  <div class="testimonial_card">
+                    <div class="testimonial_card_img_block">
+                      <img src="<?= base_url('assets/media/users/Image.png'); ?>" alt="" class="user_img">
+                      <div class="quote_block"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                        <path
+                          d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                      </svg>
+                    </div>
+                    <div class="testimonial_card_content_block">
+                      <div class="testimonial">
+                        <h4 class="mb-16">Sarah M., NCLEX-RN Graduate</h4>
+                        <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                        <p class="review_text">NCLEXPrepCourse.org was my ultimate study partner. The realistic NCLEX practice questions and in-depth rationales helped me understand concepts I had struggled with in nursing school. I passed the NCLEX on my first try!</p>
+                      </div>
+                      <img src="<?= base_url('assets/media/shapes/bg-elements-2.png'); ?>" alt="" class="bottom_shape">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-block">
+                  <div class="testimonial_card">
+                    <div class="testimonial_card_img_block">
+                      <img src="<?= base_url('assets/media/users/Image-1.png'); ?>" alt="" class="user_img">
+                      <div class="quote_block"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                        <path
+                          d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                      </svg>
+                    </div>
+                    <div class="testimonial_card_content_block">
+                      <div class="testimonial">
+                        <h4 class="mb-16">James K., NCLEX-PN Student</h4>
+                        <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                        <p class="review_text">The adaptive learning system targeted my weak areas. With consistent practice and tutor guidance, I felt confident on exam day and passed my PN exam with ease.</p>
+                      </div>
+                      <img src="<?= base_url('assets/media/shapes/bg-elements-2.png'); ?>" alt="" class="bottom_shape">
 
-              <!-- Star Rating -->
-<div class="course-rating mb-8">
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star-half-alt" style="color: #f7c32e;"></i>
-</div>
-              
-              <p class="h6 mb-24">Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-block">
+                  <div class="testimonial_card">
+                    <div class="testimonial_card_img_block">
+                      <img src="<?= base_url('assets/media/users/Image.png'); ?>" alt="" class="user_img">
+                      <div class="quote_block"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 64" fill="none" class="quote_mark">
+                        <path
+                          d="M55.8684 63.0894C52.6269 63.0894 49.6698 62.606 46.997 61.6392C44.3242 60.6156 42.0495 59.2224 40.1729 57.4595C38.2963 55.6397 36.8177 53.4503 35.7372 50.8913C34.7136 48.3322 34.2018 45.4888 34.2018 42.3611C34.2018 39.1197 34.7705 35.736 35.9078 32.2102C37.1021 28.6845 38.8081 25.1302 41.0259 21.5476C43.2438 17.9649 45.9165 14.4391 49.0443 10.9702C52.2288 7.44441 55.8399 4.06079 59.8775 0.819336L69.6872 8.49646C67.8106 10.43 66.1045 12.2782 64.5691 14.0411C63.0905 15.8039 61.7257 17.5668 60.4746 19.3297C59.2236 21.0926 58.0578 22.9124 56.9773 24.789C55.9537 26.6657 55.0154 28.656 54.1623 30.7601L77.3643 42.3611C77.3643 45.432 76.7672 48.2469 75.573 50.806C74.4356 53.365 72.9002 55.5544 70.9667 57.3742C69.0332 59.1939 66.7585 60.6156 64.1426 61.6392C61.5267 62.606 58.7686 63.0894 55.8684 63.0894ZM22.1666 63.0894C18.9251 63.0894 15.968 62.606 13.2952 61.6392C10.6224 60.6156 8.34773 59.2224 6.4711 57.4595C4.59447 55.6397 3.11591 53.4503 2.03543 50.8913C1.01181 48.3322 0.5 45.4888 0.5 42.3611C0.5 39.1197 1.06868 35.736 2.20603 32.2102C3.40025 28.6845 5.10628 25.1302 7.32411 21.5476C9.54195 17.9649 12.2147 14.4391 15.3424 10.9702C18.527 7.44441 22.1381 4.06079 26.1757 0.819336L35.9854 8.49646C34.1088 10.43 32.4027 12.2782 30.8673 14.0411C29.3887 15.8039 28.0239 17.5668 26.7728 19.3297C25.5217 21.0926 24.356 22.9124 23.2755 24.789C22.2519 26.6657 21.3135 28.656 20.4605 30.7601L43.6625 42.3611C43.6625 45.432 43.0654 48.2469 41.8712 50.806C40.7338 53.365 39.1984 55.5544 37.2649 57.3742C35.3314 59.1939 33.0567 60.6156 30.4408 61.6392C27.8249 62.606 25.0668 63.0894 22.1666 63.0894Z" />
+                      </svg>
+                    </div>
+                    <div class="testimonial_card_content_block">
+                      <div class="testimonial">
+                        <h4 class="mb-16">Maria L., Nursing Exit Exam</h4>
+                        <span class="mb-16"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                        <p class="review_text">The platform’s simulated exit exams mirrored my school’s assessment style. I could track my progress and focus on my weak topics. Thanks to NCLEXPrepCourse.org, I passed my exit exam without stress.</p>
+                      </div>
+                      <img src="<?= base_url('assets/media/shapes/bg-elements-2.png'); ?>" alt="" class="bottom_shape">
 
-             
-              <div class="author_card">
-                <img src="assets/media/courses/authors/a-2.png" alt="" class="author_img">
-
-                <div class="author_text_block">
-                  <a href="team-detail.html" class="h6 mb-4p">Benny Martin</a>
-                  <p>Adobe Embassador</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            
-          </div>
-        </div>
-        <!-- Slide item  -->
-        <div class="course__card mb-24">
-          
-          <div class="course__card__content">
-            <div class="left__block">
-              <h4 class="mb-4p"><a href="course-detail.html">Artificial Intelligence</a></h4>
-
-              <!-- Star Rating -->
-<div class="course-rating mb-8">
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-</div>
-              <p class="h6 mb-24">Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design</p>
-              
-              <div class="author_card">
-                <img src="assets/media/courses/authors/a-2.png" alt="" class="author_img">
-                <div class="author_text_block">
-                  <a href="team-detail.html" class="h6 mb-4p">Ethan Wilson</a>
-                  <p>AI Expert</p>
-                </div>
-              </div>
-            </div>
-            
-          </div>
-        </div>
-        <!-- Slide item  -->
-        <div class="course__card mb-24">
-          
-          <div class="course__card__content">
-            <div class="left__block">
-              <h4 class="mb-4p"><a href="course-detail.html">Web Design Course</a></h4>
-
-              <!-- Star Rating -->
-<div class="course-rating mb-8">
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="far fa-star" style="color: #f7c32e;"></i>
-</div>
-              <p class="h6 mb-24">Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design</p>
-             
-              <div class="author_card">
-                <img src="assets/media/courses/authors/a-3.png" alt="" class="author_img">
-                <div class="author_text_block">
-                  <a href="team-detail.html" class="h6 mb-4p">Ava Johnson</a>
-                  <p>Web Designer</p>
-                </div>
-              </div>
-            </div>
-            
-          </div>
-        </div>
-        <!-- Slide item  -->
-        <div class="course__card mb-24">
-          
-          <div class="course__card__content">
-            <div class="left__block">
-
-              <h4 class="mb-4p"><a href="course-detail.html">Figma Course</a></h4>
-
-              <!-- Star Rating -->
-<div class="course-rating mb-8">
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star-half-alt" style="color: #f7c32e;"></i>
-</div>
-              <p class="h6 mb-24">Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design</p>
-              
-              <div class="author_card">
-                <img src="assets/media/courses/authors/a-4.png" alt="" class="author_img">
-                <div class="author_text_block">
-                  <a href="team-detail.html" class="h6 mb-4p">Emma Mitchell</a>
-                  <p>Ui Engineer</p>
-                </div>
-              </div>
-            </div>
-           
-          </div>
-        </div>
-        <!-- Slide item  -->
-        <div class="course__card mb-24">
-          
-          <div class="course__card__content">
-            <div class="left__block">
-              <h4 class="mb-4p"><a href="course-detail.html">Illustrator Course</a></h4>
-
-              <!-- Star Rating -->
-<div class="course-rating mb-8">
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star-half-alt" style="color: #f7c32e;"></i>
-</div>
-              <p class="h6 mb-24">Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design</p>
-              
-              <div class="author_card">
-                <img src="assets/media/courses/authors/a-5.png" alt="" class="author_img">
-                <div class="author_text_block">
-                  <a href="team-detail.html" class="h6 mb-4p">Benny Martin</a>
-                  <p>Adobe Embassador</p>
-                </div>
-              </div>
-              <br>
-              
-            </div>
-           
-          </div>
-        </div>
-        <!-- Slide item  -->
-        <div class="course__card mb-24">
-          
-          <div class="course__card__content">
-            <div class="left__block">
-
-              <h4 class="mb-4p"><a href="course-detail.html">After Effects Course</a></h4>
-
-              <!-- Star Rating -->
-<div class="course-rating mb-8">
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="fas fa-star" style="color: #f7c32e;"></i>
-  <i class="far fa-star" style="color: #f7c32e;"></i>
-</div>
-              <p class="h6 mb-24">Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design Graphics Design</p>
-             
-              <div class="author_card">
-                <img src="assets/media/courses/authors/a-6.png" alt="" class="author_img">
-                <div class="author_text_block">
-                  <a href="team-detail.html" class="h6 mb-4p">Miller Noah</a>
-                  <p>Senior Designer</p>
-                </div>
-              </div>
-              
-            </div>
-            
           </div>
         </div>
       </div>
@@ -1062,63 +502,7 @@
     <!-- Courses Area End -->
 
     <!-- Discount Banner Area Start -->
-    <section class="discount_banner">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-xl-6 col-lg-5">
-            <div class="banner_text_block">
-              <div class="title_block mb-16">
-                <h2 class="title">Get a
-                  <span class="fm-sec">30% Discount!
-                    <img src="assets/media/shapes/line-vector.png" alt="" class="line_shape">
-                    <img src="assets/media/shapes/mic-speaker.png" alt="" class="mic_speaker">
-                  </span>
-                </h2>
-              </div>
-              <h4 class="mb-12">Create Your Free Account Today! </h4>
-              <p class="mb-24">Lorem ipsum dolor sit amet consectetur. Non convallis sed id aliquam tempus. Volutpat
-                tortor tincidunt egestas sit risus donec.</p>
-              <a href="<?php echo base_url('order_now'); ?>" class="educate-btn"><span class="educate-btn__curve"></span>Order Now</a>
-            </div>
-          </div>
-          <div class="col-xl-6 col-lg-7">
-            <div class="discount_countdown">
-              <div class="dial">
-                <ul class="top-remain">
-                  <li class=" remain-count">02</li>
-                  <li class=" remain-count">01</li>
-                  <li class=" remain-count">00</li>
-                </ul>
-                <ul class="top-coming">
-                  <li>02</li>
-                  <li>01</li>
-                  <li>00</li>
-                </ul>
-              </div>
-              <img src="assets/media/shapes/paint-shape.png" alt="" class="paint_shape">
-              <ul class="countdown unstyled">
-                <li>
-                  <h2>365</h2>
-                  <h6>Days</h6>
-                </li>
-                <li>
-                  <h2>24</h2>
-                  <h6>Hrs</h6>
-                </li>
-                <li>
-                  <h2>60</h2>
-                  <h6>Min</h6>
-                </li>
-                <li>
-                  <h2><span>60</span></h2>
-                  <h6>Sec</h6>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+   
     <!-- Discount Banner Area End -->
 
    
@@ -1126,21 +510,21 @@
     <section class="py-60 ">
       <div class="container">
         <div class="contact_banner">
-          <h2 class="mb-8 color-white">Ask Any Questions <br><span class="fm-sec">You Want!</span></h2>
+          <h2 class="mb-8 color-white">Ace your NCLEX <br><span class="fm-sec">exam</span></h2>
           <p class="mb-16 color-white">Contact on this number for any Questions!</p>
           <div class="mx-auto">
             <a href="tel:123456789" class="h5 phone_number">+1 234 567 890</a>
           </div>
           <div class="icons">
-            <img src="assets/media/shapes/dots-1.png" alt="" class="element-1">
-            <img src="assets/media/shapes/vector-3.png" alt="" class="element-2">
-            <img src="assets/media/shapes/paint.png" alt="" class="element-3">
-            <img src="assets/media/shapes/vector-4.png" alt="" class="element-5">
-            <img src="assets/media/shapes/dots-1.png" alt="" class="element-4">
-            <img src="assets/media/shapes/tag.png" alt="" class="element-6">
-            <img src="assets/media/shapes/errow.png" alt="" class="element-7">
-            <img src="assets/media/shapes/circle-lines.png" alt="" class="element-8">
-            <img src="assets/media/shapes/mic-speaker.png" alt="" class="element-9">
+            <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="" class="element-1">
+            <img src="<?= base_url('assets/media/shapes/vector-3.png'); ?>" alt="" class="element-2">
+            <img src="<?= base_url('assets/media/shapes/paint.png'); ?>" alt="" class="element-3">
+            <img src="<?= base_url('assets/media/shapes/vector-4.png'); ?>" alt="" class="element-5">
+            <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="" class="element-4">
+            <img src="<?= base_url('assets/media/shapes/tag.png'); ?>" alt="" class="element-6">
+            <img src="<?= base_url('assets/media/shapes/errow.png'); ?>" alt="" class="element-7">
+            <img src="<?= base_url('assets/media/shapes/circle-lines.png'); ?>" alt="" class="element-8">
+            <img src="<?= base_url('assets/media/shapes/mic-speaker.png'); ?>" alt="" class="element-9">
           </div>
         </div>
       </div>

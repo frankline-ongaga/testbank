@@ -40,6 +40,7 @@ class Analytics extends BaseController
             'total_attempts' => $currentRole === 'client' && $userId ? $this->attemptModel->where('user_id', $userId)->countAllResults() : $this->attemptModel->countAllResults(),
             'avg_score' => ($currentRole === 'client' && $userId) ? ($this->attemptModel->select('AVG(score) as avg_score')->where('user_id', $userId)->get()->getRow()->avg_score ?? 0) : ($this->attemptModel->select('AVG(score) as avg_score')->get()->getRow()->avg_score ?? 0),
             'recent_attempts' => ($currentRole === 'client' && $userId) ? $this->attemptModel->where('user_id', $userId)->orderBy('id', 'DESC')->findAll(10) : $this->attemptModel->orderBy('id', 'DESC')->limit(10)->find(),
+            // TODO: replace static category analytics with real joins once category mapping exists
             'categories' => [
                 [
                     'name' => 'Medical-Surgical',
@@ -63,11 +64,7 @@ class Analytics extends BaseController
                     'trend' => -2
                 ]
             ],
-            'monthly_stats' => [
-                'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                'scores' => [72, 75, 73, 76, 75, 78],
-                'attempts' => [150, 165, 180, 175, 190, 200]
-            ],
+            'monthly_stats' => $this->buildMonthlyStats($currentRole, $userId),
             'question_stats' => [
                 'easy' => 30,
                 'medium' => 50,
@@ -108,6 +105,38 @@ class Analytics extends BaseController
             default:
                 return redirect()->to('/login');
         }
+    }
+
+    private function buildMonthlyStats(string $role, int $userId): array
+    {
+        $labels = [];
+        $scores = [];
+        $attempts = [];
+
+        // Last 6 months buckets
+        for ($i = 5; $i >= 0; $i--) {
+            $monthStart = date('Y-m-01 00:00:00', strtotime("-$i month"));
+            $monthEnd = date('Y-m-t 23:59:59', strtotime("-$i month"));
+            $labels[] = date('M', strtotime($monthStart));
+
+            $builder = $this->attemptModel
+                ->select('AVG(score) as avg_score, COUNT(*) as cnt')
+                ->where('completed_at >=', $monthStart)
+                ->where('completed_at <=', $monthEnd)
+                ->where('score IS NOT NULL', null, false);
+            if ($role === 'client' && $userId) {
+                $builder->where('user_id', $userId);
+            }
+            $row = $builder->get()->getRowArray();
+            $scores[] = isset($row['avg_score']) ? round((float)$row['avg_score']) : 0;
+            $attempts[] = isset($row['cnt']) ? (int)$row['cnt'] : 0;
+        }
+
+        return [
+            'labels' => $labels,
+            'scores' => $scores,
+            'attempts' => $attempts,
+        ];
     }
 
     public function categories()

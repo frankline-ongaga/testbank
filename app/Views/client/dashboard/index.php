@@ -1,5 +1,4 @@
 <div class="admin-content">
-    <h1 class="h3 mb-4">My Dashboard</h1>
 
     <!-- Progress Overview -->
     <div class="row g-4 mb-4">
@@ -7,8 +6,8 @@
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">Tests Taken</h5>
-                    <div class="display-6 mb-2">12</div>
-                    <div class="small">Last test: 2 days ago</div>
+                    <div class="display-6 mb-2"><?= (int)($metrics['testsTaken'] ?? 0) ?></div>
+                    <div class="small">Last test: <?= !empty($metrics['lastTestAt']) ? esc(date('M j, Y', strtotime($metrics['lastTestAt']))) : '—' ?></div>
                 </div>
             </div>
         </div>
@@ -16,8 +15,8 @@
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <h5 class="card-title">Average Score</h5>
-                    <div class="display-6 mb-2">78%</div>
-                    <div class="small">+5% improvement</div>
+                    <div class="display-6 mb-2"><?= isset($metrics['averageScore']) ? round($metrics['averageScore']) . '%' : '—' ?></div>
+                    <div class="small">Last 8 attempts</div>
                 </div>
             </div>
         </div>
@@ -25,8 +24,8 @@
             <div class="card bg-info text-white">
                 <div class="card-body">
                     <h5 class="card-title">Study Time</h5>
-                    <div class="display-6 mb-2">24h</div>
-                    <div class="small">This month</div>
+                    <div class="display-6 mb-2"><?= esc($metrics['studyHours'] ?? 0) ?>h</div>
+                    <div class="small">Last 30 days</div>
                 </div>
             </div>
         </div>
@@ -34,7 +33,7 @@
             <div class="card bg-warning text-white">
                 <div class="card-body">
                     <h5 class="card-title">Subscription</h5>
-                    <div class="display-6 mb-2">28</div>
+                    <div class="display-6 mb-2"><?= isset($metrics['daysRemaining']) ? (int)$metrics['daysRemaining'] : 0 ?></div>
                     <div class="small">Days remaining</div>
                 </div>
             </div>
@@ -76,45 +75,23 @@
             <!-- Study Progress -->
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Category Progress</h5>
+                    <h5 class="card-title mb-0">Recent Attempts</h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span>Medical-Surgical</span>
-                            <span>85%</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" style="width: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span>Pediatric Nursing</span>
-                            <span>70%</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" style="width: 70%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span>Mental Health</span>
-                            <span>60%</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-warning" style="width: 60%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="d-flex justify-content-between mb-1">
-                            <span>Pharmacology</span>
-                            <span>75%</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-primary" style="width: 75%"></div>
-                        </div>
-                    </div>
+                    <?php if (!empty($recentAttempts)): ?>
+                        <ul class="list-group list-group-flush">
+                            <?php foreach ($recentAttempts as $ra): ?>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><?= esc(date('M j, Y H:i', strtotime($ra['completed_at'] ?? $ra['started_at'] ?? 'now'))) ?></span>
+                                    <span class="badge bg-<?= isset($ra['score']) ? 'success' : 'secondary' ?>">
+                                        <?= isset($ra['score']) ? (int)round($ra['score']) . '%' : 'In progress' ?>
+                                    </span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <div class="text-muted">No attempts yet.</div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -128,10 +105,10 @@ document.addEventListener('DOMContentLoaded', function() {
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            labels: <?= json_encode($trend['labels'] ?? []) ?>,
             datasets: [{
                 label: 'Test Scores',
-                data: [65, 72, 78, 75],
+                data: <?= json_encode($trend['scores'] ?? []) ?>,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
             }]

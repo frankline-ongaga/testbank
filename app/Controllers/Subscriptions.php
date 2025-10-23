@@ -38,6 +38,9 @@ class Subscriptions extends BaseController
 
         // Client portal specific view
         $currentPortal = $this->session->get('current_role');
+        $userId = (int) ($this->session->get('user_id') ?? 0);
+        // Current user's active subscription (if any)
+        $data['current_subscription'] = $userId ? $this->subs->getActiveForUser($userId) : null;
         if ($currentPortal === 'client') {
             return view('client/layout/header', $data)
                 . view('client/subscriptions/index', $data)

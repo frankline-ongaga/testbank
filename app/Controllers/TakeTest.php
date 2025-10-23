@@ -22,17 +22,10 @@ class TakeTest extends BaseController
     public function start($testId)
     {
         $userId = (int) $this->session->get('user_id');
-        // Enforce subscription or 7-question free trial (by number of attempt_answers rows)
+        // Enforce subscription - no free trial for tests
         $active = $this->subs->getActiveForUser($userId);
         if (!$active) {
-            $count = (int) $this->db->table('attempt_answers aa')
-                ->join('attempts a', 'a.id = aa.attempt_id', 'inner')
-                ->where('a.user_id', $userId)
-                ->countAllResults();
-            if ($count >= 7) {
-                // Client portal subscription page
-                return redirect()->to('/client/subscription')->with('error', 'Free trial limit reached. Subscribe to continue.');
-            }
+            return redirect()->to('/client/subscription')->with('error', 'Subscribe to access practice tests.');
         }
         $attemptId = $this->attemptModel->insert([
             'test_id' => (int) $testId,
