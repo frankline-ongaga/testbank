@@ -3,6 +3,9 @@
         <div class="card-body">
             <form action="<?= base_url('admin/tests/store') ?>" method="post">
                 <?= csrf_field() ?>
+                <?php if (!empty($is_free)): ?>
+                    <input type="hidden" name="is_free" value="1">
+                <?php endif; ?>
                 
                 <?php if (session()->getFlashdata('errors')): ?>
                     <div class="alert alert-danger">
@@ -17,59 +20,35 @@
                 <div class="mb-4">
                     <label class="form-label">Test Title</label>
                     <input type="text" class="form-control" name="title" value="<?= old('title') ?>" required>
-                    <div class="form-text">Enter a descriptive title for the test</div>
+                    <div class="form-text text-muted">Enter a descriptive title for the test</div>
                 </div>
 
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <label class="form-label">Test Mode</label>
-                        <select class="form-control" name="mode" required>
-                            <option value="practice" <?= old('mode') === 'practice' ? 'selected' : '' ?>>Practice Mode</option>
-                            <option value="evaluation" <?= old('mode') === 'evaluation' ? 'selected' : '' ?>>Evaluation Mode</option>
-                        </select>
-                        <div class="form-text">Practice mode shows answers, Evaluation mode is timed</div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Time Limit (minutes)</label>
-                        <input type="number" class="form-control" name="time_limit" value="<?= old('time_limit', '60') ?>" min="0">
-                        <div class="form-text">Leave empty or 0 for no time limit</div>
-                    </div>
+                <input type="hidden" name="mode" value="practice">
+                <?php if (empty($is_free)): ?>
+                <div class="mb-4">
+                    <label class="form-label">Time Limit (minutes)</label>
+                    <input type="number" class="form-control" name="time_limit" value="<?= old('time_limit', '60') ?>" min="0">
+                    <div class="form-text text-muted">Leave empty or 0 for no time limit</div>
                 </div>
+                <?php else: ?>
+                    <input type="hidden" name="time_limit" value="0">
+                <?php endif; ?>
+
+                <input type="hidden" name="is_adaptive" value="1">
 
                 <div class="mb-4">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="is_adaptive" value="1" <?= old('is_adaptive') ? 'checked' : '' ?>>
-                        <label class="form-check-label">Enable Adaptive Testing</label>
-                        <div class="form-text">Questions will adjust based on student performance</div>
-                    </div>
-                </div>
-
-                <div class="mb-4">
+                    <?php if (!empty($is_free)): ?>
+                        <input type="hidden" name="is_free" value="1">
+                    <?php endif; ?>
                     <label class="form-label">Select Questions</label>
                     <div class="card">
                         <div class="card-body p-2">
                             <div class="row g-3">
-                                <div class="col-md-4">
-                                    <select class="form-control" id="categoryFilter">
-                                        <option value="">All Categories</option>
-                                        <?php foreach (($categories ?? []) as $cat): ?>
-                                            <option value="<?= $cat['id'] ?>"><?= esc($cat['name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="form-control" id="difficultyFilter">
-                                        <option value="">All Difficulties</option>
-                                        <option value="easy">Easy</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="hard">Hard</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="searchQuestions" placeholder="Search...">
+                                        <input type="text" class="form-control" id="searchQuestions" placeholder="Search questions...">
                                         <button class="btn btn-outline-secondary" type="button">
-                                            <i class="fa-solid fa-search"></i>
+                                            <i class="fas fa-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -102,9 +81,8 @@
                     </div>
                 </div>
 
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">Create Test</button>
-                    <a href="<?= base_url('admin/tests') ?>" class="btn btn-secondary">Cancel</a>
+                <div>
+                    <button type="submit" class="btn btn-primary">Create Test</button>&nbsp;&nbsp;&nbsp;<a href="<?= base_url('admin/tests') ?>" class="btn btn-secondary">Cancel</a>
                 </div>
             </form>
         </div>
@@ -113,29 +91,41 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const isFreeToggle = document.getElementById('isFreeToggle');
+    const form = document.querySelector('form');
     const categoryFilter = document.getElementById('categoryFilter');
     const difficultyFilter = document.getElementById('difficultyFilter');
     const searchInput = document.getElementById('searchQuestions');
     const questionList = document.querySelector('.question-list');
 
+    // When toggling free test, reload with flag to include reused questions
+    if (isFreeToggle) {
+        isFreeToggle.addEventListener('change', function() {
+            const url = new URL(window.location.href);
+            if (this.checked) { url.searchParams.set('is_free', '1'); }
+            else { url.searchParams.delete('is_free'); }
+            window.location.href = url.toString();
+        });
+    }
+
     function filterQuestions() {
-        const category = categoryFilter.value;
-        const difficulty = difficultyFilter.value;
+        const category = categoryFilter ? categoryFilter.value : '';
+        const difficulty = difficultyFilter ? difficultyFilter.value : '';
         const search = searchInput.value.toLowerCase();
 
         const questions = questionList.querySelectorAll('.card');
         questions.forEach(q => {
             const content = q.textContent.toLowerCase();
-            const categoryMatch = !category || q.querySelector('.badge.bg-primary').textContent === category;
-            const difficultyMatch = !difficulty || q.querySelector('.badge.bg-secondary').textContent === difficulty;
+            const categoryMatch = !category || (q.querySelector('.badge.bg-primary') && q.querySelector('.badge.bg-primary').textContent === category);
+            const difficultyMatch = !difficulty || (q.querySelector('.badge.bg-secondary') && q.querySelector('.badge.bg-secondary').textContent === difficulty);
             const searchMatch = !search || content.includes(search);
 
             q.style.display = categoryMatch && difficultyMatch && searchMatch ? '' : 'none';
         });
     }
 
-    categoryFilter.addEventListener('change', filterQuestions);
-    difficultyFilter.addEventListener('change', filterQuestions);
+    if (categoryFilter) categoryFilter.addEventListener('change', filterQuestions);
+    if (difficultyFilter) difficultyFilter.addEventListener('change', filterQuestions);
     searchInput.addEventListener('input', filterQuestions);
 });
 </script>

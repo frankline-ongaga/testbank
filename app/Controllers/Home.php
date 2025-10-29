@@ -307,6 +307,16 @@ class Home extends BaseController
         $data['studyCategories'] = $categories; // array of ['id','name','slug','description']
         $data['studySubcategoriesByCategoryId'] = $subcategoriesByCategoryId; // map cid => subcategory[]
 
+        // Fetch active free test (only one allowed active)
+        $testModel = new \App\Models\TestModel();
+        $activeFree = $testModel->where('is_free', 1)
+            ->where('status', 'active')
+            ->orderBy('id', 'DESC')
+            ->first();
+        $data['activeFreeTest'] = $activeFree ?: null;
+        // Also load all active free tests for homepage listing
+        $data['freeTests'] = $testModel->getActiveFreeTests();
+
         return view('homepage/header', $data)
              . view('homepage/index', $data)
              . view('homepage/footer', $data);
@@ -335,6 +345,173 @@ class Home extends BaseController
         return view('homepage/header', $data)
              . view('homepage/nclex', $data)
              . view('homepage/footer', $data);
+    }
+
+    // Public: render free test directly on homepage shell (no attempt tracking)
+    public function freeTake($testId)
+    {
+        $db = \Config\Database::connect();
+        $test = $db->table('tests')
+            ->where('id', (int)$testId)
+            ->where('is_free', 1)
+            ->where('status', 'active')
+            ->get()->getRowArray();
+        if (!$test) {
+            return redirect()->to('/')->with('error', 'Free test unavailable');
+        }
+
+        $questions = $db->table('test_questions tq')
+            ->select('q.id, q.stem, q.type')
+            ->join('questions q', 'q.id = tq.question_id', 'inner')
+            ->where('tq.test_id', (int)$testId)
+            ->orderBy('tq.sort_order', 'ASC')
+            ->get()->getResultArray();
+
+        $choicesByQ = [];
+        if (!empty($questions)) {
+            $qids = array_column($questions, 'id');
+            $choiceRows = $db->table('choices')->whereIn('question_id', $qids)->orderBy('label','ASC')->get()->getResultArray();
+            foreach ($choiceRows as $c) {
+                $choicesByQ[$c['question_id']][] = $c;
+            }
+        }
+
+        $data = [
+            'title' => $test['title'] ?? 'Free Test',
+            'test' => $test,
+            'attempt' => ['id' => 0, 'time_limit_minutes' => (int)($test['time_limit_minutes'] ?? 60)],
+            'questions' => $questions,
+            'choicesByQ' => $choicesByQ,
+            'renderInHomepage' => true,
+            'freeSubmitAction' => base_url('free/submit/' . (int)$testId)
+        ];
+
+        return view('homepage/header', $data)
+            . view('tests/take', $data)
+            . view('homepage/footer', $data);
+    }
+
+    // Public: submit free test answers, compute score transiently, then redirect to client panel
+    public function freeSubmit($testId)
+    {
+        $db = \Config\Database::connect();
+        $test = $db->table('tests')
+            ->where('id', (int)$testId)
+            ->where('is_free', 1)
+            ->where('status', 'active')
+            ->get()->getRowArray();
+        if (!$test) {
+            return redirect()->to('/')->with('error', 'Free test unavailable');
+        }
+
+        $answers = (array) $this->request->getPost('answers');
+        $questionIds = array_map('intval', array_keys($answers));
+        $correctMap = [];
+        if (!empty($questionIds)) {
+            $rows = $db->table('choices')
+                ->select('question_id, id, is_correct')
+                ->whereIn('question_id', $questionIds)
+                ->get()->getResultArray();
+            foreach ($rows as $r) {
+                if (!isset($correctMap[$r['question_id']])) $correctMap[$r['question_id']] = [];
+                if ($r['is_correct']) $correctMap[$r['question_id']][] = (int)$r['id'];
+            }
+        }
+
+        $numCorrect = 0;
+        $total = 0;
+        foreach ($answers as $qid => $choiceIds) {
+            $total++;
+            $submitted = array_map('intval', (array)$choiceIds);
+            sort($submitted);
+            $expected = $correctMap[(int)$qid] ?? [];
+            sort($expected);
+            if ($submitted === $expected) $numCorrect++;
+        }
+
+        // Persist results transiently in session for free results view
+        $resultKey = 'free_result_' . (int)$testId;
+        session()->set($resultKey, [
+            'score' => $total > 0 ? round(($numCorrect / $total) * 100, 2) : 0,
+            'answers' => $answers
+        ]);
+
+        return redirect()->to('/free/results/' . (int)$testId);
+    }
+
+    public function freeResults($testId)
+    {
+        $db = \Config\Database::connect();
+        $test = $db->table('tests')
+            ->where('id', (int)$testId)
+            ->where('is_free', 1)
+            ->get()->getRowArray();
+        if (!$test) {
+            return redirect()->to('/');
+        }
+
+        $questions = $db->table('test_questions tq')
+            ->select('q.id, q.stem, q.type, q.rationale')
+            ->join('questions q', 'q.id = tq.question_id', 'inner')
+            ->where('tq.test_id', (int)$testId)
+            ->orderBy('tq.sort_order', 'ASC')
+            ->get()->getResultArray();
+
+        $choicesByQ = [];
+        if (!empty($questions)) {
+            $qids = array_column($questions, 'id');
+            $choiceRows = $db->table('choices')
+                ->whereIn('question_id', $qids)
+                ->orderBy('label', 'ASC')
+                ->get()->getResultArray();
+            foreach ($choiceRows as $c) {
+                $choicesByQ[$c['question_id']][] = $c;
+            }
+        }
+
+        $resultKey = 'free_result_' . (int)$testId;
+        $stored = session()->get($resultKey) ?? ['score' => 0, 'answers' => []];
+        $answers = $stored['answers'] ?? [];
+        $score = $stored['score'] ?? 0;
+
+        // Build userAnswers structure similar to attempts-based results
+        $userAnswers = [];
+        // Compute correctness mapping
+        $correctMap = [];
+        if (!empty($questions)) {
+            $qids = array_column($questions, 'id');
+            $rows = $db->table('choices')
+                ->select('question_id, id, is_correct')
+                ->whereIn('question_id', $qids)
+                ->get()->getResultArray();
+            foreach ($rows as $r) {
+                if (!isset($correctMap[$r['question_id']])) $correctMap[$r['question_id']] = [];
+                if ($r['is_correct']) $correctMap[$r['question_id']][] = (int)$r['id'];
+            }
+        }
+        foreach ($answers as $qid => $choiceIds) {
+            $submitted = array_map('intval', (array)$choiceIds);
+            sort($submitted);
+            $expected = $correctMap[(int)$qid] ?? [];
+            sort($expected);
+            $isCorrect = ($submitted === $expected);
+            $userAnswers[(int)$qid] = [
+                'choices' => $submitted,
+                'is_correct' => $isCorrect
+            ];
+        }
+
+        $data = [
+            'title' => 'Results',
+            'attempt' => ['score' => $score, 'started_at' => null, 'completed_at' => null],
+            'questions' => $questions,
+            'choicesByQ' => $choicesByQ,
+            'userAnswers' => $userAnswers,
+            'forceClientLayout' => true,
+        ];
+
+        // Render results using client layout visuals for guests
+        return view('tests/results', $data);
     }
     public function hesi2(): string
     {

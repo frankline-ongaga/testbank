@@ -39,9 +39,7 @@ class Auth extends BaseController
     public function showLoginAdmin()
     {
         $data = ['title' => 'Admin Login', 'loginRole' => 'admin', 'loginAction' => '/login/admin'];
-        return view('homepage/header', $data)
-            . view('auth/login', $data)
-            . view('homepage/footer');
+        return view('auth/design', $data);
     }
 
     public function loginStudent()
@@ -89,8 +87,39 @@ class Auth extends BaseController
             ],
         ];
 
-        if (!$this->validate($rules, $messages)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        // Verify reCAPTCHA v2
+        $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
+        $secret = env('RECAPTCHA_SECRET_KEY');
+        $recaptchaOk = false;
+        if ($recaptchaResponse && $secret) {
+            $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
+            $payload = http_build_query([
+                'secret' => $secret,
+                'response' => $recaptchaResponse,
+                'remoteip' => $this->request->getIPAddress(),
+            ]);
+            $opts = [
+                'http' => [
+                    'method' => 'POST',
+                    'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+                    'content' => $payload,
+                    'timeout' => 5,
+                ]
+            ];
+            $context = stream_context_create($opts);
+            $json = @file_get_contents($verifyUrl, false, $context);
+            if ($json !== false) {
+                $resp = json_decode($json, true);
+                $recaptchaOk = !empty($resp['success']);
+            }
+        }
+
+        if (!$this->validate($rules, $messages) || !$recaptchaOk) {
+            $errors = $this->validator ? $this->validator->getErrors() : [];
+            if (!$recaptchaOk) {
+                $errors['recaptcha'] = 'Please complete the reCAPTCHA validation.';
+            }
+            return redirect()->back()->withInput()->with('errors', $errors);
         }
 
         $userId = $this->userModel->insert([
@@ -130,12 +159,124 @@ class Auth extends BaseController
         return redirect()->to('/login');
     }
 
+    /**
+     * Google OAuth 2.0 - Redirect to Google's OAuth 2.0 consent screen
+     */
+    public function googleRedirect()
+    {
+        $clientId = getenv('GOOGLE_CLIENT_ID');
+        $redirectUri = base_url('oauth/google/callback');
+        $state = bin2hex(random_bytes(16));
+        session()->set('oauth_state', $state);
+
+        $params = http_build_query([
+            'client_id' => $clientId,
+            'redirect_uri' => $redirectUri,
+            'response_type' => 'code',
+            'scope' => 'openid email profile',
+            'access_type' => 'online',
+            'include_granted_scopes' => 'true',
+            'state' => $state,
+            'prompt' => 'select_account',
+        ]);
+
+        return redirect()->to('https://accounts.google.com/o/oauth2/v2/auth?' . $params);
+    }
+
+    /**
+     * Google OAuth 2.0 - Handle callback
+     */
+    public function googleCallback()
+    {
+        $state = $this->request->getGet('state');
+        $expectedState = session()->get('oauth_state');
+        if (!$state || !$expectedState || !hash_equals($expectedState, $state)) {
+            return redirect()->to('/login/student')->with('error', 'Invalid OAuth state.');
+        }
+
+        $code = $this->request->getGet('code');
+        if (!$code) {
+            return redirect()->to('/login/student')->with('error', 'Login with Google cancelled or failed.');
+        }
+
+        $tokenEndpoint = 'https://oauth2.googleapis.com/token';
+        $clientId = getenv('GOOGLE_CLIENT_ID');
+        $clientSecret = getenv('GOOGLE_CLIENT_SECRET');
+        $redirectUri = base_url('oauth/google/callback');
+
+        $payload = [
+            'code' => $code,
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'redirect_uri' => $redirectUri,
+            'grant_type' => 'authorization_code',
+        ];
+
+        $opts = [
+            'http' => [
+                'method' => 'POST',
+                'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+                'content' => http_build_query($payload),
+                'timeout' => 10,
+            ]
+        ];
+        $context = stream_context_create($opts);
+        $result = @file_get_contents($tokenEndpoint, false, $context);
+        if ($result === false) {
+            return redirect()->to('/login/student')->with('error', 'Unable to contact Google.');
+        }
+        $tokenResponse = json_decode($result, true);
+        $idToken = $tokenResponse['id_token'] ?? null;
+        if (!$idToken) {
+            return redirect()->to('/login/student')->with('error', 'Invalid response from Google.');
+        }
+
+        // Decode ID token (JWT) to get user info
+        $parts = explode('.', $idToken);
+        if (count($parts) !== 3) {
+            return redirect()->to('/login/student')->with('error', 'Invalid ID token.');
+        }
+        $claims = json_decode(base64_decode(strtr($parts[1], '-_', '+/')), true);
+        $email = $claims['email'] ?? null;
+        $name = $claims['given_name'] ?? ($claims['name'] ?? 'Student');
+        $googleId = $claims['sub'] ?? null;
+        if (!$email || !$googleId) {
+            return redirect()->to('/login/student')->with('error', 'Incomplete Google profile.');
+        }
+
+        // Find or create user
+        $user = $this->userModel->where('email', $email)->first();
+        if (!$user) {
+            $userId = $this->userModel->insert([
+                'first_name' => $name,
+                'email' => $email,
+                'google_id' => $googleId,
+                'status' => 'active',
+            ], true);
+            $this->userModel->assignRole($userId, 'student');
+            $user = $this->userModel->find($userId);
+        } else {
+            // Ensure google_id is stored
+            if (empty($user['google_id'])) {
+                $this->userModel->update($user['id'], ['google_id' => $googleId]);
+            }
+        }
+
+        // Set session
+        session()->set([
+            'user_id' => $user['id'],
+            'roles' => ['student'],
+            'user_email' => $user['email'],
+            'username' => $user['first_name'] ?: 'Student',
+        ]);
+
+        return redirect()->to('/client');
+    }
+
     public function showForgotPassword()
     {
         $data['title'] = 'Forgot Password';
-        return view('homepage/header', $data)
-            . view('auth/forgot')
-            . view('homepage/footer');
+        return view('auth/forgot_design', $data);
     }
 
     public function sendReset()

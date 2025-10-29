@@ -62,11 +62,11 @@
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         <a href="<?= base_url('client/tests') ?>" class="btn btn-primary">
-                            <i class="fa-solid fa-play me-2"></i>Take a Test
+                            <i class="fas fa-play me-2"></i>Take a Test
                         </a>
                         <!-- Removed practice quick action to keep menu consistent -->
                         <a href="<?= base_url('client/analytics') ?>" class="btn btn-outline-primary">
-                            <i class="fa-solid fa-chart-line me-2"></i>View Analytics
+                            <i class="fas fa-chart-line me-2"></i>View Analytics
                         </a>
                     </div>
                 </div>

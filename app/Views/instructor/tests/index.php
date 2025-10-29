@@ -5,7 +5,7 @@
             <p class="text-muted mb-0">Manage your created tests</p>
         </div>
         <a href="/tests/create" class="btn btn-primary">
-            <i class="fa-solid fa-plus me-2"></i>Create Test
+            <i class="fas fa-plus me-2"></i>Create Test
         </a>
     </div>
 
@@ -50,15 +50,15 @@
                                 <td>
                                     <div class="btn-group">
                                         <a href="/tests/edit/<?= $test['id'] ?>" class="btn btn-sm btn-outline-primary">
-                                            <i class="fa-solid fa-edit"></i>
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="/tests/preview/<?= $test['id'] ?>" class="btn btn-sm btn-outline-info">
-                                            <i class="fa-solid fa-eye"></i>
+                                            <i class="fas fa-eye"></i>
                                         </a>
                                         <?php if ($test['status'] !== 'active'): ?>
                                             <button type="button" class="btn btn-sm btn-outline-danger" 
                                                     onclick="if(confirm('Delete this test?')) window.location.href='/tests/delete/<?= $test['id'] ?>'">
-                                                <i class="fa-solid fa-trash"></i>
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         <?php endif; ?>
                                     </div>

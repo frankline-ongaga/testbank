@@ -118,21 +118,14 @@ class Client extends BaseController
 
     public function profile()
     {
-        $userId = $this->session->get('user_id');
-        if (!$userId) {
-            return redirect()->to('/login');
-        }
+        $userId = (int) ($this->session->get('user_id') ?? 0);
+        if (!$userId) return redirect()->to('/login/student');
 
         $user = $this->userModel->find($userId);
-        if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
-        }
-
         $data = [
             'title' => 'My Profile',
-            'user' => $user
+            'user' => $user,
         ];
-        
         return view('client/layout/header', $data)
             . view('client/profile', $data)
             . view('client/layout/footer');
@@ -140,31 +133,58 @@ class Client extends BaseController
 
     public function updateProfile()
     {
-        $userId = $this->session->get('user_id');
-        if (!$userId) {
-            return redirect()->to('/login');
-        }
+        $userId = (int) ($this->session->get('user_id') ?? 0);
+        if (!$userId) return redirect()->to('/login/student');
 
         $rules = [
-            'username' => 'required|min_length[3]',
-            'email'    => 'required|valid_email',
+            'first_name' => 'required|min_length[2]',
+            'email' => 'required|valid_email',
         ];
-
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        $first = $this->request->getPost('first_name');
+        $email = $this->request->getPost('email');
         $this->userModel->update($userId, [
-            'username' => $this->request->getPost('username'),
-            'email'    => $this->request->getPost('email'),
+            'first_name' => $first,
+            'email' => $email,
         ]);
-
-        return redirect()->to('/client/profile')->with('message', 'Profile updated successfully.');
+        session()->set('username', $first);
+        session()->set('user_email', $email);
+        return redirect()->to('/client/profile')->with('message', 'Profile updated');
     }
 
-    public function logout()
+    public function changePassword()
     {
-        $this->session->destroy();
-        return redirect()->to('/login');
+        $userId = (int) ($this->session->get('user_id') ?? 0);
+        if (!$userId) return redirect()->to('/login/student');
+
+        $rules = [
+            'current_password' => 'required',
+            'new_password' => 'required|min_length[6]',
+            'confirm_password' => 'required|matches[new_password]'
+        ];
+        $messages = [
+            'confirm_password' => [
+                'matches' => 'Passwords do not match'
+            ]
+        ];
+        if (!$this->validate($rules, $messages)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $user = $this->userModel->find($userId);
+        $current = $this->request->getPost('current_password');
+        if (!isset($user['password_hash']) || !password_verify($current, $user['password_hash'])) {
+            return redirect()->back()->withInput()->with('error', 'Current password is incorrect');
+        }
+        $new = $this->request->getPost('new_password');
+        $this->userModel->update($userId, [
+            'password_hash' => password_hash($new, PASSWORD_DEFAULT)
+        ]);
+        return redirect()->to('/client/profile')->with('message', 'Password updated');
     }
+
+    // removed duplicate legacy methods
 }

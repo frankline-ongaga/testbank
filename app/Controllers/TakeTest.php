@@ -36,13 +36,43 @@ class TakeTest extends BaseController
         return redirect()->to('/client/tests/take/'.$attemptId);
     }
 
+    /**
+     * Start an active free test without subscription enforcement
+     */
+    public function startFree($testId)
+    {
+        $userId = (int) $this->session->get('user_id');
+        if (!$userId) {
+            return redirect()->to('/login/student')->with('error', 'Please login to continue.');
+        }
+        $testId = (int) $testId;
+        $test = $this->db->table('tests')
+            ->where('id', $testId)
+            ->where('is_free', 1)
+            ->where('status', 'active')
+            ->get()->getRowArray();
+        if (!$test) {
+            return redirect()->to('/')->with('error', 'Free test is not available.');
+        }
+        $attemptId = $this->attemptModel->insert([
+            'test_id' => $testId,
+            'user_id' => $userId,
+            'started_at' => date('Y-m-d H:i:s'),
+        ], true);
+        return redirect()->to('/client/tests/take/'.$attemptId);
+    }
+
     public function show($attemptId)
     {
         $attempt = $this->attemptModel->find((int)$attemptId);
         if (!$attempt) return redirect()->to('/client/tests');
 
+        // Get test data
+        $test = $this->db->table('tests')->where('id', $attempt['test_id'])->get()->getRowArray();
+        if (!$test) return redirect()->to('/client/tests');
+
         $questions = $this->db->table('test_questions tq')
-            ->select('q.id, q.stem, q.type')
+->select('q.id, q.stem, q.type')
             ->join('questions q', 'q.id = tq.question_id', 'inner')
             ->where('tq.test_id', $attempt['test_id'])
             ->orderBy('tq.sort_order', 'ASC')
@@ -58,11 +88,19 @@ class TakeTest extends BaseController
         }
 
         $data = [
-            'title' => 'Take Test',
+            'title' => $test['title'] ?? 'Take Test',
+            'test' => $test,
             'attempt' => $attempt,
             'questions' => $questions,
             'choicesByQ' => $choicesByQ,
         ];
+        // For free tests, render within homepage layout
+        if (!empty($test['is_free'])) {
+            $data['renderInHomepage'] = true;
+            return view('homepage/header', $data)
+                . view('tests/take', $data)
+                . view('homepage/footer', $data);
+        }
         return view('tests/take', $data);
     }
 
@@ -114,6 +152,11 @@ class TakeTest extends BaseController
             'score' => $score,
         ]);
 
+        // If this was a free test, redirect to client panel tests list
+        $test = $this->db->table('tests')->where('id', $attempt['test_id'])->get()->getRowArray();
+        if (!empty($test['is_free'])) {
+            return redirect()->to('/client/tests/results/'.$attemptId);
+        }
         return redirect()->to('/client/tests/results/'.$attemptId);
     }
 

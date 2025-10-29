@@ -16,7 +16,7 @@
     <header class="admin-header">
         <div class="admin-header-left">
             <button class="admin-menu-toggle js-mobile-toggle" aria-label="Toggle mobile menu">
-                <i class="fa-solid fa-bars"></i>
+                <i class="fas fa-bars"></i>
             </button>
             <div class="admin-brand">
                 <img src="<?= base_url('assets/media/logo.png'); ?>" alt="Logo" class="admin-logo">
@@ -25,11 +25,11 @@
         </div>
         <div class="admin-header-right">
             <button class="admin-action-btn" title="Notifications">
-                <i class="fa-solid fa-bell"></i>
+                <i class="fas fa-bell"></i>
                 <span class="admin-badge">2</span>
             </button>
-            <button class="admin-action-btn js-theme-toggle" title="Toggle theme">
-                <i class="fa-solid fa-palette"></i>
+            <button class="admin-action-btn js-theme-toggle" title="Toggle theme" aria-pressed="false">
+                <i class="fas fa-toggle-off"></i>
             </button>
             <div class="admin-user-menu">
                 <?php
@@ -41,7 +41,7 @@
                 <button class="admin-user-btn" data-bs-toggle="dropdown">
                     <img src="https://ui-avatars.com/api/?name=<?= $avatarName ?>&background=6366f1&color=fff" alt="User" class="admin-avatar">
                     <span class="admin-user-name"><?= esc($displayName) ?></span>
-                    <i class="fa-solid fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end admin-user-dropdown">
                     <?php if (!empty($userEmail)): ?>
@@ -50,9 +50,9 @@
                     </li>
                     <?php endif; ?>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="<?= base_url('instructor/profile'); ?>"><i class="fa-solid fa-user"></i> Profile</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('instructor/profile'); ?>"><i class="fas fa-user"></i> Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="<?= base_url('logout'); ?>"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a class="dropdown-item text-danger" href="<?= base_url('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -62,37 +62,41 @@
         <div class="admin-nav-section">
             <div class="admin-nav-title">Main</div>
             <a class="admin-nav-link" href="<?= base_url('instructor'); ?>">
-                <i class="fa-solid fa-home"></i>
+                <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
             <a class="admin-nav-link" href="<?= base_url('instructor/analytics'); ?>">
-                <i class="fa-solid fa-chart-line"></i>
+                <i class="fas fa-chart-line"></i>
                 <span>Analytics</span>
             </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Content</div>
             <a class="admin-nav-link" href="<?= base_url('instructor/questions'); ?>">
-                <i class="fa-solid fa-circle-question"></i>
+                <i class="fas fa-circle-question"></i>
                 <span>Questions</span>
             </a>
             <a class="admin-nav-link" href="<?= base_url('instructor/questions/create'); ?>">
-                <i class="fa-solid fa-plus-circle"></i>
+                <i class="fas fa-plus-circle"></i>
                 <span>Add Question</span>
             </a>
             <a class="admin-nav-link" href="<?= base_url('instructor/tests'); ?>">
-                <i class="fa-solid fa-file-lines"></i>
+                <i class="fas fa-file-lines"></i>
                 <span>Tests</span>
             </a>
             <a class="admin-nav-link" href="<?= base_url('instructor/tests/create'); ?>">
-                <i class="fa-solid fa-plus-square"></i>
+                <i class="fas fa-plus-square"></i>
                 <span>Create Test</span>
+            </a>
+            <a class="admin-nav-link" href="<?= base_url('instructor/tests/create-free'); ?>">
+                <i class="fas fa-gift"></i>
+                <span>Create Free Test</span>
             </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Students</div>
             <a class="admin-nav-link" href="<?= base_url('instructor/performance'); ?>">
-                <i class="fa-solid fa-users"></i>
+                <i class="fas fa-users"></i>
                 <span>Performance</span>
             </a>
         </div>

@@ -1,6 +1,7 @@
 <?php
 $uri = service('uri');
-$currentPath = $uri->getPath();
+$currentPath = $uri ? trim($uri->getPath(), '/') : '';
+$normalizedPath = preg_replace('#^index\.php/#', '', $currentPath);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +28,7 @@ $currentPath = $uri->getPath();
     <header class="admin-header">
         <div class="admin-header-left">
             <button class="admin-menu-toggle js-mobile-toggle" aria-label="Toggle mobile menu">
-                <i class="fa-solid fa-bars"></i>
+                <i class="fas fa-bars"></i>
             </button>
             <div class="admin-brand">
                 <img src="<?= base_url('assets/media/logo.png'); ?>" alt="Logo" class="admin-logo">
@@ -37,11 +38,11 @@ $currentPath = $uri->getPath();
         <div class="admin-header-center"></div>
         <div class="admin-header-right">
             <button class="admin-action-btn" title="Notifications">
-                <i class="fa-solid fa-bell"></i>
+                <i class="fas fa-bell"></i>
                 <span class="admin-badge">3</span>
             </button>
-            <button class="admin-action-btn js-theme-toggle" title="Toggle theme">
-                <i class="fa-solid fa-palette"></i>
+            <button class="admin-action-btn js-theme-toggle" title="Toggle theme" aria-pressed="false">
+                <i class="fas fa-toggle-off"></i>
             </button>
             <div class="admin-user-menu">
                 <?php
@@ -54,7 +55,7 @@ $currentPath = $uri->getPath();
                 <button class="admin-user-btn" data-bs-toggle="dropdown">
                     <img src="https://ui-avatars.com/api/?name=<?= $avatarName ?>&background=6366f1&color=fff" alt="User" class="admin-avatar">
                     <span class="admin-user-name"><?= esc($displayName) ?></span>
-                    <i class="fa-solid fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end admin-user-dropdown">
                     <?php if (!empty($userEmail)): ?>
@@ -63,10 +64,10 @@ $currentPath = $uri->getPath();
                     </li>
                     <?php endif; ?>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="<?= base_url('admin/profile'); ?>"><i class="fa-solid fa-user"></i> Profile</a></li>
-                    <li><a class="dropdown-item" href="<?= base_url(); ?>" target="_blank"><i class="fa-solid fa-external-link"></i> View Site</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('admin/profile'); ?>"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url(); ?>" target="_blank"><i class="fas fa-external-link"></i> View Site</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="<?= base_url('logout'); ?>"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a class="dropdown-item text-danger" href="<?= base_url('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -75,59 +76,59 @@ $currentPath = $uri->getPath();
     <nav class="admin-sidebar">
         <div class="admin-nav-section">
             <div class="admin-nav-title">Main</div>
-            <a class="admin-nav-link <?= $currentPath === 'admin' ? 'active' : '' ?>" 
+            <a class="admin-nav-link <?= $normalizedPath === 'admin' ? 'active' : '' ?>" 
                href="<?= $dashboardUrl; ?>">
-                <i class="fa-solid fa-chart-pie"></i>
+                <i class="fas fa-chart-pie"></i>
                 <span>Dashboard</span>
             </a>
-            <a class="admin-nav-link <?= strpos($currentPath, 'admin/analytics') === 0 ? 'active' : '' ?>" 
+            <a class="admin-nav-link <?= strpos($normalizedPath, 'admin/analytics') === 0 ? 'active' : '' ?>" 
                href="<?= base_url('admin/analytics'); ?>">
-                <i class="fa-solid fa-chart-line"></i>
+                <i class="fas fa-chart-line"></i>
                 <span>Analytics</span>
             </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Management</div>
             <?php if ($isAdmin): ?>
-                <a class="admin-nav-link <?= strpos($currentPath, 'admin/users') === 0 ? 'active' : '' ?>" 
+                <a class="admin-nav-link <?= strpos($normalizedPath, 'admin/users') === 0 ? 'active' : '' ?>" 
                    href="<?= base_url('admin/users'); ?>">
-                    <i class="fa-solid fa-users"></i>
+                    <i class="fas fa-users"></i>
                     <span>Users</span>
                     <span class="admin-nav-badge">12</span>
                 </a>
             <?php endif; ?>
 
             <?php if ($isAdmin || $isInstructor): ?>
-            <a class="admin-nav-link <?= $currentPath === 'admin/questions' ? 'active' : '' ?>"
+            <a class="admin-nav-link <?= $normalizedPath === 'admin/questions' ? 'active' : '' ?>"
                href="<?= base_url('admin/questions'); ?>">
-                    <i class="fa-solid fa-circle-question"></i>
+                    <i class="fas fa-circle-question"></i>
                     <span>Questions</span>
                 </a>
-                <a class="admin-nav-link <?= $currentPath === 'admin/questions/create' ? 'active' : '' ?>" 
+                <a class="admin-nav-link <?= $normalizedPath === 'admin/questions/create' ? 'active' : '' ?>" 
                    href="<?= base_url('admin/questions/create'); ?>">
-                    <i class="fa-solid fa-plus-circle"></i>
+                    <i class="fas fa-plus-circle"></i>
                     <span>Add Question</span>
                 </a>
             <?php endif; ?>
 
             <?php if ($isAdmin): ?>
-                <a class="admin-nav-link <?= $currentPath === 'admin/questions/pending' ? 'active' : '' ?>" 
+                <a class="admin-nav-link <?= $normalizedPath === 'admin/questions/pending' ? 'active' : '' ?>" 
                    href="<?= base_url('admin/questions/pending'); ?>">
-                    <i class="fa-solid fa-eye"></i>
+                    <i class="fas fa-eye"></i>
                     <span>Review Questions</span>
                     <span class="admin-nav-badge">3</span>
                 </a>
             <?php endif; ?>
 
-            <a class="admin-nav-link <?= $currentPath === 'admin/tests' ? 'active' : '' ?>" 
+            <a class="admin-nav-link <?= $normalizedPath === 'admin/tests' ? 'active' : '' ?>" 
                href="<?= base_url('admin/tests'); ?>">
-                <i class="fa-solid fa-file-lines"></i>
+                <i class="fas fa-file-lines"></i>
                 <span>Tests</span>
             </a>
             <?php if ($isAdmin || $isInstructor): ?>
-                <a class="admin-nav-link <?= $currentPath === 'admin/tests/create' ? 'active' : '' ?>" 
+                <a class="admin-nav-link <?= $normalizedPath === 'admin/tests/create' ? 'active' : '' ?>" 
                    href="<?= base_url('admin/tests/create'); ?>">
-                    <i class="fa-solid fa-plus-square"></i>
+                    <i class="fas fa-plus-square"></i>
                     <span>Create Test</span>
                 </a>
             <?php endif; ?>
@@ -136,20 +137,20 @@ $currentPath = $uri->getPath();
             <div class="admin-nav-title">Study Materials</div>
             <a class="admin-nav-link <?= $currentPath === 'admin/notes' ? 'active' : '' ?>" 
                href="<?= base_url('admin/notes'); ?>">
-                <i class="fa-solid fa-book"></i>
+                <i class="fas fa-book"></i>
                 <span>Study Notes</span>
             </a>
             <?php if ($isAdmin || $isInstructor): ?>
                 <a class="admin-nav-link <?= $currentPath === 'admin/notes/create' ? 'active' : '' ?>" 
                    href="<?= base_url('admin/notes/create'); ?>">
-                    <i class="fa-solid fa-plus"></i>
+                    <i class="fas fa-plus"></i>
                     <span>Add Note</span>
                 </a>
             <?php endif; ?>
             <?php if ($isAdmin || $isInstructor): ?>
                 <a class="admin-nav-link <?= strpos($currentPath, 'admin/study') === 0 ? 'active' : '' ?>" 
                    href="<?= base_url('admin/study'); ?>">
-                    <i class="fa-solid fa-layer-group"></i>
+                    <i class="fas fa-layer-group"></i>
                     <span>Study Questions</span>
                 </a>
             <?php endif; ?>
@@ -158,7 +159,7 @@ $currentPath = $uri->getPath();
             <div class="admin-nav-title">Business</div>
             <a class="admin-nav-link <?= strpos($currentPath, 'admin/subscriptions') === 0 ? 'active' : '' ?>" 
                href="<?= base_url('admin/subscriptions'); ?>">
-                <i class="fa-solid fa-credit-card"></i>
+                <i class="fas fa-credit-card"></i>
                 <span>Subscriptions</span>
             </a>
         </div>

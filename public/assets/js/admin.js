@@ -41,13 +41,10 @@
         
         updateThemeIcon() {
             if (!this.themeBtn) return;
-            
             const icon = this.themeBtn.querySelector('i');
-            if (this.currentTheme === 'dark') {
-                icon.className = 'fa-solid fa-sun';
-            } else {
-                icon.className = 'fa-solid fa-palette';
-            }
+            const isDark = this.currentTheme === 'dark';
+            this.themeBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+            icon.className = isDark ? 'fa-solid fa-toggle-on' : 'fa-solid fa-toggle-off';
         }
     };
     
@@ -161,47 +158,45 @@
         }
     };
     
-    // Navigation active state management
+    // Navigation active state management (exact match only)
     const Navigation = {
         init() {
             this.setActiveNavLink();
         },
         
+        normalize(path) {
+            if (!path) return '';
+            let p = path.replace(/^\/?index\.php\//, '/');
+            p = p.replace(/^\//, '').replace(/\/$/, '');
+            const m = p.match(/(admin|instructor|client)(?:\/.*)?$/);
+            if (m) p = m[0];
+            return p;
+        },
+        
         setActiveNavLink() {
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.admin-nav-link');
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                
-                const linkPath = new URL(link.href).pathname;
-                if (currentPath === linkPath || 
-                    (linkPath !== '/admin' && currentPath.startsWith(linkPath))) {
-                    link.classList.add('active');
-                }
-            });
+            const currentPath = this.normalize(window.location.pathname);
+            const dataLinks = document.querySelectorAll('.admin-nav-link[data-path]');
+            const allLinks = document.querySelectorAll('.admin-nav-link');
+            allLinks.forEach(link => link.classList.remove('active'));
+            if (dataLinks.length) {
+                dataLinks.forEach(link => {
+                    const linkPath = link.getAttribute('data-path');
+                    if (currentPath === linkPath) link.classList.add('active');
+                });
+            } else {
+                // Fallback: exact match on href path
+                allLinks.forEach(link => {
+                    try {
+                        const linkPath = this.normalize(new URL(link.href).pathname);
+                        if (currentPath === linkPath) link.classList.add('active');
+                    } catch (e) { /* ignore */ }
+                });
+            }
         }
     };
     
-    // Notification badge animation
-    const Notifications = {
-        init() {
-            this.badge = document.querySelector('.admin-badge');
-            this.animateBadge();
-        },
-        
-        animateBadge() {
-            if (!this.badge) return;
-            
-            // Add a subtle pulse animation
-            setInterval(() => {
-                this.badge.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    this.badge.style.transform = 'scale(1)';
-                }, 200);
-            }, 3000);
-        }
-    };
+    // Notifications disabled
+    const Notifications = { init() {} };
     
     // Enhanced card hover effects
     const CardEffects = {

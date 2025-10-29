@@ -63,13 +63,13 @@
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         <a href="<?= base_url('instructor/questions/create') ?>" class="btn btn-primary">
-                            <i class="fa-solid fa-plus-circle me-2"></i>Add Question
+                            <i class="fas fa-plus-circle me-2"></i>Add Question
                         </a>
                         <a href="<?= base_url('instructor/tests/create') ?>" class="btn btn-primary">
-                            <i class="fa-solid fa-file-circle-plus me-2"></i>Create Test
+                            <i class="fas fa-file-circle-plus me-2"></i>Create Test
                         </a>
                         <a href="<?= base_url('instructor/analytics') ?>" class="btn btn-outline-primary">
-                            <i class="fa-solid fa-chart-line me-2"></i>View Analytics
+                            <i class="fas fa-chart-line me-2"></i>View Analytics
                         </a>
                     </div>
                 </div>

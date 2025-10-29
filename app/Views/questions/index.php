@@ -10,7 +10,7 @@
             </div>
             <div class="col-auto">
                 <a href="<?= base_url('admin/questions/create') ?>" class="btn btn-primary">
-                    <i class="fa-solid fa-plus me-2"></i>Add Question
+                    <i class="fas fa-plus me-2"></i>Add Question
                 </a>
             </div>
         </div>
@@ -46,7 +46,7 @@
                     <input type="text" class="form-control" id="searchQuestions" 
                            placeholder="Search questions..." value="<?= esc($filter_q ?? '') ?>">
                     <button class="btn btn-outline-secondary" type="button">
-                        <i class="fa-solid fa-search"></i>
+                        <i class="fas fa-search"></i>
                     </button>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                                         </div>
                                         <?php if (!empty($q['rationale'])): ?>
                                             <div class="text-muted small mt-1">
-                                                Has rationale <i class="fa-solid fa-circle-check text-success"></i>
+                                                Has rationale <i class="fas fa-circle-check text-success"></i>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -111,15 +111,15 @@
                                 <div class="btn-group">
                                     <a href="<?= base_url('admin/questions/edit/' . $q['id']) ?>" 
                                        class="btn btn-sm btn-outline-primary" title="Edit">
-                                        <i class="fa-solid fa-edit"></i>
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                     <a href="<?= base_url('admin/questions/preview/' . $q['id']) ?>" 
                                        class="btn btn-sm btn-outline-info" title="Preview">
-                                        <i class="fa-solid fa-eye"></i>
+                                        <i class="fas fa-eye"></i>
                                     </a>
                                     <button type="button" class="btn btn-sm btn-outline-danger" 
                                             onclick="confirmDelete(<?= $q['id'] ?>)" title="Delete">
-                                        <i class="fa-solid fa-trash"></i>
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </td>

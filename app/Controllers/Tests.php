@@ -25,13 +25,21 @@ class Tests extends BaseController
     {
         $currentRole = session()->get('current_role') ?: 'client';
         
-        // Clients must be subscribed to access tests
+        // Clients: show free tests regardless of subscription; paid tests require active subscription
         if ($currentRole === 'client') {
             $userId = (int) (session()->get('user_id') ?? 0);
             $activeSub = $this->subs->getActiveForUser($userId);
-            if (!$activeSub) {
-                return redirect()->to('/client/subscription')->with('error', 'Subscribe to access practice tests.');
-            }
+            $freeTests = $this->testModel->getActiveFreeTests();
+            $paidTests = $this->testModel->getActivePaidTests();
+            $data = [
+                'title' => 'Available Tests',
+                'freeTests' => $freeTests,
+                'paidTests' => $paidTests,
+                'hasSubscription' => (bool)$activeSub,
+            ];
+            return view('client/layout/header', $data)
+                . view('client/tests/index', $data)
+                . view('client/layout/footer');
         }
         
         // Get tests based on role
@@ -56,7 +64,7 @@ class Tests extends BaseController
                 . view('instructor/tests/index', $data)
                 . view('instructor/layout/footer');
         }
-        else { // student view
+        else { // student view (fallback)
             $tests = $this->testModel->getActiveTests();
             $data = [
                 'title' => 'Available Tests',
@@ -70,6 +78,16 @@ class Tests extends BaseController
 
     public function create()
     {
+        return $this->renderCreate(false);
+    }
+
+    public function createFree()
+    {
+        return $this->renderCreate(true);
+    }
+
+    protected function renderCreate(bool $isFree)
+    {
         $currentRole = session()->get('current_role') ?: '';
         
         // Only admin and instructors can create tests
@@ -77,19 +95,26 @@ class Tests extends BaseController
             return redirect()->to('/tests')->with('error', 'Access denied');
         }
         
-        // Load questions list for selection
-        // Show most recent 200 questions; adjust as needed
-        $questions = $this->questionModel
-            ->orderBy('id', 'DESC')
-            ->findAll(200);
+        // Load questions list for selection excluding ones already linked to any test
+        $db = \Config\Database::connect();
+        $usedIds = $db->table('test_questions')->select('question_id')->get()->getResultArray();
+        $usedIds = array_map(fn($r) => (int) $r['question_id'], $usedIds);
+
+        $builder = $this->questionModel->orderBy('id', 'DESC');
+        // For free tests we allow reuse, otherwise exclude used questions
+        if (!$isFree && !empty($usedIds)) {
+            $builder = $builder->whereNotIn('id', $usedIds);
+        }
+        $questions = $builder->findAll(200);
 
         // Optionally load categories for filter (left empty if not using taxonomy here)
         $categories = [];
 
         $data = [
-            'title' => 'Create Test',
+            'title' => $isFree ? 'Create Free Test' : 'Create Test',
             'questions' => $questions,
             'categories' => $categories,
+            'is_free' => $isFree,
         ];
         
         if ($currentRole === 'admin') {
@@ -152,27 +177,49 @@ class Tests extends BaseController
             return redirect()->to('/tests')->with('error', 'Access denied');
         }
 
+        $isFree = $this->request->getPost('is_free') ? 1 : 0;
         $rules = [
-            'title' => 'required|min_length[3]',
-            'mode' => 'required|in_list[practice,evaluation]'
+            'title' => 'required|min_length[3]'
         ];
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        $mode = $this->request->getPost('mode');
+        $mode = $mode ? $mode : 'practice';
         $testId = $this->testModel->insert([
             'owner_id' => (int) (session()->get('user_id') ?? 0),
             'title' => $this->request->getPost('title'),
-            'mode' => $this->request->getPost('mode'),
-            'time_limit_minutes' => (int) $this->request->getPost('time_limit'),
-            'is_adaptive' => $this->request->getPost('is_adaptive') ? 1 : 0,
+            'mode' => $isFree ? 'practice' : $mode,
+            'time_limit_minutes' => $isFree ? 0 : (int) $this->request->getPost('time_limit'),
+            'is_adaptive' => 1,
+            'is_free' => $isFree,
             'status' => $currentRole === 'admin' ? 'active' : 'pending'
         ], true);
 
-        // Add selected questions to the test
+        // Add selected questions to the test (ensure not already used anywhere)
         $questionIds = array_filter(array_map('intval', (array) $this->request->getPost('question_ids')));
+        // Enforce free test limit of 10 questions
+        if ($isFree && count($questionIds) > 10) {
+            return redirect()->back()->withInput()->with('errors', [
+                'Free tests can include a maximum of 10 questions.'
+            ]);
+        }
         if (!empty($questionIds)) {
             $db = \Config\Database::connect();
+            // Validate none of these are already assigned to any test unless this is a free test
+            if (!$isFree) {
+                $existing = $db->table('test_questions')
+                    ->select('question_id')
+                    ->whereIn('question_id', $questionIds)
+                    ->get()->getResultArray();
+                if (!empty($existing)) {
+                    $existingIds = array_map(fn($r) => (int)$r['question_id'], $existing);
+                    return redirect()->back()->withInput()->with('errors', [
+                        'Some selected questions are already used in another test: ' . implode(', ', $existingIds)
+                    ]);
+                }
+            }
             $rows = [];
             foreach ($questionIds as $i => $qid) {
                 $rows[] = ['test_id' => $testId, 'question_id' => $qid, 'sort_order' => $i + 1];
@@ -200,7 +247,44 @@ class Tests extends BaseController
         if (!in_array('admin', $roles)) {
             return redirect()->to('/admin/tests')->with('error', 'Access denied');
         }
-        $this->testModel->update((int)$id, ['status' => 'active']);
+        // If activating a free test, ensure only one active free test at a time
+        $id = (int)$id;
+        $test = $this->testModel->find($id);
+        if (!$test) {
+            return redirect()->to('/admin/tests')->with('error', 'Test not found');
+        }
+        if (!empty($test['is_free'])) {
+            // Deactivate any other active free test
+            $this->testModel->where('is_free', 1)
+                ->where('status', 'active')
+                ->where('id !=', $id)
+                ->set(['status' => 'inactive'])
+                ->update();
+        }
+        $this->testModel->update($id, ['status' => 'active']);
         return redirect()->to('/admin/tests')->with('message', 'Test activated');
+    }
+
+    public function delete($id)
+    {
+        $roles = session()->get('roles') ?? [];
+        if (!in_array('admin', $roles)) {
+            return redirect()->to('/admin/tests')->with('error', 'Access denied');
+        }
+
+        $id = (int)$id;
+        $test = $this->testModel->find($id);
+        if (!$test) {
+            return redirect()->to('/admin/tests')->with('error', 'Test not found');
+        }
+
+        // Remove relationships first
+        $db = \Config\Database::connect();
+        $db->table('test_questions')->where('test_id', $id)->delete();
+        $db->table('attempts')->where('test_id', $id)->delete();
+
+        // Delete the test
+        $this->testModel->delete($id);
+        return redirect()->to('/admin/tests')->with('message', 'Test deleted');
     }
 }

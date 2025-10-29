@@ -48,24 +48,21 @@
                                     <div class="pricing-duration">30 days of full access</div>
                                 </div>
                                 <div class="pricing-features">
+                                  
                                     <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
-                                        <span>Unlimited practice tests</span>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>75+ NCLEX-style question test banks</span>
                                     </div>
                                     <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
-                                        <span>4,000+ NCLEX-style questions</span>
-                                    </div>
-                                    <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
+                                        <i class="fas fa-check-circle"></i>
                                         <span>Detailed rationales</span>
                                     </div>
                                     <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
+                                        <i class="fas fa-check-circle"></i>
                                         <span>Performance tracking</span>
                                     </div>
                                     <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
+                                        <i class="fas fa-check-circle"></i>
                                         <span>Mobile-friendly access</span>
                                     </div>
                                 </div>
@@ -87,23 +84,27 @@
                                 </div>
                                 <div class="pricing-features">
                                     <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>150+ NCLEX-style question test banks</span>
+                                    </div>
+                                    <div class="pricing-feature">
+                                        <i class="fas fa-check-circle"></i>
                                         <span>Everything in 1-Month Access</span>
                                     </div>
                                     <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
+                                        <i class="fas fa-check-circle"></i>
                                         <span>Save $48 vs monthly plan</span>
                                     </div>
                                     <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
+                                        <i class="fas fa-check-circle"></i>
                                         <span>Extended study time</span>
                                     </div>
                                     <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
+                                        <i class="fas fa-check-circle"></i>
                                         <span>Progress analytics</span>
                                     </div>
                                     <div class="pricing-feature">
-                                        <i class="fa-solid fa-check-circle"></i>
+                                        <i class="fas fa-check-circle"></i>
                                         <span>Priority support</span>
                                     </div>
                                 </div>

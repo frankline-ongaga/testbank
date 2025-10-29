@@ -19,7 +19,16 @@
     <link rel="stylesheet" href="<?= base_url('assets/vendor/odometer/odometer.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/vendor/nice-select/nice-select.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
+        /* Restore original heading sizes for auth pages */
+        h1, .h1 { font-size: 61px; }
+        h2, .h2 { font-size: 47px; }
+        h3, .h3 { font-size: 36px; }
+        h4, .h4 { font-size: 27px; }
+        h5, .h5 { font-size: 21px; }
+        h6, .h6 { font-size: 16px; }
+
         html, body { height: 100%; overflow: hidden; }
         #main-wrapper { min-height: 100vh; }
         .form_page { padding-top: 60px; padding-bottom: 60px; min-height: 100vh; overflow: hidden; }
@@ -43,15 +52,15 @@
                 </div>
             </nav>
         </header>
-
+      
         <section class="form_page">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-6">
                         <div class="form_block">
                             <div class="text_block">
-                                <br>
-                                <a href="<?= base_url(); ?>" class="educate_link_btn color-primary h6 mb-48"><i class="far fa-chevron-left"></i> Back To Home</a>
+                                
+                              
                                 <div class="title">
                                     <img src="<?= base_url('assets/media/shapes/mic-speaker.png') ?>" alt="" class="speaker_icon">
                                     <h2 class="mb-48">Create Account</h2>
@@ -87,6 +96,14 @@
                                     </div>
                                     <div class="mb-24">
                                         <input type="password" class="form-control p_lg" name="password" required placeholder="Password">
+                                    </div>
+                                    <div class="mb-24">
+                                        <?php $siteKey = env('RECAPTCHA_SITE_KEY'); ?>
+                                        <?php if (!empty($siteKey)): ?>
+                                        <div class="g-recaptcha" data-sitekey="<?= esc($siteKey) ?>"></div>
+                                        <?php else: ?>
+                                        <div class="text-muted small">reCAPTCHA not configured. Set RECAPTCHA_SITE_KEY in .env</div>
+                                        <?php endif; ?>
                                     </div>
                                     <button type="submit" class="b-unstyle educate-btn w-100 mb-24"><span class="educate-btn__curve"></span>Create Account</button>
                                 </form>

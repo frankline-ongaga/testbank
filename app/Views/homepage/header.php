@@ -135,14 +135,29 @@
               </div>
 
               <div class="main-menu__nav">
+                <?php 
+                  $uri = service('uri');
+                  $path = trim($uri->getPath(), '/');
+                  $isHome = ($path === '' || $path === 'index.php');
+                  $isFreeTest = (strpos($path, 'free/test') === 0 || strpos($path, 'index.php/free/test') === 0);
+                  $freeId = null;
+                  if (!empty($test) && !empty($test['is_free']) && !empty($test['id'])) {
+                    $freeId = (int)$test['id'];
+                  } elseif (!empty($activeFreeTest) && !empty($activeFreeTest['id'])) {
+                    $freeId = (int)$activeFreeTest['id'];
+                  }
+                  $takeTestUrl = $freeId ? base_url('free/test/' . $freeId) : base_url('client/tests');
+                ?>
                 <ul class="main-menu__list">
-                    <li><a href="<?php echo base_url(); ?>" class="active">Home</a></li>
+                    <li><a href="<?php echo base_url(); ?>" class="<?= $isHome ? 'active' : '' ?>">Home</a></li>
 
                      <li><a href="<?php echo base_url('how_it_works'); ?>">How It Works</a></li>
 
                      <li> <a href="<?php echo base_url('pricing'); ?>">Pricing</a> </li>
 
                      <li> <a href="<?php echo base_url('reviews'); ?>">Reviews</a> </li>
+
+                    <li><a href="<?= $takeTestUrl ?>" class="<?= $isFreeTest ? 'active' : '' ?>" style="font-weight:700;">Take a Test</a></li>
 
 
 

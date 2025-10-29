@@ -9,14 +9,14 @@
                     <?php foreach (($categories ?? []) as $cat): ?>
                         <a href="<?= base_url('client/study/'.$cat['id'].'/subcategories') ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= (int)$cat['id'] === (int)$category['id'] ? 'active' : '' ?>">
                             <span><?= esc($cat['name']) ?></span>
-                            <i class="fa-solid fa-chevron-right <?= (int)$cat['id'] === (int)$category['id'] ? 'text-white' : 'text-muted' ?>"></i>
+                            <i class="fas fa-chevron-right <?= (int)$cat['id'] === (int)$category['id'] ? 'text-white' : 'text-muted' ?>"></i>
                         </a>
                     <?php endforeach; ?>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
-            <h5 class="mb-3"><i class="fa-regular fa-folder-open me-2"></i><?= esc($category['name']) ?></h5>
+            <h5 class="mb-3"><i class="far fa-folder-open me-2"></i><?= esc($category['name']) ?></h5>
             <div class="row">
                 <?php foreach (($subcategories ?? []) as $sub): ?>
                 <div class="col-md-6 mb-3">
@@ -28,11 +28,11 @@
                         <div class="card h-100">
                             <div class="card-body">
                                 <h6 class="mb-1 d-flex align-items-center justify-content-between">
-                                    <span><i class="fa-regular fa-folder me-2"></i><?= esc($sub['name']) ?></span>
+                                    <span><i class="far fa-folder me-2"></i><?= esc($sub['name']) ?></span>
                                     <?php if ($isFree): ?>
-                                        <span class="badge bg-success">Free</span>
+                                        <span class="badge border border-black text-black" style="color: black;">Free</span>
                                     <?php else: ?>
-                                        <span class="badge bg-primary">Pro</span>
+                                        <span class="badge border border-success text-success">Pro</span>
                                     <?php endif; ?>
                                 </h6>
                                 <div class="text-muted small"><?= esc($sub['description'] ?? '') ?></div>

@@ -64,13 +64,13 @@
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         <a href="<?= base_url('admin/users/create') ?>" class="btn btn-primary">
-                            <i class="fa-solid fa-user-plus me-2"></i>Add User
+                            <i class="fas fa-user-plus me-2"></i>Add User
                         </a>
                         <a href="<?= base_url('admin/questions/create') ?>" class="btn btn-primary">
-                            <i class="fa-solid fa-plus-circle me-2"></i>Add Question
+                            <i class="fas fa-plus-circle me-2"></i>Add Question
                         </a>
                         <a href="<?= base_url('admin/tests/create') ?>" class="btn btn-primary">
-                            <i class="fa-solid fa-file-circle-plus me-2"></i>Create Test
+                            <i class="fas fa-file-circle-plus me-2"></i>Create Test
                         </a>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
                         <div class="me-3">
-                            <i class="fa-solid fa-circle text-success"></i>
+                            <i class="fas fa-circle text-success"></i>
                         </div>
                         <div>
                             <div class="fw-medium">Database</div>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <div class="me-3">
-                            <i class="fa-solid fa-circle text-success"></i>
+                            <i class="fas fa-circle text-success"></i>
                         </div>
                         <div>
                             <div class="fw-medium">PayPal API</div>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="me-3">
-                            <i class="fa-solid fa-circle text-warning"></i>
+                            <i class="fas fa-circle text-warning"></i>
                         </div>
                         <div>
                             <div class="fw-medium">Email Service</div>

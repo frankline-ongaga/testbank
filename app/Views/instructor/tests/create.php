@@ -15,7 +15,7 @@
                 <?php endif; ?>
 
                 <div class="alert alert-info">
-                    <i class="fa-solid fa-info-circle me-2"></i>
+                    <i class="fas fa-info-circle me-2"></i>
                     Tests created by instructors require admin approval before becoming active.
                 </div>
 
@@ -50,6 +50,10 @@
                 </div>
 
                 <div class="mb-4">
+                    <div class="form-check mb-2">
+                        <input type="checkbox" class="form-check-input" id="isFreeToggle" name="is_free" value="1" <?= old('is_free', ($is_free ?? false)) ? 'checked' : '' ?>>
+                        <label class="form-check-label" for="isFreeToggle">This is a Free Test (10 questions max, allows reused questions)</label>
+                    </div>
                     <label class="form-label">Select Questions</label>
                     <div class="card">
                         <div class="card-body p-2">
@@ -74,7 +78,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="searchQuestions" placeholder="Search...">
                                         <button class="btn btn-outline-secondary" type="button">
-                                            <i class="fa-solid fa-search"></i>
+                                            <i class="fas fa-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -114,6 +118,15 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const isFreeToggle = document.getElementById('isFreeToggle');
+    if (isFreeToggle) {
+        isFreeToggle.addEventListener('change', function() {
+            const url = new URL(window.location.href);
+            if (this.checked) { url.searchParams.set('is_free', '1'); }
+            else { url.searchParams.delete('is_free'); }
+            window.location.href = url.toString();
+        });
+    }
     const categoryFilter = document.getElementById('categoryFilter');
     const difficultyFilter = document.getElementById('difficultyFilter');
     const searchInput = document.getElementById('searchQuestions');

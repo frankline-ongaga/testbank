@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3 mb-0">Manage Users</h1>
         <a href="<?= base_url('admin/users/create') ?>" class="btn btn-primary">
-            <i class="fa-solid fa-user-plus me-2"></i>Add User
+            <i class="fas fa-user-plus me-2"></i>Add User
         </a>
     </div>
 
@@ -22,7 +22,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search users...">
                         <button class="btn btn-outline-secondary" type="button">
-                            <i class="fa-solid fa-search"></i>
+                            <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
@@ -72,12 +72,12 @@
                                     <div class="btn-group">
                                         <a href="<?= base_url('admin/users/edit/' . $user['id']) ?>" 
                                            class="btn btn-sm btn-outline-primary">
-                                            <i class="fa-solid fa-edit"></i>
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                         <?php if ($user['id'] !== session()->get('user_id')): ?>
                                             <button type="button" class="btn btn-sm btn-outline-danger" 
                                                     onclick="confirmDelete(<?= $user['id'] ?>)">
-                                                <i class="fa-solid fa-trash"></i>
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         <?php endif; ?>
                                     </div>

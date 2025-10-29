@@ -16,20 +16,19 @@
     <header class="admin-header">
         <div class="admin-header-left">
             <button class="admin-menu-toggle js-mobile-toggle" aria-label="Toggle mobile menu">
-                <i class="fa-solid fa-bars"></i>
+                <i class="fas fa-bars"></i>
             </button>
             <div class="admin-brand">
                 <img src="<?= base_url('assets/media/logo.png'); ?>" alt="Logo" class="admin-logo">
-                <span class="admin-brand-name">NCLEX Admin</span>
             </div>
         </div>
         <div class="admin-header-right">
             <button class="admin-action-btn" title="Notifications">
-                <i class="fa-solid fa-bell"></i>
+                <i class="fas fa-bell"></i>
                 <span class="admin-badge">3</span>
             </button>
-            <button class="admin-action-btn js-theme-toggle" title="Toggle theme">
-                <i class="fa-solid fa-palette"></i>
+            <button class="admin-action-btn js-theme-toggle" title="Toggle theme" aria-pressed="false">
+                <i class="fas fa-toggle-off"></i>
             </button>
             <div class="admin-user-menu">
                 <?php
@@ -41,7 +40,7 @@
                 <button class="admin-user-btn" data-bs-toggle="dropdown">
                     <img src="https://ui-avatars.com/api/?name=<?= $avatarName ?>&background=6366f1&color=fff" alt="User" class="admin-avatar">
                     <span class="admin-user-name"><?= esc($displayName) ?></span>
-                    <i class="fa-solid fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end admin-user-dropdown">
                     <?php if (!empty($userEmail)): ?>
@@ -50,10 +49,10 @@
                     </li>
                     <?php endif; ?>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="<?= base_url('admin/profile'); ?>"><i class="fa-solid fa-user"></i> Profile</a></li>
-                    <li><a class="dropdown-item" href="<?= base_url(); ?>" target="_blank"><i class="fa-solid fa-external-link"></i> View Site</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('admin/profile'); ?>"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url(); ?>" target="_blank"><i class="fas fa-external-link"></i> View Site</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="<?= base_url('logout'); ?>"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a class="dropdown-item text-danger" href="<?= base_url('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -62,49 +61,57 @@
     <nav class="admin-sidebar">
         <div class="admin-nav-section">
             <div class="admin-nav-title">Main</div>
-            <a class="admin-nav-link" href="<?= base_url('admin'); ?>">
-                <i class="fa-solid fa-chart-pie"></i>
+            <a class="admin-nav-link" href="<?= base_url('admin'); ?>" data-path="admin">
+                <i class="fas fa-chart-pie"></i>
                 <span>Dashboard</span>
             </a>
-            <a class="admin-nav-link" href="<?= base_url('admin/analytics'); ?>">
-                <i class="fa-solid fa-chart-line"></i>
+            <a class="admin-nav-link" href="<?= base_url('admin/analytics'); ?>" data-path="admin/analytics">
+                <i class="fas fa-chart-line"></i>
                 <span>Analytics</span>
             </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Users</div>
-            <a class="admin-nav-link" href="<?= base_url('admin/users'); ?>">
-                <i class="fa-solid fa-users"></i>
+            <a class="admin-nav-link" href="<?= base_url('admin/users'); ?>" data-path="admin/users">
+                <i class="fas fa-users"></i>
                 <span>Users</span>
             </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Test Bank Questions</div>
 
-            <a class="admin-nav-link" href="<?= base_url('admin/questions/create'); ?>">
-                <i class="fa-solid fa-plus-circle"></i>
+            <a class="admin-nav-link" href="<?= base_url('admin/questions/create'); ?>" data-path="admin/questions/create">
+                <i class="fas fa-plus-circle"></i>
                 <span>Add Question</span>
             </a>
-            <a class="admin-nav-link" href="<?= base_url('admin/questions/pending'); ?>">
-                <i class="fa-solid fa-eye"></i>
+            <a class="admin-nav-link" href="<?= base_url('admin/questions/pending'); ?>" data-path="admin/questions/pending">
+                <i class="fas fa-eye"></i>
                 <span>Review Questions</span>
             </a>
 
-            <a class="admin-nav-link" href="<?= base_url('admin/questions'); ?>">
-                <i class="fa-solid fa-circle-question"></i>
+            <a class="admin-nav-link" href="<?= base_url('admin/questions'); ?>" data-path="admin/questions">
+                <i class="fas fa-circle-question"></i>
                 <span>Questions</span>
+            </a>
+            <a class="admin-nav-link" href="<?= base_url('admin/taxonomy/nclex'); ?>" data-path="admin/taxonomy/nclex">
+                <i class="fas fa-list"></i>
+                <span>Question Categories</span>
             </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Test</div>
 
-             <a class="admin-nav-link" href="<?= base_url('admin/tests/create'); ?>">
-                <i class="fa-solid fa-plus-square"></i>
+             <a class="admin-nav-link" href="<?= base_url('admin/tests/create'); ?>" data-path="admin/tests/create">
+                <i class="fas fa-plus-square"></i>
                 <span>Create Test</span>
             </a>
+            <a class="admin-nav-link" href="<?= base_url('admin/tests/create-free'); ?>" data-path="admin/tests/create-free">
+                <i class="fas fa-gift"></i>
+                <span>Create Free Test</span>
+            </a>
           
-            <a class="admin-nav-link" href="<?= base_url('admin/tests'); ?>">
-                <i class="fa-solid fa-file-lines"></i>
+            <a class="admin-nav-link" href="<?= base_url('admin/tests'); ?>" data-path="admin/tests">
+                <i class="fas fa-file-lines"></i>
                 <span>Tests</span>
             </a>
            
@@ -112,19 +119,46 @@
         <div class="admin-nav-section">
             <div class="admin-nav-title">Study Materials</div>
           
-            <a class="admin-nav-link" href="<?= base_url('admin/study'); ?>">
-                <i class="fa-solid fa-layer-group"></i>
+            <a class="admin-nav-link" href="<?= base_url('admin/study'); ?>" data-path="admin/study">
+                <i class="fas fa-layer-group"></i>
                 <span>Study Questions</span>
             </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Payments</div>
-            <a class="admin-nav-link" href="<?= base_url('admin/subscriptions'); ?>">
-                <i class="fa-solid fa-credit-card"></i>
+            <a class="admin-nav-link" href="<?= base_url('admin/subscriptions'); ?>" data-path="admin/subscriptions">
+                <i class="fas fa-credit-card"></i>
                 <span>Payments</span>
             </a>
         </div>
     </nav>
+    
+    <script>
+    // Robust exact-match active highlighting using hrefs
+    document.addEventListener('DOMContentLoaded', function() {
+        const appBasePath = "<?= rtrim((string)(parse_url(base_url(), PHP_URL_PATH) ?: ''), '/') ?>";
+        function normalizePath(pathname) {
+            let p = pathname || '';
+            if (appBasePath && p.startsWith(appBasePath)) p = p.slice(appBasePath.length);
+            p = p.replace(/^\//, '').replace(/\/$/, '');
+            p = p.replace(/^index\.php\//, '');
+            return p;
+        }
+        const current = normalizePath(window.location.pathname);
+        const links = document.querySelectorAll('.admin-nav-link[data-path], .admin-nav-link[href]');
+        links.forEach(link => {
+            const href = link.getAttribute('href') || '';
+            try {
+                const url = new URL(href, window.location.origin);
+                const linkPath = normalizePath(url.pathname);
+                if (current === linkPath) link.classList.add('active');
+                else link.classList.remove('active');
+            } catch (e) {
+                // ignore invalid URLs
+            }
+        });
+    });
+    </script>
     
     <main class="admin-main">
         <div class="admin-page-header">

@@ -1,9 +1,8 @@
 
-
     <!-- Hero Banner Start -->
     <section class="hero-banner-1">
       <div class="container">
-        <img src="<?= base_url('assets/media/acenclex.png'); ?>" alt="" class="main-img">
+        <img width="44%" src="<?= base_url('assets/media/acenclex.png'); ?>" alt="" class="main-img">
         <div class="icons">
         
           <img src="<?= base_url('assets/media/shapes/light.png'); ?>" alt="nclex test bank help" class="light wow zoomIn" data-wow-delay="600ms">
@@ -14,29 +13,24 @@
             <div class="row">
               <div class="col-xl-8 col-lg-10">
                 <img src="<?= base_url('assets/media/shapes/tag.png'); ?>" alt="" class="mb-24 tag wow slideInDown" data-wow-delay="550ms">
-                <h1 class="mb-16 title">Master your NCLEX-RN/PN prep with nclexprepcourse practice tests and exams.<span class="fm-sec"> school content <img
+                <h1 class="mb-16 title">Master your NCLEX-RN/PN prep with nclexprepcourse practice <span class="fm-sec">  tests and exams. <img
                       src="<?= base_url('assets/media/shapes/rocket.png'); ?>" alt="" class="rocket wow zoomIn"
                       data-wow-delay="700ms"></span></h1>
-                <h4 class="mb-48">Start with naxlex to improve your scores</h4>
+                <br> <br>
 
-                <!-- Dynamic Categories Pills -->
-                <?php if (!empty($studyCategories)) : ?>
-                           <div class="categories-section">
-  <div class="category-pills">
-                    <?php foreach ($studyCategories as $cat): ?>
-                      <a href="#<?= esc(!empty($cat['slug']) ? $cat['slug'] : ('cat'.$cat['id'])) ?>" class="pill" data-bs-toggle="tab"><?= esc($cat['name']) ?></a>
-                    <?php endforeach; ?>
-                  </div>
-  </div>
-                <?php endif; ?>
+               <h4>Comprehensive practice tests, NCLEX-style questions, free study notes and test banks to help you ace your NCLEX exam</h4>
 
+               <br>
 
 
 
                  
 
                 <div class="btn_block">
-                  <a href="<?php echo base_url('order_now'); ?>" class="educate-btn sec"><span class="educate-btn__curve"></span>Order Now </a>
+                  <a href="<?php echo base_url('free/test/5'); ?>" class="educate-btn sec"><span class="educate-btn__curve"></span>Free Questions Today </a>&nbsp; &nbsp;  
+
+                  <a href="<?php echo base_url('register'); ?>" class="btn btn-primary"><span class="educate-btn__curve"></span>Get Started</a>
+
                   <img src="<?= base_url('assets/media/shapes/arrow.png'); ?>" alt="" class="arrow">
                 </div>
                 
@@ -44,13 +38,7 @@
             </div>
           </div>
         </div>
-        <div class="banner_feature_card">
-          <div class="card_block">
-            <h6 class="mb-4p">Award Winning Courses</h6>
-            <p>Based on Latest Knowledge</p>
-            <img src="<?= base_url('assets/media/shapes/target-2.png'); ?>" alt="" class="target_icon">
-          </div>
-        </div>
+      
       </div>
     </section>
     <!-- Hero Banner End -->
@@ -116,9 +104,131 @@
 
         <!-- Course Detail Area End -->
 
+        <section class="py-60" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);">
+            <style>
+                .free-section-title {font-size: 2.75rem; font-weight: 900; line-height: 1.2; background: linear-gradient(135deg, #1e40af 0%, #6366f1 50%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem;}
+                .free-section-subtitle {font-size: 1.15rem; color: #64748b; line-height: 1.6; margin-bottom: 2rem;}
+                .free-benefit-item {display: flex; align-items: flex-start; margin-bottom: 1rem; padding: 1rem; background: #ffffff; border-radius: 12px; border-left: 4px solid #2563eb; box-shadow: 0 2px 8px rgba(0,0,0,.04); transition: all .25s ease;}
+                .free-benefit-item:hover {box-shadow: 0 4px 16px rgba(0,0,0,.08); transform: translateX(4px);}
+                .free-benefit-icon {width: 48px; height: 48px; background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.25rem; flex-shrink: 0; margin-right: 1rem; box-shadow: 0 4px 12px rgba(37,99,235,.3);}
+                .free-benefit-text {flex: 1;}
+                .free-benefit-text h6 {font-weight: 700; margin-bottom: .25rem; color: #1e293b;}
+                .free-benefit-text p {margin: 0; font-size: .9rem; color: #64748b;}
+                .free-test-card {position: relative; background: #ffffff; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,.08); transition: all .3s ease; overflow: hidden; border: 2px solid transparent;}
+                .free-test-card:before {content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);}
+                .free-test-card:hover {transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,.12); border-color: #2563eb;}
+                .free-test-card-header {display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;}
+                .free-test-badge {display: inline-block; padding: .5rem 1rem; background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); color: #fff; border-radius: 50px; font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .5px; box-shadow: 0 4px 12px rgba(37,99,235,.3);}
+                .free-test-title {font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-bottom: 1rem; line-height: 1.3;}
+                .free-test-meta {display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.5rem;}
+                .free-meta-item {display: flex; align-items: center; padding: .5rem 1rem; background: #f1f5f9; border-radius: 12px; font-size: .9rem; color: #475569; font-weight: 600;}
+                .free-meta-item i {margin-right: .5rem; color: #6366f1;}
+                .free-test-desc {color: #64748b; font-size: .95rem; line-height: 1.6; margin-bottom: 1.5rem;}
+                .free-test-cta {display: block; width: 100%; padding: 1rem 2rem; background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); color: #fff; border: none; border-radius: 12px; font-weight: 800; font-size: 1.1rem; text-align: center; text-decoration: none; transition: all .3s ease; box-shadow: 0 6px 20px rgba(37,99,235,.3);}
+                .free-test-cta:hover {background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,99,235,.4); color: #fff;}
+                .free-test-cta i {margin-right: .5rem; animation: pulse 2s ease-in-out infinite;}
+                @keyframes pulse { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);}}
+                .no-test-message {text-align: center; padding: 3rem; background: #f8fafc; border-radius: 16px; border: 2px dashed #cbd5e1;}
+                .no-test-message i {font-size: 3rem; color: #94a3b8; margin-bottom: 1rem;}
+                .no-test-message h5 {color: #475569; font-weight: 700;}
+                .no-test-message p {color: #64748b; margin: 0;}
+            </style>
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h3>Take Our Free NCLEX Practice Test</h3>
+                    <p class="free-section-subtitle">Experience adaptive testing with detailed rationales — no subscription required</p>
+                </div>
+                
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-6">
+                        <div class="free-benefit-item">
+                            <div class="free-benefit-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="free-benefit-text">
+                                <h6>NCLEX-Aligned Questions</h6>
+                                <p>Curated by nursing experts to match the latest exam standards</p>
+                            </div>
+                        </div>
+                        <div class="free-benefit-item">
+                            <div class="free-benefit-icon">
+                                <i class="fas fa-sliders-h"></i>
+                            </div>
+                            <div class="free-benefit-text">
+                                <h6>Adaptive Testing</h6>
+                                <p>Questions adjust to your performance in real-time</p>
+                            </div>
+                        </div>
+                        <div class="free-benefit-item">
+                            <div class="free-benefit-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="free-benefit-text">
+                                <h6>Detailed Explanations</h6>
+                                <p>Learn from comprehensive rationales for every answer</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <?php if (!empty($freeTests)) : ?>
+                            <div class="row g-4">
+                                <?php foreach ($freeTests as $ft): ?>
+                                    <div class="col-12">
+                                        <div class="free-test-card">
+                                            <div class="free-test-card-header">
+                                                <span class="free-test-badge"><i class="fas fa-gift me-2"></i>100% Free</span>
+                                            </div>
+                                            <h3 class="free-test-title"><?= esc($ft['title']) ?></h3>
+                                            <div class="free-test-meta">
+                                                <div class="free-meta-item">
+                                                    <i class="fas fa-tasks"></i>
+                                                    <span><?= (int)($ft['question_count'] ?? 0) ?> Questions</span>
+                                                </div>
+                                                <div class="free-meta-item">
+                                                    <i class="far fa-clock"></i>
+                                                    <span><?= (int)($ft['time_limit_minutes'] ?? 0) ?> Minutes</span>
+                                                </div>
+                                                <div class="free-meta-item">
+                                                    <i class="fas fa-brain"></i>
+                                                    <span>Adaptive</span>
+                                                </div>
+                                            </div>
+                                            <p class="free-test-desc">
+                                                Challenge yourself with adaptive questions that adjust to your skill level. Get instant feedback with detailed rationales to strengthen your understanding.
+                                            </p>
+                                            <a href="<?= base_url('free/test/' . $ft['id']) ?>" class="free-test-cta">
+                                                <i class="fas fa-rocket"></i>Start Free Test Now
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else: ?>
+                            <div class="no-test-message">
+                                <i class="far fa-calendar-times"></i>
+                                <h5>No Free Tests Available</h5>
+                                <p>Check back soon for new practice tests!</p>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+          <section class="pt-0 pb-60 pt-60" style="padding-top:100px !important; background: white;">
+            <div class="container">
+                <div class="row">
+                     <div class="col-lg-12">
+                         <img src="<?= base_url('assets/media/nclexhelp.png'); ?>" >
+                     </div>
+                </div>
+             </div>
+          </section>
+
        
  <!-- Course Detail Area Start -->
-        <section class="course_detail pt-0 pb-60">
+        <section class="course_detail pt-0 pb-60 pt-60" style="padding-top:100px !important;">
             <div class="container">
                 <div class="row">
                      <div class="col-lg-6">
@@ -149,7 +259,7 @@ Realistic NCLEX-RN Simulations: Our practice tests replicate the computer-adapti
                     <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="<?= base_url('assets/media/resources/course-detail.png'); ?>" alt="" class="br-20 mb-24">
+                            <img style="width: 70%" src="<?= base_url('assets/media/nclexrn.webp'); ?>" alt="Registered Nurse Licensure Exam" class="br-20 mb-24">
                         </div>
                     </div>
                 </div>
@@ -169,7 +279,7 @@ Realistic NCLEX-RN Simulations: Our practice tests replicate the computer-adapti
                    <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="<?= base_url('assets/media/resources/about-1.png'); ?>" alt=""  class="br-20 mb-24">
+                            <img src="<?= base_url('assets/media/vocationalnurse.webp'); ?>" alt="vocational nurse"  class="br-20 mb-24">
 
                         </div>
                     </div>
@@ -239,7 +349,7 @@ Comprehensive Review Tests: Simulated exit exams that assess knowledge across al
                     <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="<?= base_url('assets/media/resources/course-detail.png'); ?>" alt="" class="br-20 mb-24">
+                            <img src="<?= base_url('assets/media/nursingexitexams.webp'); ?>" alt="nursing exit exams help" class="br-20 mb-24">
                         </div>
                     </div>
                 </div>
@@ -261,7 +371,7 @@ Comprehensive Review Tests: Simulated exit exams that assess knowledge across al
                    <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="<?= base_url('assets/media/resources/about-1.png'); ?>" alt=""  class="br-20 mb-24">
+                            <img src="<?= base_url('assets/media/nursingentranceexams.webp'); ?>" alt="nursing entrance exams help"  class="br-20 mb-24">
 
                         </div>
                     </div>
@@ -337,7 +447,7 @@ Subject-Focused Review: Covers core subjects such as reading comprehension, gram
                     <div class="col-lg-6">
                         <div class="educate-tilt"
                             data-tilt-options='{ "glare": false, "maxGlare": 0, "maxTilt": 2, "speed": 700, "scale": 1 }'>
-                            <img src="<?= base_url('assets/media/resources/course-detail.png'); ?>" alt="" class="br-20 mb-24">
+                            <img src="<?= base_url('assets/media/hesi.webp'); ?>" alt="hesi exam help" class="br-20 mb-24">
                         </div>
                     </div>
                 </div>
@@ -416,12 +526,11 @@ Subject-Focused Review: Covers core subjects such as reading comprehension, gram
             <div class="testimonials_text_block">
               <img src="<?= base_url('assets/media/shapes/quote3d.png'); ?>" alt="" class="quote_icon">
               <h6 class="color-primary mb-8">–––– Testimonials</h6>
-              <h2 class="mb-16">Student’s Stories! Some Awesome Comments By Our <span class="fm-sec">Students!</span>
+              <h2 class="mb-16">See Why 12,000+ Nursing Students Trust Our Test Bank and Study Notes</span>
               </h2>
-              <p>Lorem ipsum dolor sit amet consectetur. Non convallis sed id aliquam tempus. Volutpat tortor tincidunt
-                egestas sit risus donec.</p>
-              <img src="<?= base_url('assets/media/shapes/vector-2.png'); ?>" alt="" class="vector_hol">
-              <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="" class="dots_group">
+            
+              <img src="<?= base_url('assets/media/shapes/vector-2.png'); ?>" alt="nclex test bank reviews" class="vector_hol">
+              <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="nclex test bank reviews" class="dots_group">
             </div>
           </div>
           <div class="col-xl-7 col-lg-10 offset-xl-0 offset-lg-1">
@@ -510,10 +619,10 @@ Subject-Focused Review: Covers core subjects such as reading comprehension, gram
     <section class="py-60 ">
       <div class="container">
         <div class="contact_banner">
-          <h2 class="mb-8 color-white">Ace your NCLEX <br><span class="fm-sec">exam</span></h2>
-          <p class="mb-16 color-white">Contact on this number for any Questions!</p>
+          <h2 class="mb-8 color-white">Talk to a <br><span class="fm-sec">tutor</span></h2>
+          <p class="mb-16 color-white">Get NCLEX expert help</p>
           <div class="mx-auto">
-            <a href="tel:123456789" class="h5 phone_number">+1 234 567 890</a>
+            <a href="https://wa.me/1234567890" class="h5 phone_number"> +1 (209) 260-9257</a>
           </div>
           <div class="icons">
             <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="" class="element-1">

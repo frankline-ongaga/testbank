@@ -54,19 +54,24 @@
                                             <label class="form-check-label">Correct</label>
                                         </div>
                                     </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeChoice(this)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
                 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addChoice()">
-                    <i class="fa-solid fa-plus me-2"></i>Add Choice
+                    <i class="fas fa-plus me-2"></i>Add Choice
                 </button>
             </div>
 
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-save me-2"></i>Save Changes
+                    <i class="fas fa-save me-2"></i>Save Changes
                 </button>
                 <a href="<?= base_url('admin/questions') ?>" class="btn btn-secondary">Cancel</a>
             </div>
@@ -94,10 +99,20 @@ function addChoice() {
                             <label class="form-check-label">Correct</label>
                         </div>
                     </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeChoice(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>`;
     document.getElementById('choices').insertAdjacentHTML('beforeend', tpl);
+}
+
+function removeChoice(btn) {
+    const card = btn.closest('.card');
+    if (card) card.remove();
 }
 </script>
 

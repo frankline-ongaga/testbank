@@ -16,6 +16,7 @@ class TestModel extends Model
         'mode', 
         'time_limit_minutes', 
         'is_adaptive',
+        'is_free',
         'status'
     ];
 
@@ -62,6 +63,36 @@ class TestModel extends Model
         return $this->select('tests.*, COALESCE(q.question_count, 0) as question_count')
                     ->join($subquery, 'q.test_id = tests.id', 'left')
                     ->where('tests.status', 'active')
+                    ->orderBy('tests.id', 'DESC')
+                    ->findAll();
+    }
+
+    /**
+     * Get active FREE tests with question counts
+     */
+    public function getActiveFreeTests()
+    {
+        $subquery = "(SELECT test_id, COUNT(*) as question_count FROM test_questions GROUP BY test_id) as q";
+        
+        return $this->select('tests.*, COALESCE(q.question_count, 0) as question_count')
+                    ->join($subquery, 'q.test_id = tests.id', 'left')
+                    ->where('tests.status', 'active')
+                    ->where('tests.is_free', 1)
+                    ->orderBy('tests.id', 'DESC')
+                    ->findAll();
+    }
+
+    /**
+     * Get active PAID tests with question counts
+     */
+    public function getActivePaidTests()
+    {
+        $subquery = "(SELECT test_id, COUNT(*) as question_count FROM test_questions GROUP BY test_id) as q";
+        
+        return $this->select('tests.*, COALESCE(q.question_count, 0) as question_count')
+                    ->join($subquery, 'q.test_id = tests.id', 'left')
+                    ->where('tests.status', 'active')
+                    ->where('tests.is_free', 0)
                     ->orderBy('tests.id', 'DESC')
                     ->findAll();
     }

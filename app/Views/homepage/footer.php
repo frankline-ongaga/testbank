@@ -6,31 +6,33 @@
         <img src="assets/media/shapes/dots-1.png" alt="" class="dots">
         <div class="container">
           <div class="row">
-            <div class="col-xl-4 ">
+            <div class="col-xl-5 ">
               <div class="footer_widget">
                 <a href="index.html" class="mb-8"><img src="assets/media/logo.png" alt=""></a>
-                <p class="description_text">Lorem ipsum dolor sit amet consectetur. Non convallis sed id aliquam tempus.
-                  Volutpat tortor tincidunt egestas sit risus donec.</p>
+                <p class="description_text">Pass Your NCLEX on the First Try.</p>
+                <p class="description_text">Whatsapp: +1 (209) 260-9257</p>
+                <p class="description_text">Email: support@nclexprepcourse.org </p>
+
               </div>
             </div>
-            <div class="col-xl-4 col-lg-3 col-sm-6">
+            <div class="col-xl-3 col-lg-3 col-sm-6">
               <div class="footer_widget">
                 <h5 class="medium-black mb-16">Quick Links</h5>
                 <ul class="unstyled list">
-                  <li><a href="#"><i class="fad fa-chevron-right"></i>Get Started</a></li>
-                  <li><a href="#"><i class="fad fa-chevron-right"></i>Login</a></li>
-                  <li><a href="#"><i class="fad fa-chevron-right"></i>How It Works</a></li>
+                  <li><a href="<?= base_url('register'); ?>"><i class="fad fa-chevron-right"></i>Get Started</a></li>
+                  <li><a href="<?= base_url('login/student'); ?>"><i class="fad fa-chevron-right"></i>Login</a></li>
+                  <li><a href="<?= base_url('how_it_works'); ?>"><i class="fad fa-chevron-right"></i>How It Works</a></li>
+                  <li><a href="<?= base_url('reviews'); ?>"><i class="fad fa-chevron-right"></i>Reviews</a></li>
+                  <li><a href="<?= base_url(); ?>"><i class="fad fa-chevron-right"></i>Home</a></li>
+
+
                 </ul>
               </div>
             </div>
             <div class="col-xl-4 col-lg-3 col-sm-6">
               <div class="footer_widget">
                 <h5 class="medium-black mb-16">Payment</h5>
-                <ul class="unstyled list">
-                  <li><a href="about.html"><i class="fad fa-chevron-right"></i>About Us</a></li>
-                  <li><a href="gallery.html"><i class="fad fa-chevron-right"></i>Gallery</a></li>
-                  <li><a href="team-detail.html"><i class="fad fa-chevron-right"></i>Teacher’s Detail</a></li>
-                </ul>
+                <img src="<?= base_url('assets/media/securepaypal.webp'); ?>" alt="secure checkout by PayPal">
               </div>
             </div>
             

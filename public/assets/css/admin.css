@@ -107,8 +107,8 @@
 }
 
 .admin-logo {
-  width: 32px;
-  height: 32px;
+  height: 40px;
+  width: auto;
   border-radius: var(--admin-radius);
 }
 
@@ -714,4 +714,16 @@
 .theme-dark-loading h5,
 .theme-dark-loading h6 {
   color: #f1f5f9;
+}
+
+/* Ensure utility backgrounds remain readable in dark mode */
+.theme-dark .bg-light {
+  background-color: #334155 !important; /* slate-700 */
+  color: #f1f5f9 !important;            /* slate-100 */
+  border-color: #475569 !important;     /* slate-600 */
+}
+
+/* Optional: subtle success background in dark mode */
+.theme-dark .bg-success-subtle {
+  background-color: rgba(16, 185, 129, 0.12) !important;
 }

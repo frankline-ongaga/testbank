@@ -9,7 +9,7 @@
                     <?php foreach (($categories ?? []) as $cat): ?>
                         <a href="<?= base_url('client/study/'.$cat['id'].'/subcategories') ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <span><?= esc($cat['name']) ?></span>
-                            <i class="fa-solid fa-chevron-right text-muted"></i>
+                            <i class="fas fa-chevron-right text-muted"></i>
                         </a>
                     <?php endforeach; ?>
                 </div>
@@ -19,7 +19,7 @@
             <div class="card h-100">
                 <div class="card-body d-flex align-items-center justify-content-center text-center text-muted">
                     <div>
-                        <div class="mb-2"><i class="fa-regular fa-folder-open fa-2xl"></i></div>
+                        <div class="mb-2"><i class="far fa-folder-open fa-2xl"></i></div>
                         <div>Select a category on the left to view its subfolders.</div>
                     </div>
                 </div>

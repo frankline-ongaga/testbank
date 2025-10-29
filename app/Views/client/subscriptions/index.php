@@ -30,7 +30,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-3 mb-2">
-                            <i class="fa-solid fa-circle-check" style="font-size: 2rem;"></i>
+                            <i class="fas fa-circle-check" style="font-size: 2rem;"></i>
                             <div>
                                 <h5 class="mb-1">Current Plan: <?= esc(strtoupper($planName)) ?></h5>
                                 <div class="d-flex gap-2 flex-wrap">
@@ -57,7 +57,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-3">
-                            <i class="fa-solid fa-exclamation-circle" style="font-size: 2rem;"></i>
+                            <i class="fas fa-exclamation-circle" style="font-size: 2rem;"></i>
                             <div>
                                 <h5 class="mb-1">No Active Subscription</h5>
                                 <p class="mb-0">Choose a plan below to unlock full access</p>
@@ -147,11 +147,11 @@
                     <div class="plan-price mb-2">$49</div>
                     <div class="text-muted mb-4">Per month</div>
                     <div class="text-start mb-4">
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>Unlimited practice tests</span></div>
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>4,000+ NCLEX questions</span></div>
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>Detailed rationales</span></div>
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>Performance tracking</span></div>
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>Study notes access</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>Unlimited practice tests</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>4,000+ NCLEX questions</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>Detailed rationales</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>Performance tracking</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>Study notes access</span></div>
                     </div>
                 </div>
                 <div class="card-footer bg-transparent border-0 p-4 pt-0">
@@ -165,18 +165,18 @@
 
         <div class="col-md-6 col-lg-5">
             <div class="card plan-card featured h-100">
-                <span class="plan-badge"><i class="fa-solid fa-star me-1"></i>Best Value</span>
+                <span class="plan-badge"><i class="fas fa-star me-1"></i>Best Value</span>
                 <div class="plan-accent"></div>
                 <div class="card-body p-4 text-center">
                     <div class="text-uppercase text-muted fw-semibold mb-2" style="font-size: 0.875rem; letter-spacing: 1px;">3-Month Access</div>
                     <div class="plan-price mb-2">$99</div>
                     <div class="text-muted mb-4">For 3 months <span class="badge bg-success">Save $48</span></div>
                     <div class="text-start mb-4">
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>Everything in 1-Month</span></div>
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>Extended study period</span></div>
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>Progress analytics</span></div>
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>Priority support</span></div>
-                        <div class="feature-item"><i class="fa-solid fa-check-circle"></i><span>Money-back guarantee</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>Everything in 1-Month</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>Extended study period</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>Progress analytics</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>Priority support</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i><span>Money-back guarantee</span></div>
                     </div>
                 </div>
                 <div class="card-footer bg-transparent border-0 p-4 pt-0">

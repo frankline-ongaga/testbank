@@ -22,6 +22,16 @@
     <link rel="stylesheet" href="<?= base_url('assets/vendor/nice-select/nice-select.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
 
+    <style>
+        /* Restore original heading sizes for auth pages */
+        h1, .h1 { font-size: 61px; }
+        h2, .h2 { font-size: 47px; }
+        h3, .h3 { font-size: 36px; }
+        h4, .h4 { font-size: 27px; }
+        h5, .h5 { font-size: 21px; }
+        h6, .h6 { font-size: 16px; }
+    </style>
+
 </head>
 
 <body>
@@ -43,6 +53,7 @@
                 </div>
             </nav>
         </header>
+        
         <!-- Header Area End  -->
         <!-- Login Area Start -->
         <section class="form_page">
@@ -51,20 +62,22 @@
                     <div class="col-xl-6">
                         <div class="form_block">
                             <div class="text_block">
-                                <br>
+                                <br> <br> <br> <br>
                                 <a href="<?= base_url(); ?>" class="educate_link_btn color-primary h6 mb-48"><i
                                         class="far fa-chevron-left"></i> Back To Home</a>
                                 <div class="title">
                                     <img src="<?= base_url('assets/media/shapes/mic-speaker.png') ?>" alt="" class="speaker_icon">
                                 <h2 class="mb-48"><?= esc($title ?? 'Login') ?></h2>
                                 </div>
+                                <?php if (($loginRole ?? 'student') !== 'admin'): ?>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a href="" class="link-btn h6 mb-24"><img
+                                        <a href="<?= base_url('oauth/google') ?>" class="link-btn h6 mb-24"><img
                                                 src="<?= base_url('assets/media/icons/brands/google.png') ?>" alt="">Log in with Google</a>
                                     </div>
                                 </div>
                                 <h5 class="or mb-4p">or</h5>
+                                <?php endif; ?>
                                 <div class="text-center">
                                     <h6 class="mb-24">Login with your email address</h6>
                                 </div>

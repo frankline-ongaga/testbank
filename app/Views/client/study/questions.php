@@ -9,7 +9,7 @@
                     <?php foreach (($categories ?? []) as $cat): ?>
                         <a href="<?= base_url('client/study/'.$cat['id'].'/subcategories') ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <span><?= esc($cat['name']) ?></span>
-                            <i class="fa-solid fa-chevron-right text-muted"></i>
+                            <i class="fas fa-chevron-right text-muted"></i>
                         </a>
                     <?php endforeach; ?>
                 </div>

@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-auto">
 				<a href="<?= base_url('admin/users/create'); ?>" class="btn btn-primary">
-					<i class="fa-solid fa-user-plus me-2"></i>Add User
+					<i class="fas fa-user-plus me-2"></i>Add User
 				</a>
 			</div>
 		</div>
@@ -52,11 +52,11 @@
 							<td>
 								<div class="btn-group">
 									<a href="<?= base_url('admin/users/edit/' . (int)$u['id']) ?>" class="btn btn-sm btn-outline-primary" title="Edit">
-										<i class="fa-solid fa-edit"></i>
+										<i class="fas fa-edit"></i>
 									</a>
 									&nbsp; &nbsp; &nbsp;
 									<a href="<?= base_url('admin/users/delete/' . (int)$u['id']) ?>" class="btn btn-sm btn-outline-danger" title="Delete" onclick="return confirm('Delete user?')">
-										<i class="fa-solid fa-trash"></i>
+										<i class="fas fa-trash"></i>
 									</a>
 								</div>
 							</td>

@@ -25,12 +25,18 @@ $routes->get('login/admin', 'Auth::showLoginAdmin');
 $routes->post('login/admin', 'Auth::loginAdmin');
 $routes->get('register', 'Auth::showRegister');
 $routes->post('register', 'Auth::register');
-$routes->post('oauth/google', 'Auth::google');
+$routes->get('oauth/google', 'Auth::googleRedirect');
+$routes->get('oauth/google/callback', 'Auth::googleCallback');
 $routes->get('forgot', 'Auth::showForgotPassword');
 $routes->post('forgot', 'Auth::sendReset');
 $routes->get('reset/(:any)', 'Auth::showReset/$1');
 $routes->post('reset/(:any)', 'Auth::doReset/$1');
 $routes->get('logout', 'Auth::logout');
+
+// Client Profile
+$routes->get('client/profile', 'Client::profile');
+$routes->post('client/profile', 'Client::updateProfile');
+$routes->post('client/profile/password', 'Client::changePassword');
 
 // Admin Routes
 $routes->group('admin', function($routes) {
@@ -70,10 +76,17 @@ $routes->group('admin', function($routes) {
     $routes->get('questions/pending', 'Questions::pending');
     $routes->get('questions/approve/(:num)', 'Questions::approve/$1');
     $routes->get('questions/reject/(:num)', 'Questions::reject/$1');
+
+    // Question Categories (NCLEX taxonomy)
+    $routes->get('taxonomy/nclex', 'TaxonomyAdmin::nclex');
+    $routes->post('taxonomy/nclex/store', 'TaxonomyAdmin::storeNclex');
+    $routes->post('taxonomy/nclex/update/(:num)', 'TaxonomyAdmin::updateNclex/$1');
+    $routes->get('taxonomy/nclex/delete/(:num)', 'TaxonomyAdmin::deleteNclex/$1');
     
     // Tests Management
     $routes->get('tests', 'Tests::index');
     $routes->get('tests/create', 'Tests::create');
+    $routes->get('tests/create-free', 'Tests::createFree');
     $routes->post('tests/store', 'Tests::store');
     $routes->get('tests/edit/(:num)', 'Tests::edit/$1');
     $routes->post('tests/update/(:num)', 'Tests::update/$1');
@@ -129,6 +142,7 @@ $routes->group('instructor', function($routes) {
     // Instructor Tests Management
     $routes->get('tests', 'Tests::index');
     $routes->get('tests/create', 'Tests::create');
+    $routes->get('tests/create-free', 'Tests::createFree');
     $routes->post('tests/store', 'Tests::store');
     $routes->get('tests/edit/(:num)', 'Tests::edit/$1');
     $routes->post('tests/update/(:num)', 'Tests::update/$1');
@@ -161,6 +175,7 @@ $routes->group('client', function($routes) {
     // Student Tests
     $routes->get('tests', 'Tests::index');
     $routes->get('tests/start/(:num)', 'TakeTest::start/$1');
+    $routes->get('tests/start-free/(:num)', 'TakeTest::startFree/$1');
     $routes->get('tests/take/(:num)', 'TakeTest::show/$1');
     $routes->post('tests/submit/(:num)', 'TakeTest::submit/$1');
     $routes->get('tests/results/(:num)', 'TakeTest::results/$1');
@@ -197,6 +212,11 @@ $routes->get('about_us', 'Home::about_us');
 $routes->get('refund_policy', 'Home::refund_policy');
 $routes->get('blog', 'Home::blog');
 $routes->get('reviews', 'Home::reviews');
+
+// Public Free Test Routes (homepage)
+$routes->get('free/test/(:num)', 'Home::freeTake/$1');
+$routes->post('free/submit/(:num)', 'Home::freeSubmit/$1');
+$routes->get('free/results/(:num)', 'Home::freeResults/$1');
 
 // API Routes
 $routes->get('api/category/(:num)', 'Api::get_categories_content/$1');

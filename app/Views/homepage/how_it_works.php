@@ -159,39 +159,38 @@
                     <!-- Step 1 -->
                     <div class="hiw-step hiw-step-1">
                         <div class="hiw-step-number">1</div>
-                        <h3><i class="fa-solid fa-credit-card me-2"></i>Choose Your Plan</h3>
+                        <h3><i class="far fa-credit-card me-2"></i>Choose Your Plan</h3>
                         <p>Select a subscription that fits your study timeline. Secure checkout with PayPal—no hidden fees, no auto-renewals.</p>
                         <ul class="hiw-features">
-                            <li><i class="fa-solid fa-check-circle"></i><span>Pick 1-month ($49) or 3-month ($99) access</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span>Instant activation after payment</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span>100% secure PayPal checkout</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span>7-day money-back guarantee</span></li>
+                            <li><i class="fas fa-check-circle"></i><span>Pick 1-month ($49) or 3-month ($99) access</span></li>
+                            <li><i class="fas fa-check-circle"></i><span>Instant activation after payment</span></li>
+                            <li><i class="fas fa-check-circle"></i><span>100% secure PayPal checkout</span></li>
                         </ul>
                     </div>
 
                     <!-- Step 2 -->
                     <div class="hiw-step hiw-step-2">
                         <div class="hiw-step-number">2</div>
-                        <h3><i class="fa-solid fa-unlock-alt me-2"></i>Access Your Dashboard</h3>
+                        <h3><i class="fas fa-unlock-alt me-2"></i>Access Your Dashboard</h3>
                         <p>Log in to your personalized student portal and explore all available study resources at your fingertips.</p>
                         <ul class="hiw-features">
-                            <li><i class="fa-solid fa-check-circle"></i><span><strong>Test Bank:</strong> Create and take timed practice tests</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span><strong>Study Library:</strong> Browse by category and subcategory</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span><strong>Analytics:</strong> Track your progress and performance</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span>Mobile-friendly interface for studying anywhere</span></li>
+                            <li><i class="fas fa-check-circle"></i><span><strong>Test Bank:</strong> Take timed practice tests</span></li>
+                            <li><i class="fas fa-check-circle"></i><span><strong>Study Library:</strong> Browse by category and subcategory</span></li>
+                            <li><i class="fas fa-check-circle"></i><span><strong>Analytics:</strong> Track your progress and performance</span></li>
+                            <li><i class="fas fa-check-circle"></i><span>Mobile-friendly interface for studying anywhere</span></li>
                         </ul>
                     </div>
 
                     <!-- Step 3 -->
                     <div class="hiw-step hiw-step-3">
                         <div class="hiw-step-number">3</div>
-                        <h3><i class="fa-solid fa-graduation-cap me-2"></i>Study & Excel</h3>
+                        <h3><i class="fas fa-graduation-cap me-2"></i>Study & Excel</h3>
                         <p>Master NCLEX content with comprehensive questions, detailed rationales, and organized study notes.</p>
                         <ul class="hiw-features">
-                            <li><i class="fa-solid fa-check-circle"></i><span><strong>Study Questions:</strong> Answers highlighted with full explanations</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span><strong>Practice Tests:</strong> Timed or untimed with instant feedback</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span><strong>Study Notes:</strong> Rich content organized by subcategory</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span>Detailed rationales for all answer choices</span></li>
+                            <li><i class="fas fa-check-circle"></i><span><strong>Study Questions:</strong> Answers highlighted with full explanations</span></li>
+                            <li><i class="fas fa-check-circle"></i><span><strong>Practice Tests:</strong> Timed or untimed with instant feedback</span></li>
+                            <li><i class="fas fa-check-circle"></i><span><strong>Study Notes:</strong> Rich content organized by subcategory</span></li>
+                            <li><i class="fas fa-check-circle"></i><span>Detailed rationales for all answer choices</span></li>
                         </ul>
                     </div>
                 </div>
@@ -199,23 +198,15 @@
 
             <div class="col-lg-6">
                 <div class="hiw-benefits">
-                    <h3><i class="fa-solid fa-star me-2" style="color: #f59e0b;"></i>What You Get</h3>
+                    <h3><i class="fas fa-star me-2" style="color: #f59e0b;"></i>What You Get</h3>
                     <p class="text-muted">Everything you need to pass your NCLEX exam with confidence</p>
                     
                     <div class="hiw-benefit-grid">
-                        <div class="hiw-benefit-item">
-                            <div class="hiw-benefit-icon icon-1">
-                                <i class="fa-solid fa-infinity" style="font-size: 1.25rem;"></i>
-                            </div>
-                            <div>
-                                <h5>Unlimited Access</h5>
-                                <p>4,000+ NCLEX-style questions across all categories</p>
-                            </div>
-                        </div>
+                       
                         
                         <div class="hiw-benefit-item">
                             <div class="hiw-benefit-icon icon-2">
-                                <i class="fa-solid fa-lightbulb" style="font-size: 1.25rem;"></i>
+                                <i class="far fa-lightbulb" style="font-size: 1.25rem;"></i>
                             </div>
                             <div>
                                 <h5>Detailed Rationales</h5>
@@ -225,7 +216,7 @@
                         
                         <div class="hiw-benefit-item">
                             <div class="hiw-benefit-icon icon-3">
-                                <i class="fa-solid fa-layer-group" style="font-size: 1.25rem;"></i>
+                                <i class="fas fa-layer-group" style="font-size: 1.25rem;"></i>
                             </div>
                             <div>
                                 <h5>Organized Topics</h5>
@@ -235,7 +226,7 @@
                         
                         <div class="hiw-benefit-item">
                             <div class="hiw-benefit-icon icon-4">
-                                <i class="fa-solid fa-chart-line" style="font-size: 1.25rem;"></i>
+                                <i class="fas fa-chart-line" style="font-size: 1.25rem;"></i>
                             </div>
                             <div>
                                 <h5>Performance Tracking</h5>
@@ -246,10 +237,10 @@
 
                     <div class="mt-4 pt-3 border-top">
                         <ul class="hiw-features">
-                            <li><i class="fa-solid fa-check-circle"></i><span>Study at your own pace—no rush, no stress</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span>Clean, modern interface designed for students</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span>Access from any device: desktop, tablet, or phone</span></li>
-                            <li><i class="fa-solid fa-check-circle"></i><span>First subcategory in each topic is FREE to try</span></li>
+                            <li><i class="fas fa-check-circle"></i><span>Study at your own pace—no rush, no stress</span></li>
+                            <li><i class="fas fa-check-circle"></i><span>Clean, modern interface designed for students</span></li>
+                            <li><i class="fas fa-check-circle"></i><span>Access from any device: desktop, tablet, or phone</span></li>
+                            <li><i class="fas fa-check-circle"></i><span>First subcategory in each topic is FREE to try</span></li>
                         </ul>
                     </div>
                 </div>
@@ -263,14 +254,14 @@
 
         <!-- CTA Section -->
         <div class="hiw-cta-section">
-            <h2><i class="fa-solid fa-rocket me-2"></i>Ready to Start Your NCLEX Journey?</h2>
+            <h2><i class="fas fa-rocket me-2"></i>Ready to Start Your NCLEX Journey?</h2>
             <p>Join thousands of nursing students who trust us for their exam preparation</p>
             <div class="d-flex justify-content-center gap-3 flex-wrap">
                 <a href="<?= base_url('pricing'); ?>" class="btn btn-primary btn-lg px-5 py-3" style="font-size: 1.1rem; font-weight: 600;">
-                    <i class="fa-solid fa-bolt me-2"></i>View Pricing
+                    <i class="fas fa-bolt me-2"></i>View Pricing
                 </a>
                 <a href="<?= base_url('register'); ?>" class="btn btn-outline-dark btn-lg px-5 py-3" style="font-size: 1.1rem; font-weight: 600;">
-                    <i class="fa-solid fa-user-plus me-2"></i>Sign Up Free
+                    <i class="fas fa-user-plus me-2"></i>Sign Up Free
                 </a>
             </div>
             <p class="mt-3 mb-0 small text-muted">Already have an account? <a href="<?= base_url('login/student'); ?>" class="text-decoration-none fw-semibold">Login here</a></p>

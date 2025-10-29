@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3 mb-0">Question Bank</h1>
         <a href="<?= base_url('admin/questions/create') ?>" class="btn btn-primary">
-            <i class="fa-solid fa-plus me-2"></i>Add Question
+            <i class="fas fa-plus me-2"></i>Add Question
         </a>
     </div>
 
@@ -43,7 +43,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="searchQuestions" placeholder="Search...">
                         <button class="btn btn-outline-secondary" type="button">
-                            <i class="fa-solid fa-search"></i>
+                            <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
@@ -88,15 +88,15 @@
                                     <div class="btn-group">
                                         <a href="<?= base_url('admin/questions/edit/' . $q['id']) ?>" 
                                            class="btn btn-sm btn-outline-primary">
-                                            <i class="fa-solid fa-edit"></i>
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="<?= base_url('admin/questions/preview/' . $q['id']) ?>" 
                                            class="btn btn-sm btn-outline-info">
-                                            <i class="fa-solid fa-eye"></i>
+                                            <i class="fas fa-eye"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-outline-danger" 
                                                 onclick="confirmDelete(<?= $q['id'] ?>)">
-                                            <i class="fa-solid fa-trash"></i>
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
                                 </td>

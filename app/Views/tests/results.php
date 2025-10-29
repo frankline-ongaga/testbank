@@ -1,12 +1,16 @@
 <?php
-// Choose layout based on current portal
+// Choose layout based on current portal or explicitly force client layout
 $currentRole = session()->get('current_role');
-if ($currentRole === 'client') {
-    echo view('client/layout/header', ['title' => $title ?? 'Results']);
-} elseif ($currentRole === 'instructor') {
-    echo view('instructor/layout/header', ['title' => $title ?? 'Results']);
-} else {
-    echo view('admin/layout/header', ['title' => $title ?? 'Results']);
+$forceClientLayout = !empty($forceClientLayout);
+if (true) {
+    if ($forceClientLayout || $currentRole === 'client') {
+        echo view('client/layout/header', ['title' => $title ?? 'Results']);
+    } elseif ($currentRole === 'instructor') {
+        echo view('instructor/layout/header', ['title' => $title ?? 'Results']);
+    } else {
+        // Default to client layout for guests/others
+        echo view('client/layout/header', ['title' => $title ?? 'Results']);
+    }
 }
 ?>
     <div class="admin-content" style="max-width:900px;">
@@ -82,7 +86,7 @@ if ($currentRole === 'client') {
                             ?>
                             <div class="<?= $class ?>">
                                 <?php if ($isChosen): ?>
-                                    <i class="fa-solid <?= $isActuallyCorrect ? 'fa-check' : 'fa-times' ?>"></i>
+                                    <i class="fas <?= $isActuallyCorrect ? 'fa-check' : 'fa-times' ?>"></i>
                                 <?php endif; ?>
                                 (<?= esc($choice['label']) ?>) <?= esc($choice['content']) ?>
                             </div>
@@ -100,7 +104,7 @@ if ($currentRole === 'client') {
         </div>
 
         <div class="d-flex gap-2">
-            <?php if ($currentRole === 'client'): ?>
+            <?php if ($forceClientLayout || $currentRole === 'client'): ?>
                 <a href="<?= base_url('client/tests') ?>" class="btn btn-secondary">Back to Tests</a>
                 <a href="<?= base_url('client/analytics') ?>" class="btn btn-primary">View Analytics</a>
             <?php elseif ($currentRole === 'instructor'): ?>
@@ -113,11 +117,13 @@ if ($currentRole === 'client') {
         </div>
     </div>
 <?php
-if ($currentRole === 'client') {
-    echo view('client/layout/footer');
-} elseif ($currentRole === 'instructor') {
-    echo view('instructor/layout/footer');
-} else {
-    echo view('admin/layout/footer');
+if (true) {
+    if ($forceClientLayout || $currentRole === 'client') {
+        echo view('client/layout/footer');
+    } elseif ($currentRole === 'instructor') {
+        echo view('instructor/layout/footer');
+    } else {
+        echo view('client/layout/footer');
+    }
 }
 ?>
