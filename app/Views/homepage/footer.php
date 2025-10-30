@@ -120,6 +120,10 @@
       
       </div>
       <div class="mobile-nav__container"></div>
+      <ul class="mobile-nav__links list-unstyled">
+        <li><a href="<?= base_url('login/student'); ?>">Login</a></li>
+        <li><a href="<?= base_url('register'); ?>">Register</a></li>
+      </ul>
       <ul class="mobile-nav__contact list-unstyled">
         <li>
           <i class="fas fa-envelope"></i>
