@@ -71,7 +71,7 @@
         font-size: 0.95rem;
     }
     .hiw-features li i {
-        color: #10b981;
+        color: #3b82f6;
         font-size: 1.1rem;
         margin-top: 2px;
         min-width: 20px;
@@ -159,7 +159,7 @@
                     <!-- Step 1 -->
                     <div class="hiw-step hiw-step-1">
                         <div class="hiw-step-number">1</div>
-                        <h3><i class="far fa-credit-card me-2"></i>Choose Your Plan</h3>
+                        <h3>Choose Your Plan</h3>
                         <p>Select a subscription that fits your study timeline. Secure checkout with PayPal—no hidden fees, no auto-renewals.</p>
                         <ul class="hiw-features">
                             <li><i class="fas fa-check-circle"></i><span>Pick 1-month ($49) or 3-month ($99) access</span></li>
@@ -171,7 +171,7 @@
                     <!-- Step 2 -->
                     <div class="hiw-step hiw-step-2">
                         <div class="hiw-step-number">2</div>
-                        <h3><i class="fas fa-unlock-alt me-2"></i>Access Your Dashboard</h3>
+                        <h3>Access Your Dashboard</h3>
                         <p>Log in to your personalized student portal and explore all available study resources at your fingertips.</p>
                         <ul class="hiw-features">
                             <li><i class="fas fa-check-circle"></i><span><strong>Test Bank:</strong> Take timed practice tests</span></li>
@@ -184,7 +184,7 @@
                     <!-- Step 3 -->
                     <div class="hiw-step hiw-step-3">
                         <div class="hiw-step-number">3</div>
-                        <h3><i class="fas fa-graduation-cap me-2"></i>Study & Excel</h3>
+                        <h3>Study & Excel</h3>
                         <p>Master NCLEX content with comprehensive questions, detailed rationales, and organized study notes.</p>
                         <ul class="hiw-features">
                             <li><i class="fas fa-check-circle"></i><span><strong>Study Questions:</strong> Answers highlighted with full explanations</span></li>

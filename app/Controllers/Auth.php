@@ -24,7 +24,7 @@ class Auth extends BaseController
 
     public function showLoginStudent()
     {
-        $data = ['title' => 'Student Login', 'loginRole' => 'student', 'loginAction' => '/login/student'];
+        $data = ['title' => 'Student Login', 'description' => 'Login to your NCLEX student dashboard','loginRole' => 'student', 'loginAction' => '/login/student'];
         return view('auth/design', $data);
     }
 
@@ -60,6 +60,8 @@ class Auth extends BaseController
     public function showRegister()
     {
         $data['title'] = 'Create Account';
+        $data['description'] = 'Create your account with nclexprepcourse';
+
         return view('auth/register_design', $data);
     }
 

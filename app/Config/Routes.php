@@ -211,7 +211,10 @@ $routes->get('privacy', 'Home::privacy');
 $routes->get('about_us', 'Home::about_us');
 $routes->get('refund_policy', 'Home::refund_policy');
 $routes->get('blog', 'Home::blog');
+$routes->get('blog/(:segment)', 'Blog::show/$1');
 $routes->get('reviews', 'Home::reviews');
+$routes->get('sitemap.xml', 'Sitemap::index');
+$routes->get('notes/(:num)', 'Notes::view/$1');
 
 // Public Free Test Routes (homepage)
 $routes->get('free/test/(:num)', 'Home::freeTake/$1');

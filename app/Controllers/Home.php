@@ -280,8 +280,8 @@ class Home extends BaseController
     {
         // $data = $this->getCalculationVariables();
 
-        $data['title'] = "Professional essay writing and editing service";
-        $data['description'] = "We are a one-stop solution for all types of custom papers including case studies, lab reports, term papers, dissertation papers, thesis papers, research papers, PowerPoint presentations, projects, and much more. Our essay writing service has professional writers with several years of experience in writing papers on any topic and discipline. Some of these disciplines include statistics, finance, accounting, economics, physics, mathematics, chemistry, law, engineering, nursing, medicine, programming, computer science, and much more.";
+        $data['title'] = "Master your NCLEX-RN/PN prep with nclexprepcourse practice tests and exams";
+        $data['description'] = "Comprehensive practice tests, NCLEX-style questions, free study notes and test banks to help you ace your NCLEX exams";
 
         // Load study categories and their subcategories for dynamic homepage tabs
         $categoryModel = new \App\Models\StudyCategoryModel();
@@ -532,8 +532,8 @@ class Home extends BaseController
     {
         // $data = $this->getCalculationVariables();
 
-        $data['title'] = "Professional essay writing and editing service";
-        $data['description'] = "We are a one-stop solution for all types of custom papers including case studies, lab reports, term papers, dissertation papers, thesis papers, research papers, PowerPoint presentations, projects, and much more. Our essay writing service has professional writers with several years of experience in writing papers on any topic and discipline. Some of these disciplines include statistics, finance, accounting, economics, physics, mathematics, chemistry, law, engineering, nursing, medicine, programming, computer science, and much more.";
+        $data['title'] = "Get Started in Minutes with your NCLEX Prep";
+        $data['description'] = "Access thousands of NCLEX practice questions and study materials to ace your exam";
 
         return view('homepage/header', $data)
              . view('homepage/how_it_works', $data)
@@ -547,8 +547,8 @@ class Home extends BaseController
     {
         //$data = $this->getCalculationVariables();
 
-        $data['title'] = "EssayPrompt pricing";
-        $data['description'] = "EssayPrompt pricing plan is based on academic level, number of pages and urgency. Enjoy our rates that are way below market rates. Also, get to enjoy a lot of discounts in form of coupons.";
+        $data['title'] = "Affordable NCLEX Prep Practice";
+        $data['description'] = "Get access to NCLEX styled questions and study materials for as low as $49";
 
         return view('homepage/header', $data)
              . view('homepage/pricing', $data)
@@ -559,8 +559,8 @@ class Home extends BaseController
     {
         //$data = $this->getCalculationVariables();
 
-        $data['title'] = "EssayPrompt pricing";
-        $data['description'] = "EssayPrompt pricing plan is based on academic level, number of pages and urgency. Enjoy our rates that are way below market rates. Also, get to enjoy a lot of discounts in form of coupons.";
+        $data['title'] = "See Why 12,000+ Nursing Students Trust Our Test Bank and Study Notes";
+        $data['description'] = "NCLEXPrepCourse.org was my ultimate study partner. The realistic NCLEX practice questions and in-depth rationales helped me understand concepts I had struggled with in nursing school. I passed the NCLEX on my first try!";
 
         return view('homepage/header', $data)
              . view('homepage/reviews', $data)

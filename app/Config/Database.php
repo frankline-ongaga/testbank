@@ -52,6 +52,39 @@ class Database extends Config
         ],
     ];
 
+    /**
+     * Secondary WordPress blog connection (nclexprepcourseblog)
+     * Configure via env or defaults to local dev settings.
+     *
+     * @var array<string, mixed>
+     */
+    public array $blog = [
+        'DSN'          => '',
+        'hostname'     => '127.0.0.1',
+        'username'     => 'root',
+        'password'     => '',
+        'database'     => 'nclexprepcourseblog',
+        'DBDriver'     => 'MySQLi',
+        'DBPrefix'     => '',
+        'pConnect'     => false,
+        'DBDebug'      => true,
+        'charset'      => 'utf8mb4',
+        'DBCollat'     => 'utf8mb4_general_ci',
+        'swapPre'      => '',
+        'encrypt'      => false,
+        'compress'     => false,
+        'strictOn'     => false,
+        'failover'     => [],
+        'port'         => 3306,
+        'numberNative' => false,
+        'foundRows'    => false,
+        'dateFormat'   => [
+            'date'     => 'Y-m-d',
+            'datetime' => 'Y-m-d H:i:s',
+            'time'     => 'H:i:s',
+        ],
+    ];
+
     //    /**
     //     * Sample database connection for SQLite3.
     //     *
@@ -200,5 +233,14 @@ class Database extends Config
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
+
+        // Override blog connection from environment variables if provided,
+        // otherwise inherit values from the default connection.
+        $this->blog['hostname'] = env('database.blog.hostname') ?? $this->default['hostname'];
+        $this->blog['username'] = env('database.blog.username') ?? $this->default['username'];
+        $this->blog['password'] = env('database.blog.password') ?? $this->default['password'];
+        $this->blog['database'] = env('database.blog.database') ?? $this->blog['database'];
+        $this->blog['port']     = env('database.blog.port') ?? $this->default['port'];
+        $this->blog['DBPrefix'] = env('database.blog.DBPrefix') ?? $this->blog['DBPrefix'];
     }
 }

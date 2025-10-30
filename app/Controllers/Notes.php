@@ -206,7 +206,7 @@ class Notes extends BaseController
             ->join('note_categories', 'note_categories.id = notes.category_id')
             ->join('users', 'users.id = notes.author_id')
             ->where('notes.id', (int)$id);
-        if ($currentRole === 'client') {
+        if (!in_array($currentRole, ['admin', 'instructor'])) {
             $builder->where('notes.status', 'published');
         }
         $note = $builder->first();

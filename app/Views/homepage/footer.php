@@ -38,7 +38,69 @@
             
            
           </div>
-          
+          <?php
+          // Load latest WordPress blog posts if the blog DB is available
+          $blogPosts = [];
+          $blogSiteUrl = '';
+          try {
+            $blogDB = \Config\Database::connect('blog');
+            if ($blogDB) {
+              $wpPrefix = env('database.blog.prefix') ?? 'wp_';
+              // Resolve site URL
+              $opt = $blogDB->table($wpPrefix . 'options')->select('option_value')->where('option_name', 'siteurl')->get()->getRowArray();
+              if (!empty($opt['option_value'])) {
+                $blogSiteUrl = rtrim($opt['option_value'], '/');
+              }
+              $blogPosts = $blogDB->table($wpPrefix . 'posts')
+                ->select('ID, post_title, post_name, guid, post_date')
+                ->where('post_status', 'publish')
+                ->where('post_type', 'post')
+                ->orderBy('post_date', 'DESC')
+                ->limit(10)
+                ->get()->getResultArray();
+            }
+          } catch (\Throwable $e) {
+            $blogPosts = [];
+          }
+          ?>
+          <?php if (!empty($blogPosts)) : ?>
+          <div class="row mt-4 pt-3 border-top">
+            <div class="col-12">
+              <h5 class="medium-black mb-16">Latest from our blog</h5>
+            </div>
+            <?php $leftPosts = array_slice($blogPosts, 0, 5); $rightPosts = array_slice($blogPosts, 5, 5); ?>
+            <div class="col-lg-6 col-12">
+              <ul class="unstyled list">
+                <?php foreach ($leftPosts as $bp):
+                  $title = trim($bp['post_title'] ?? '');
+                  $slug  = trim($bp['post_name'] ?? '');
+                  $guid  = trim($bp['guid'] ?? '');
+                  // Build internal URL to render on our site
+                  $url = !empty($slug) ? base_url('blog/' . $slug) : base_url('blog/' . (int)($bp['ID'] ?? 0));
+                ?>
+                <li class="mb-2"><a href="<?= esc($url) ?>" style="color:#3b82f6;">
+                  <?= esc($title) ?>
+                </a></li>
+                <?php endforeach; ?>
+              </ul>
+            </div>
+            <div class="col-lg-6 col-12">
+              <ul class="unstyled list">
+                <?php foreach ($rightPosts as $bp):
+                  $title = trim($bp['post_title'] ?? '');
+                  $slug  = trim($bp['post_name'] ?? '');
+                  $guid  = trim($bp['guid'] ?? '');
+                  // Build internal URL to render on our site
+                  $url = !empty($slug) ? base_url('blog/' . $slug) : base_url('blog/' . (int)($bp['ID'] ?? 0));
+                ?>
+                <li class="mb-2"><a href="<?= esc($url) ?>" style="color:#3b82f6;">
+                  <?= esc($title) ?>
+                </a></li>
+                <?php endforeach; ?>
+              </ul>
+            </div>
+          </div>
+          <?php endif; ?>
         </div>
       </div>
       <div class="copyright_row">
