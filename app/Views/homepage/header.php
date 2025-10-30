@@ -138,13 +138,25 @@
                 <?php 
                   $uri = service('uri');
                   $path = trim($uri->getPath(), '/');
+                  $segments = $uri->getSegments();
                   $isHome = ($path === '' || $path === 'index.php');
+                  // Detect current free test page
                   $isFreeTest = (strpos($path, 'free/test') === 0 || strpos($path, 'index.php/free/test') === 0);
                   $freeId = null;
-                  if (!empty($test) && !empty($test['is_free']) && !empty($test['id'])) {
-                    $freeId = (int)$test['id'];
-                  } elseif (!empty($activeFreeTest) && !empty($activeFreeTest['id'])) {
+                  // If currently on a free test page, use that id
+                  if (!$freeId && !empty($segments) && count($segments) >= 3 && $segments[0] === 'free' && $segments[1] === 'test' && ctype_digit($segments[2])) {
+                    $freeId = (int)$segments[2];
+                  }
+                  // Prefer homepage section logic: use first available free test from the list
+                  if (!$freeId && !empty($freeTests) && is_array($freeTests)) {
+                    foreach ($freeTests as $ftTmp) { if (!empty($ftTmp['id'])) { $freeId = (int)$ftTmp['id']; break; } }
+                  }
+                  // Fallbacks
+                  if (!$freeId && !empty($activeFreeTest) && !empty($activeFreeTest['id'])) {
                     $freeId = (int)$activeFreeTest['id'];
+                  }
+                  if (!$freeId && !empty($test) && !empty($test['is_free']) && !empty($test['id'])) {
+                    $freeId = (int)$test['id'];
                   }
                   $takeTestUrl = $freeId ? base_url('free/test/' . $freeId) : base_url('client/tests');
                 ?>
