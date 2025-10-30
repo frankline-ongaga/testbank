@@ -157,7 +157,7 @@
 
                      <li> <a href="<?php echo base_url('reviews'); ?>">Reviews</a> </li>
 
-                    <li><a href="<?= $takeTestUrl ?>" class="<?= $isFreeTest ? 'active' : '' ?>" style="font-weight:700;">Take a Test</a></li>
+                    <li><a href="<?= $takeTestUrl ?>" class="btn btn-warning btn-sm <?= $isFreeTest ? 'active' : '' ?>" style="font-weight:700; color:#000;">Take a Test</a></li>
 
 
 

@@ -622,18 +622,18 @@ Subject-Focused Review: Covers core subjects such as reading comprehension, gram
           <h2 class="mb-8 color-white">Talk to a <br><span class="fm-sec">tutor</span></h2>
           <p class="mb-16 color-white">Get NCLEX expert help</p>
           <div class="mx-auto">
-            <a href="https://wa.me/1234567890" class="h5 phone_number"> +1 (209) 260-9257</a>
+            <a href="https://wa.me/12092609257" class="h5 phone_number"> +1 (209) 260-9257</a>
           </div>
           <div class="icons">
-            <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="" class="element-1">
-            <img src="<?= base_url('assets/media/shapes/vector-3.png'); ?>" alt="" class="element-2">
-            <img src="<?= base_url('assets/media/shapes/paint.png'); ?>" alt="" class="element-3">
-            <img src="<?= base_url('assets/media/shapes/vector-4.png'); ?>" alt="" class="element-5">
-            <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="" class="element-4">
-            <img src="<?= base_url('assets/media/shapes/tag.png'); ?>" alt="" class="element-6">
-            <img src="<?= base_url('assets/media/shapes/errow.png'); ?>" alt="" class="element-7">
-            <img src="<?= base_url('assets/media/shapes/circle-lines.png'); ?>" alt="" class="element-8">
-            <img src="<?= base_url('assets/media/shapes/mic-speaker.png'); ?>" alt="" class="element-9">
+            <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="ati" class="element-1">
+            <img src="<?= base_url('assets/media/shapes/vector-3.png'); ?>" alt="teas" class="element-2">
+            <img src="<?= base_url('assets/media/shapes/paint.png'); ?>" alt="nclex" class="element-3">
+            <img src="<?= base_url('assets/media/shapes/vector-4.png'); ?>" alt="test banks" class="element-5">
+            <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="nursing" class="element-4">
+            <img src="<?= base_url('assets/media/shapes/tag.png'); ?>" alt="dnp" class="element-6">
+            <img src="<?= base_url('assets/media/shapes/errow.png'); ?>" alt="bsn" class="element-7">
+            <img src="<?= base_url('assets/media/shapes/circle-lines.png'); ?>" alt="entrance exams" class="element-8">
+            <img src="<?= base_url('assets/media/shapes/mic-speaker.png'); ?>" alt="exit exams" class="element-9">
           </div>
         </div>
       </div>
