@@ -191,7 +191,11 @@
 
    
 
-    <script src="https://www.paypal.com/sdk/js?client-id=<?= esc(getenv('PAYPAL_SANDBOX_CLIENT_ID')) ?>&currency=USD&intent=capture"></script>
+    <?php $paypalClientId = env('PAYPAL_CLIENT_ID') ?? env('PAYPAL_LIVE_CLIENT_ID') ?? env('PAYPAL_SANDBOX_CLIENT_ID');
+          $paypalCurrency = env('PAYPAL_CURRENCY') ?? 'USD';
+          $paypalIntent = env('PAYPAL_INTENT') ?? 'capture';
+    ?>
+    <script src="https://www.paypal.com/sdk/js?client-id=<?= esc($paypalClientId) ?>&currency=<?= esc($paypalCurrency) ?>&intent=<?= esc($paypalIntent) ?>"></script>
     <script>
         function renderButton(containerId, plan, amount) {
             paypal.Buttons({

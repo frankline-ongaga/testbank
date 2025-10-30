@@ -20,7 +20,8 @@
                                 ?>
                               
                            
-                            <script src="https://www.paypal.com/sdk/js?client-id=<?php echo PAYPAL_CLIENTID; ?>"> </script>
+                            <?php $paypalClientId = env('PAYPAL_CLIENT_ID') ?? env('PAYPAL_LIVE_CLIENT_ID') ?? env('PAYPAL_SANDBOX_CLIENT_ID'); ?>
+                            <script src="https://www.paypal.com/sdk/js?client-id=<?= esc($paypalClientId) ?>"> </script>
                       <script>
                         paypal.Buttons({
                           createOrder: function(data, actions) {
