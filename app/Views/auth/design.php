@@ -69,6 +69,12 @@
                                     <img src="<?= base_url('assets/media/shapes/mic-speaker.png') ?>" alt="" class="speaker_icon">
                                 <h2 class="mb-48"><?= esc($title ?? 'Login') ?></h2>
                                 </div>
+                                <?php if (session()->getFlashdata('error')): ?>
+                                <div class="alert alert-danger"><?= esc(session()->getFlashdata('error')) ?></div>
+                                <?php endif; ?>
+                                <?php if (session()->getFlashdata('message')): ?>
+                                <div class="alert alert-success"><?= esc(session()->getFlashdata('message')) ?></div>
+                                <?php endif; ?>
                                 <?php if (($loginRole ?? 'student') !== 'admin'): ?>
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -99,6 +105,13 @@
                                             Register</a></h6>
                                     <h6><a href="<?= base_url('forgot') ?>" class="color-primary">Forgot Password?</a></h6>
                                 </div>
+                                <?php if (session()->getFlashdata('errors')): ?>
+                                    <ul class="text-danger mt-3">
+                                        <?php foreach (session()->getFlashdata('errors') as $e): ?>
+                                            <li><?= esc($e) ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php endif; ?>
                             </div>
                             <div class="shapes">
                                 <img src="<?= base_url('assets/media/shapes/vector-9.png') ?>" alt="">
