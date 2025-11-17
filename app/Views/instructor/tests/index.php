@@ -4,7 +4,7 @@
             <h3>My Tests</h3>
             <p class="text-muted mb-0">Manage your created tests</p>
         </div>
-        <a href="/tests/create" class="btn btn-primary">
+        <a href="<?= base_url('instructor/tests/create') ?>" class="btn btn-primary">
             <i class="fas fa-plus me-2"></i>Create Test
         </a>
     </div>
@@ -49,10 +49,13 @@
                                 <td><?= date('M j, Y', strtotime($test['created_at'])) ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="/tests/edit/<?= $test['id'] ?>" class="btn btn-sm btn-outline-primary">
+                                        <a href="<?= base_url('instructor/tests/' . $test['id'] . '/questions') ?>" class="btn btn-sm btn-outline-secondary" title="Manage Questions">
+                                            <i class="fas fa-list-ul"></i>
+                                        </a>
+                                        <a href="<?= base_url('instructor/tests/edit/' . $test['id']) ?>" class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="/tests/preview/<?= $test['id'] ?>" class="btn btn-sm btn-outline-info">
+                                        <a href="#" class="btn btn-sm btn-outline-info disabled">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <?php if ($test['status'] !== 'active'): ?>

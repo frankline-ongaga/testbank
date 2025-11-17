@@ -78,6 +78,24 @@
             </a>
         </div>
         <div class="admin-nav-section">
+            <div class="admin-nav-title">Test</div>
+
+             <a class="admin-nav-link" href="<?= base_url('admin/tests/create'); ?>" data-path="admin/tests/create">
+                <i class="fas fa-plus-square"></i>
+                <span>Create Test</span>
+            </a>
+            <a class="admin-nav-link" href="<?= base_url('admin/tests/create-free'); ?>" data-path="admin/tests/create-free">
+                <i class="fas fa-gift"></i>
+                <span>Create Free Test</span>
+            </a>
+          
+            <a class="admin-nav-link" href="<?= base_url('admin/tests'); ?>" data-path="admin/tests">
+                <i class="fas fa-file-lines"></i>
+                <span>Tests</span>
+            </a>
+           
+        </div>
+        <div class="admin-nav-section">
             <div class="admin-nav-title">Test Bank Questions</div>
 
             <a class="admin-nav-link" href="<?= base_url('admin/questions/create'); ?>" data-path="admin/questions/create">
@@ -97,24 +115,6 @@
                 <i class="fas fa-list"></i>
                 <span>Question Categories</span>
             </a>
-        </div>
-        <div class="admin-nav-section">
-            <div class="admin-nav-title">Test</div>
-
-             <a class="admin-nav-link" href="<?= base_url('admin/tests/create'); ?>" data-path="admin/tests/create">
-                <i class="fas fa-plus-square"></i>
-                <span>Create Test</span>
-            </a>
-            <a class="admin-nav-link" href="<?= base_url('admin/tests/create-free'); ?>" data-path="admin/tests/create-free">
-                <i class="fas fa-gift"></i>
-                <span>Create Free Test</span>
-            </a>
-          
-            <a class="admin-nav-link" href="<?= base_url('admin/tests'); ?>" data-path="admin/tests">
-                <i class="fas fa-file-lines"></i>
-                <span>Tests</span>
-            </a>
-           
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Study Materials</div>

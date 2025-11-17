@@ -49,61 +49,13 @@
                     </div>
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-3">
                     <div class="form-check mb-2">
-                        <input type="checkbox" class="form-check-input" id="isFreeToggle" name="is_free" value="1" <?= old('is_free', ($is_free ?? false)) ? 'checked' : '' ?>>
-                        <label class="form-check-label" for="isFreeToggle">This is a Free Test (10 questions max, allows reused questions)</label>
+                        <input type="checkbox" class="form-check-input" name="is_free" value="1" <?= old('is_free', ($is_free ?? false)) ? 'checked' : '' ?> id="isFree">
+                        <label class="form-check-label" for="isFree">This is a Free Test (10 questions max)</label>
                     </div>
-                    <label class="form-label">Select Questions</label>
-                    <div class="card">
-                        <div class="card-body p-2">
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <select class="form-select" id="categoryFilter">
-                                        <option value="">All Categories</option>
-                                        <?php foreach (($categories ?? []) as $cat): ?>
-                                            <option value="<?= $cat['id'] ?>"><?= esc($cat['name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="form-select" id="difficultyFilter">
-                                        <option value="">All Difficulties</option>
-                                        <option value="easy">Easy</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="hard">Hard</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="searchQuestions" placeholder="Search...">
-                                        <button class="btn btn-outline-secondary" type="button">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="question-list mt-3" style="max-height: 400px; overflow-y: auto;">
-                        <?php foreach (($questions ?? []) as $q): ?>
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="question_ids[]" 
-                               value="<?= $q['id'] ?>" <?= in_array($q['id'], old('question_ids', [])) ? 'checked' : '' ?>>
-                                        <label class="form-check-label">
-                                            <?= esc($q['content']) ?>
-                                            <div class="mt-1">
-                                                <span class="badge bg-primary"><?= esc($q['category'] ?? '') ?></span>
-                                                <span class="badge bg-secondary"><?= esc($q['difficulty'] ?? '') ?></span>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                    <div class="alert alert-info">
+                        After creating the test, you'll be redirected to manage its questions (add, link, or remove).
                     </div>
                 </div>
 
@@ -116,42 +68,6 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const isFreeToggle = document.getElementById('isFreeToggle');
-    if (isFreeToggle) {
-        isFreeToggle.addEventListener('change', function() {
-            const url = new URL(window.location.href);
-            if (this.checked) { url.searchParams.set('is_free', '1'); }
-            else { url.searchParams.delete('is_free'); }
-            window.location.href = url.toString();
-        });
-    }
-    const categoryFilter = document.getElementById('categoryFilter');
-    const difficultyFilter = document.getElementById('difficultyFilter');
-    const searchInput = document.getElementById('searchQuestions');
-    const questionList = document.querySelector('.question-list');
-
-    function filterQuestions() {
-        const category = categoryFilter.value;
-        const difficulty = difficultyFilter.value;
-        const search = searchInput.value.toLowerCase();
-
-        const questions = questionList.querySelectorAll('.card');
-        questions.forEach(q => {
-            const content = q.textContent.toLowerCase();
-            const categoryMatch = !category || q.querySelector('.badge.bg-primary').textContent === category;
-            const difficultyMatch = !difficulty || q.querySelector('.badge.bg-secondary').textContent === difficulty;
-            const searchMatch = !search || content.includes(search);
-
-            q.style.display = categoryMatch && difficultyMatch && searchMatch ? '' : 'none';
-        });
-    }
-
-    categoryFilter.addEventListener('change', filterQuestions);
-    difficultyFilter.addEventListener('change', filterQuestions);
-    searchInput.addEventListener('input', filterQuestions);
-});
-</script>
+ 
 
 

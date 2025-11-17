@@ -92,6 +92,16 @@ $routes->group('admin', function($routes) {
     $routes->post('tests/update/(:num)', 'Tests::update/$1');
     $routes->get('tests/delete/(:num)', 'Tests::delete/$1');
     $routes->get('tests/activate/(:num)', 'Tests::activate/$1');
+    // Manage Questions within a Test
+    $routes->get('tests/(:num)/questions', 'Tests::manageQuestions/$1');
+    $routes->get('tests/(:num)/questions/create', 'Tests::createQuestion/$1');
+    $routes->post('tests/(:num)/questions/store', 'Tests::storeQuestion/$1');
+    $routes->get('tests/(:num)/questions/link', 'Tests::linkQuestion/$1');
+    $routes->post('tests/(:num)/questions/link', 'Tests::doLinkQuestion/$1');
+    $routes->get('tests/(:num)/questions/(:num)/unlink', 'Tests::unlinkQuestion/$1/$2');
+    $routes->get('tests/(:num)/questions/import', 'Tests::importQuestionsForm/$1');
+    $routes->post('tests/(:num)/questions/import', 'Tests::importQuestions/$1');
+    $routes->get('tests/(:num)/questions/import/sample', 'Tests::importSample/$1');
     
     // Subscriptions Management
     $routes->get('subscriptions', 'Subscriptions::index');
@@ -151,6 +161,17 @@ $routes->group('instructor', function($routes) {
     $routes->get('questions', 'Questions::index');
     $routes->get('questions/create', 'Questions::create');
     $routes->post('questions/store', 'Questions::store');
+    
+    // Nested Test Questions Management (Instructor)
+    $routes->get('tests/(:num)/questions', 'Tests::manageQuestions/$1');
+    $routes->get('tests/(:num)/questions/create', 'Tests::createQuestion/$1');
+    $routes->post('tests/(:num)/questions/store', 'Tests::storeQuestion/$1');
+    $routes->get('tests/(:num)/questions/link', 'Tests::linkQuestion/$1');
+    $routes->post('tests/(:num)/questions/link', 'Tests::doLinkQuestion/$1');
+    $routes->get('tests/(:num)/questions/(:num)/unlink', 'Tests::unlinkQuestion/$1/$2');
+    $routes->get('tests/(:num)/questions/import', 'Tests::importQuestionsForm/$1');
+    $routes->post('tests/(:num)/questions/import', 'Tests::importQuestions/$1');
+    $routes->get('tests/(:num)/questions/import/sample', 'Tests::importSample/$1');
     
     // Instructor Analytics
     $routes->get('analytics', 'Analytics::index');

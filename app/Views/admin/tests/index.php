@@ -51,6 +51,9 @@
                                 <td><?= date('M j, Y', strtotime($test['created_at'])) ?></td>
                                 <td>
                                     <div class="btn-group">
+                                        <a href="<?= base_url('admin/tests/' . $test['id'] . '/questions') ?>" class="btn btn-sm btn-outline-secondary" title="Manage Questions">
+                                            <i class="fas fa-list-ul"></i>
+                                        </a>
                                         <a href="<?= base_url('admin/tests/edit/' . $test['id']) ?>" class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-edit"></i>
                                         </a>

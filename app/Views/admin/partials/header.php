@@ -99,6 +99,21 @@ $normalizedPath = preg_replace('#^index\.php/#', '', $currentPath);
             <?php endif; ?>
 
             <?php if ($isAdmin || $isInstructor): ?>
+            <a class="admin-nav-link <?= $normalizedPath === 'admin/tests' ? 'active' : '' ?>" 
+               href="<?= base_url('admin/tests'); ?>">
+                <i class="fas fa-file-lines"></i>
+                <span>Tests</span>
+            </a>
+            <?php endif; ?>
+            <?php if ($isAdmin || $isInstructor): ?>
+                <a class="admin-nav-link <?= $normalizedPath === 'admin/tests/create' ? 'active' : '' ?>" 
+                   href="<?= base_url('admin/tests/create'); ?>">
+                    <i class="fas fa-plus-square"></i>
+                    <span>Create Test</span>
+                </a>
+            <?php endif; ?>
+
+            <?php if ($isAdmin || $isInstructor): ?>
             <a class="admin-nav-link <?= $normalizedPath === 'admin/questions' ? 'active' : '' ?>"
                href="<?= base_url('admin/questions'); ?>">
                     <i class="fas fa-circle-question"></i>
@@ -110,26 +125,12 @@ $normalizedPath = preg_replace('#^index\.php/#', '', $currentPath);
                     <span>Add Question</span>
                 </a>
             <?php endif; ?>
-
             <?php if ($isAdmin): ?>
                 <a class="admin-nav-link <?= $normalizedPath === 'admin/questions/pending' ? 'active' : '' ?>" 
                    href="<?= base_url('admin/questions/pending'); ?>">
                     <i class="fas fa-eye"></i>
                     <span>Review Questions</span>
                     <span class="admin-nav-badge">3</span>
-                </a>
-            <?php endif; ?>
-
-            <a class="admin-nav-link <?= $normalizedPath === 'admin/tests' ? 'active' : '' ?>" 
-               href="<?= base_url('admin/tests'); ?>">
-                <i class="fas fa-file-lines"></i>
-                <span>Tests</span>
-            </a>
-            <?php if ($isAdmin || $isInstructor): ?>
-                <a class="admin-nav-link <?= $normalizedPath === 'admin/tests/create' ? 'active' : '' ?>" 
-                   href="<?= base_url('admin/tests/create'); ?>">
-                    <i class="fas fa-plus-square"></i>
-                    <span>Create Test</span>
                 </a>
             <?php endif; ?>
         </div>
