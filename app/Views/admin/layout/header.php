@@ -123,6 +123,10 @@
                 <i class="fas fa-layer-group"></i>
                 <span>Study Questions</span>
             </a>
+            <a class="admin-nav-link" href="<?= base_url('admin/study-bank-pdfs'); ?>" data-path="admin/study-bank-pdfs">
+                <i class="fas fa-file"></i>
+                <span>Study Bank Docs</span>
+            </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Payments</div>

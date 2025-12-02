@@ -141,6 +141,20 @@ $routes->group('admin', function($routes) {
     $routes->get('study/subcategory/(:num)/edit', 'StudyAdmin::editSubcategory/$1');
     $routes->post('study/subcategory/(:num)/update', 'StudyAdmin::updateSubcategory/$1');
     $routes->get('study/subcategory/(:num)/delete', 'StudyAdmin::deleteSubcategory/$1');
+    
+    // Study Bank PDFs Management
+    $routes->get('study-bank-pdfs', 'StudyBankPdfs::adminIndex');
+    $routes->get('study-bank-pdfs/(:num)/subcategories', 'StudyBankPdfs::adminSubcategories/$1');
+    // Category-level docs manager (no subcategory step)
+    $routes->get('study-bank-pdfs/category/(:num)/docs', 'StudyBankPdfs::adminPdfsByCategory/$1');
+    $routes->get('study-bank-pdfs/category/(:num)/upload', 'StudyBankPdfs::adminUploadFormCategory/$1');
+    $routes->post('study-bank-pdfs/category/(:num)/upload', 'StudyBankPdfs::adminUploadCategory/$1');
+    $routes->get('study-bank-pdfs/subcategory/(:num)/pdfs', 'StudyBankPdfs::adminPdfs/$1');
+    $routes->get('study-bank-pdfs/subcategory/(:num)/upload', 'StudyBankPdfs::adminUploadForm/$1');
+    $routes->post('study-bank-pdfs/subcategory/(:num)/upload', 'StudyBankPdfs::adminUpload/$1');
+    $routes->get('study-bank-pdfs/pdf/(:num)/edit', 'StudyBankPdfs::adminEdit/$1');
+    $routes->post('study-bank-pdfs/pdf/(:num)/update', 'StudyBankPdfs::adminUpdate/$1');
+    $routes->get('study-bank-pdfs/pdf/(:num)/delete', 'StudyBankPdfs::adminDelete/$1');
 });
 
 // Instructor Routes
@@ -217,6 +231,13 @@ $routes->group('client', function($routes) {
     $routes->get('study', 'Study::index');
     $routes->get('study/(:num)/subcategories', 'Study::subcategories/$1');
     $routes->get('study/subcategory/(:num)/questions', 'Study::questions/$1');
+    
+    // Study Bank PDFs (Paid Students Only)
+    $routes->get('study-bank-pdfs', 'StudyBankPdfs::clientIndex');
+    $routes->get('study-bank-pdfs/category/(:num)/docs', 'StudyBankPdfs::clientPdfsByCategory/$1');
+    $routes->get('study-bank-pdfs/(:num)/subcategories', 'StudyBankPdfs::clientSubcategories/$1');
+    $routes->get('study-bank-pdfs/subcategory/(:num)/pdfs', 'StudyBankPdfs::clientPdfs/$1');
+    $routes->get('study-bank-pdfs/pdf/(:num)/download', 'StudyBankPdfs::clientDownload/$1');
 });
 
 // Subscription Routes

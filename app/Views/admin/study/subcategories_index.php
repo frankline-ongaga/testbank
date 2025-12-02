@@ -14,6 +14,7 @@
                             <a href="<?= base_url('admin/study/subcategory/'.$sub['id'].'/questions') ?>" class="btn btn-outline-secondary btn-sm">Manage Questions</a> &nbsp; &nbsp; 
                             <a href="<?= base_url('admin/study/subcategory/'.$sub['id'].'/qcategories') ?>" class="btn btn-outline-secondary btn-sm">Manage Topics</a> &nbsp; &nbsp; 
                             <a href="<?= base_url('admin/notes?subcategory_id='.$sub['id']) ?>" class="btn btn-outline-secondary btn-sm">Manage Notes</a> &nbsp; &nbsp; 
+                            <a href="<?= base_url('admin/study-bank-pdfs/subcategory/'.$sub['id'].'/pdfs') ?>" class="btn btn-outline-secondary btn-sm">Manage Docs</a> &nbsp; &nbsp; 
                             <a href="<?= base_url('admin/study/subcategory/'.$sub['id'].'/edit') ?>" class="btn btn-outline-primary btn-sm">Edit</a> &nbsp; &nbsp; 
                             <a href="<?= base_url('admin/study/subcategory/'.$sub['id'].'/delete') ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Delete this subcategory and its questions?');">Delete</a>
                         </div>

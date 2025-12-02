@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Upload Document - <?= esc($category['name']) ?></h5>
+        <a href="<?= base_url('admin/study-bank-pdfs/category/'.$category['id'].'/docs') ?>" class="btn btn-secondary btn-sm">Back</a>
+    </div>
+    <div class="card-body">
+        <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger"><?= esc(session()->getFlashdata('error')) ?></div>
+        <?php endif; ?>
+        <form action="<?= base_url('admin/study-bank-pdfs/category/'.$category['id'].'/upload') ?>" method="post" enctype="multipart/form-data">
+            <?= csrf_field() ?>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="pdf_file" class="form-label">Document File <span class="text-danger">*</span></label>
+                <input type="file" class="form-control" id="pdf_file" name="pdf_file" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt" required>
+                <small class="form-text text-muted">Allowed: PDF, DOC, DOCX, XLS, XLSX, TXT. Max size: 10MB</small>
+            </div>
+            <div class="d-flex justify-content-between">
+                <a href="<?= base_url('admin/study-bank-pdfs/category/'.$category['id'].'/docs') ?>" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Upload Document</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

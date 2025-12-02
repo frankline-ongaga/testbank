@@ -70,6 +70,80 @@
     </header>
     
     <?php if (!$isStudy): ?>
+    <style>
+        .client-sidebar-beautiful .admin-sidebar {
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            border-right: 1px solid #e9ecef;
+        }
+        .client-sidebar-beautiful .admin-nav-section {
+            padding: 1rem 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .client-sidebar-beautiful .admin-nav-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6c757d;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .client-sidebar-beautiful .admin-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.875rem 1rem;
+            margin-bottom: 0.25rem;
+            border-radius: 10px;
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+        }
+        .client-sidebar-beautiful .admin-nav-link i {
+            font-size: 1.1rem;
+            width: 22px;
+            text-align: center;
+            color: #6c757d;
+            transition: all 0.25s ease;
+        }
+        .client-sidebar-beautiful .admin-nav-link:hover {
+            background: #f1f3f5;
+            color: #212529;
+            padding-left: 1.25rem;
+        }
+        .client-sidebar-beautiful .admin-nav-link:hover i {
+            color: #007bff;
+            transform: scale(1.1);
+        }
+        .client-sidebar-beautiful .admin-nav-link.active {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+            font-weight: 600;
+        }
+        .client-sidebar-beautiful .admin-nav-link.active i {
+            color: white;
+        }
+        .client-sidebar-beautiful .admin-nav-link.active:hover {
+            background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+            padding-left: 1rem;
+        }
+        .client-sidebar-beautiful .admin-nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 60%;
+            background: white;
+            border-radius: 0 3px 3px 0;
+        }
+    </style>
+    <div class="client-sidebar-beautiful">
     <nav class="admin-sidebar">
         <div class="admin-nav-section">
             <div class="admin-nav-title">Main</div>
@@ -89,15 +163,16 @@
                 <span>Take Tests</span>
             </a>
         </div>
-            <!-- Removed practice to keep menu consistent -->
         <div class="admin-nav-section">
-            
             <div class="admin-nav-title">Study</div>
             <a class="admin-nav-link" href="<?= base_url('client/study'); ?>">
                 <i class="fas fa-layer-group"></i>
                 <span>Study Questions</span>
             </a>
-         
+            <a class="admin-nav-link" href="<?= base_url('client/study-bank-pdfs'); ?>">
+                <i class="fas fa-file-alt"></i>
+                <span>Study Bank Docs</span>
+            </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Account</div>
@@ -107,6 +182,23 @@
             </a>
         </div>
     </nav>
+    </div>
+    <script>
+        // Highlight active menu item
+        (function() {
+            const currentPath = window.location.pathname.replace(/\/$/, '');
+            const links = document.querySelectorAll('.client-sidebar-beautiful .admin-nav-link');
+            links.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href) {
+                    const linkPath = new URL(href, window.location.origin).pathname.replace(/\/$/, '');
+                    if (currentPath === linkPath || (linkPath !== '/client' && currentPath.startsWith(linkPath))) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+        })();
+    </script>
     <?php endif; ?>
     
     <main class="admin-main" <?= $isStudy ? 'style="margin-left:0;"' : '' ?> >
