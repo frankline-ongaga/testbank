@@ -216,11 +216,65 @@
             </div>
         </section>
 
+        <!-- Tutoring Section Start -->
+        <section class="tutoring-showcase py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+            <div class="container">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-7">
+                        <div class="pe-lg-4">
+                            <span class="badge bg-primary mb-3" style="font-size: 0.85rem; padding: 0.5rem 1rem;">PERSONALIZED SUPPORT</span>
+                            <h2 class="mb-3" style="font-size: 2.25rem; font-weight: 700; color: #1e293b;">Need Extra Help? Get One-on-One NCLEX Tutoring</h2>
+                            <p class="mb-4" style="font-size: 1.1rem; color: #64748b; line-height: 1.7;">
+                                Work directly with experienced nursing educators who understand your unique learning needs. Our personalized tutoring sessions are designed to boost your confidence and help you master the NCLEX exam.
+                            </p>
+                            <ul class="list-unstyled mb-4">
+                                <li class="mb-2 d-flex align-items-start">
+                                    <i class="fas fa-check-circle me-3 mt-1" style="color: #667eea; font-size: 1.2rem;"></i>
+                                    <span style="color: #475569;"><strong>Customized study plans</strong> tailored to your strengths and weaknesses</span>
+                                </li>
+                                <li class="mb-2 d-flex align-items-start">
+                                    <i class="fas fa-check-circle me-3 mt-1" style="color: #667eea; font-size: 1.2rem;"></i>
+                                    <span style="color: #475569;"><strong>Flexible scheduling</strong> that fits your busy lifestyle</span>
+                                </li>
+                                <li class="mb-2 d-flex align-items-start">
+                                    <i class="fas fa-check-circle me-3 mt-1" style="color: #667eea; font-size: 1.2rem;"></i>
+                                    <span style="color: #475569;"><strong>Expert guidance</strong> from experienced NCLEX educators</span>
+                                </li>
+                            </ul>
+                            <div class="d-flex gap-3 flex-wrap">
+                                <a href="<?= base_url('tutoring') ?>" class="btn btn-primary btn-md" style="padding: 0.875rem 2rem; font-weight: 600; border-radius: 8px;">
+                                    Learn More About Tutoring
+                                </a>
+                                &nbsp;
+                                <a href="https://wa.me/12092609257?text=Hi!%20I'm%20interested%20in%20NCLEX%20tutoring%20services." 
+                                   target="_blank"
+                                   class="btn btn-success btn-md" style="padding: 0.875rem 2rem; font-weight: 600; border-radius: 8px; background: #25D366; border-color: #25D366;">
+                                    <i class="fab fa-whatsapp me-2"></i> Get A Tutor
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="position-relative">
+                            <div class="card border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
+                                <div class="card-body p-4">
+
+                                      <img src="<?= base_url('assets/images/nclexnursingtutoring.webp'); ?>" alt="nursing tutoring help">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Tutoring Section End -->
+
           <section class="pt-0 pb-60 pt-60" style="padding-top:100px !important; background: white;">
             <div class="container">
                 <div class="row">
                      <div class="col-lg-12">
-                         <img src="<?= base_url('assets/media/nclexhelp.png'); ?>" >
+                         <img src="<?= base_url('assets/media/nclexhelp.png'); ?>" alt="nursing nclex study help, revision materials and study banks">
                      </div>
                 </div>
              </div>

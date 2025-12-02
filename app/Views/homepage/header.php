@@ -161,13 +161,13 @@
                   $takeTestUrl = $freeId ? base_url('free/test/' . $freeId) : base_url('client/tests');
                 ?>
                 <ul class="main-menu__list">
-                    <li><a href="<?php echo base_url(); ?>" class="<?= $isHome ? 'active' : '' ?>">Home</a></li>
-
                      <li><a href="<?php echo base_url('how_it_works'); ?>">How It Works</a></li>
 
                      <li> <a href="<?php echo base_url('pricing'); ?>">Pricing</a> </li>
 
                      <li> <a href="<?php echo base_url('reviews'); ?>">Reviews</a> </li>
+
+                     <li><a href="<?php echo base_url('tutoring'); ?>" class="btn btn-primary btn-sm" style="font-weight:700; color:#fff;">Tutoring</a></li>
 
                     <li><a href="<?= $takeTestUrl ?>" class="btn btn-warning btn-sm <?= $isFreeTest ? 'active' : '' ?>" style="font-weight:700; color:#000;">Take a Test</a></li>
 

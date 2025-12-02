@@ -255,6 +255,7 @@ $routes->get('refund_policy', 'Home::refund_policy');
 $routes->get('blog', 'Home::blog');
 $routes->get('blog/(:segment)', 'Blog::show/$1');
 $routes->get('reviews', 'Home::reviews');
+$routes->get('tutoring', 'Home::tutoring');
 $routes->get('sitemap.xml', 'Sitemap::index');
 $routes->get('notes/(:num)', 'Notes::view/$1');
 

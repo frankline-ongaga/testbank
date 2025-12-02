@@ -568,6 +568,19 @@ class Home extends BaseController
     }
 
     /**
+     * Tutoring page
+     */
+    public function tutoring()
+    {
+        $data['title'] = "NCLEX Tutoring Services - Personalized One-on-One Support";
+        $data['description'] = "Get personalized NCLEX tutoring from experienced nursing educators. One-on-one sessions tailored to your learning style and exam preparation needs.";
+
+        return view('homepage/header', $data)
+             . view('homepage/tutoring', $data)
+             . view('homepage/footer');
+    }
+
+    /**
      * Order now page
      */
     public function orderNow(): string

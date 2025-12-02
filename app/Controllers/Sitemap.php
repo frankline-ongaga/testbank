@@ -22,6 +22,7 @@ class Sitemap extends Controller
         $urls[] = [ 'loc' => base_url('how_it_works'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.7' ];
         $urls[] = [ 'loc' => base_url('pricing'), 'lastmod' => $nowIso, 'changefreq' => 'weekly', 'priority' => '0.7' ];
         $urls[] = [ 'loc' => base_url('reviews'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.6' ];
+        $urls[] = [ 'loc' => base_url('tutoring'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.7' ];
         $urls[] = [ 'loc' => base_url('notes'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '0.8' ];
         $urls[] = [ 'loc' => base_url('client/tests'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '0.9' ];
         $urls[] = [ 'loc' => base_url('client/study'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '0.8' ];
