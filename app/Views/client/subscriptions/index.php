@@ -126,6 +126,36 @@
             font-size: 1.1rem;
             min-width: 20px;
         }
+        
+        /* Dark Mode Styles */
+        .theme-dark .plan-card {
+            background: #1f2937;
+            border-color: #374151;
+        }
+        .theme-dark .plan-card:hover {
+            border-color: #667eea;
+        }
+        .theme-dark .plan-card.featured {
+            border-color: #667eea;
+        }
+        .theme-dark .feature-item {
+            color: #d1d5db;
+        }
+        .theme-dark .text-muted {
+            color: #9ca3af !important;
+        }
+        .theme-dark .card-body {
+            background: transparent;
+        }
+        .theme-dark .card-footer {
+            background: transparent;
+        }
+        .theme-dark .plan-price {
+            background: linear-gradient(135deg, #60a5fa 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         .plan-accent {
             height: 5px;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);

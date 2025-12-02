@@ -1,3 +1,44 @@
+<style>
+    /* Dark Mode Styles */
+    .theme-dark .breadcrumb {
+        background: transparent;
+    }
+    .theme-dark .breadcrumb-item a {
+        color: #60a5fa;
+    }
+    .theme-dark .breadcrumb-item.active {
+        color: #d1d5db;
+    }
+    .theme-dark .breadcrumb-item + .breadcrumb-item::before {
+        color: #6b7280;
+    }
+    .theme-dark h2 {
+        color: #f9fafb;
+    }
+    .theme-dark .text-muted {
+        color: #9ca3af !important;
+    }
+    .theme-dark .card {
+        background: #1f2937;
+        border-color: #374151;
+    }
+    .theme-dark .card-title {
+        color: #f9fafb;
+    }
+    .theme-dark .card-text {
+        color: #d1d5db;
+    }
+    .theme-dark .btn-outline-secondary {
+        border-color: #4b5563;
+        color: #d1d5db;
+    }
+    .theme-dark .btn-outline-secondary:hover {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f9fafb;
+    }
+</style>
+
 <div class="container py-4">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">

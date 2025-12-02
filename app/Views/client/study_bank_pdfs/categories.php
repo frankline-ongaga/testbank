@@ -76,6 +76,64 @@
         color: #cbd5e0;
         margin-bottom: 1.5rem;
     }
+    
+    /* Dark Mode Styles */
+    .theme-dark .study-docs-hero {
+        background: #1f2937;
+        border-color: #374151;
+    }
+    .theme-dark .study-docs-hero h2 {
+        color: #f9fafb;
+    }
+    .theme-dark .category-card {
+        background: #1f2937;
+        border-color: #374151;
+    }
+    .theme-dark .category-card:hover {
+        border-color: #4b5563;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .theme-dark .category-icon-wrapper {
+        background: #374151;
+        color: #9ca3af;
+    }
+    .theme-dark .category-card .card-title {
+        color: #f9fafb;
+    }
+    .theme-dark .category-card .card-text {
+        color: #d1d5db;
+    }
+    .theme-dark .category-card .btn-view-docs {
+        background: #1f2937;
+        border-color: #9ca3af;
+        color: #d1d5db;
+    }
+    .theme-dark .category-card .btn-view-docs:hover {
+        background: #374151;
+        border-color: #d1d5db;
+        color: #f9fafb;
+    }
+    .theme-dark .text-muted {
+        color: #9ca3af !important;
+    }
+    .theme-dark .empty-state i {
+        color: #4b5563;
+    }
+    .theme-dark .alert {
+        background: #1f2937;
+        border-color: #374151;
+        color: #d1d5db;
+    }
+    .theme-dark .alert-success {
+        background: #064e3b;
+        border-color: #059669;
+        color: #d1fae5;
+    }
+    .theme-dark .alert-danger {
+        background: #7f1d1d;
+        border-color: #dc2626;
+        color: #fee2e2;
+    }
 </style>
 
 <div class="container py-4">
