@@ -2,6 +2,13 @@
 (function() {
     'use strict';
     
+    // Apply theme immediately before anything else
+    const savedTheme = localStorage.getItem('admin-theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('theme-dark');
+        document.documentElement.classList.add('theme-dark');
+    }
+    
     // Theme management
     const ThemeManager = {
         init() {
@@ -9,7 +16,7 @@
             this.body = document.body;
             this.currentTheme = localStorage.getItem('admin-theme') || 'light';
             
-            this.applyTheme(this.currentTheme);
+            this.applyTheme(this.currentTheme, true);
             this.bindEvents();
         },
         
@@ -21,18 +28,20 @@
         
         toggleTheme() {
             const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-            this.applyTheme(newTheme);
+            this.applyTheme(newTheme, false);
         },
         
-        applyTheme(theme) {
+        applyTheme(theme, skipTransition = false) {
             this.currentTheme = theme;
             
             if (theme === 'dark') {
                 this.body.classList.add('theme-dark');
-                document.documentElement.classList.add('theme-dark-loading');
+                document.documentElement.classList.add('theme-dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
             } else {
                 this.body.classList.remove('theme-dark');
-                document.documentElement.classList.remove('theme-dark-loading');
+                document.documentElement.classList.remove('theme-dark');
+                document.documentElement.removeAttribute('data-theme');
             }
             
             localStorage.setItem('admin-theme', theme);

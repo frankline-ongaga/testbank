@@ -22,10 +22,19 @@
         (function() {
             const savedTheme = localStorage.getItem('admin-theme');
             if (savedTheme === 'dark') {
-                document.documentElement.classList.add('theme-dark-loading');
+                document.documentElement.classList.add('theme-dark');
+                // Also add to HTML for immediate effect
+                document.documentElement.setAttribute('data-theme', 'dark');
             }
         })();
     </script>
+    <style>
+        /* Prevent flash of light theme */
+        html[data-theme="dark"] body.admin-body {
+            background: #111827;
+            color: #f9fafb;
+        }
+    </style>
 </head>
 <body class="admin-body">
 <div class="admin-layout <?= $isStudy ? 'fullwidth' : '' ?>">
@@ -143,33 +152,49 @@
             border-radius: 0 3px 3px 0;
         }
         
-        /* Dark Mode Styles */
-        .theme-dark .client-sidebar-beautiful .admin-sidebar {
+        /* Dark Mode Styles - Apply from both body and html level */
+        body.theme-dark .client-sidebar-beautiful .admin-sidebar,
+        html.theme-dark .client-sidebar-beautiful .admin-sidebar,
+        html[data-theme="dark"] .client-sidebar-beautiful .admin-sidebar {
             background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
             border-right: 1px solid #374151;
         }
-        .theme-dark .client-sidebar-beautiful .admin-nav-title {
+        body.theme-dark .client-sidebar-beautiful .admin-nav-title,
+        html.theme-dark .client-sidebar-beautiful .admin-nav-title,
+        html[data-theme="dark"] .client-sidebar-beautiful .admin-nav-title {
             color: #9ca3af;
         }
-        .theme-dark .client-sidebar-beautiful .admin-nav-link {
+        body.theme-dark .client-sidebar-beautiful .admin-nav-link,
+        html.theme-dark .client-sidebar-beautiful .admin-nav-link,
+        html[data-theme="dark"] .client-sidebar-beautiful .admin-nav-link {
             color: #d1d5db;
         }
-        .theme-dark .client-sidebar-beautiful .admin-nav-link i {
+        body.theme-dark .client-sidebar-beautiful .admin-nav-link i,
+        html.theme-dark .client-sidebar-beautiful .admin-nav-link i,
+        html[data-theme="dark"] .client-sidebar-beautiful .admin-nav-link i {
             color: #9ca3af;
         }
-        .theme-dark .client-sidebar-beautiful .admin-nav-link:hover {
+        body.theme-dark .client-sidebar-beautiful .admin-nav-link:hover,
+        html.theme-dark .client-sidebar-beautiful .admin-nav-link:hover,
+        html[data-theme="dark"] .client-sidebar-beautiful .admin-nav-link:hover {
             background: #374151;
             color: #f9fafb;
         }
-        .theme-dark .client-sidebar-beautiful .admin-nav-link:hover i {
+        body.theme-dark .client-sidebar-beautiful .admin-nav-link:hover i,
+        html.theme-dark .client-sidebar-beautiful .admin-nav-link:hover i,
+        html[data-theme="dark"] .client-sidebar-beautiful .admin-nav-link:hover i {
             color: #60a5fa;
         }
-        .theme-dark .client-sidebar-beautiful .admin-nav-link.active {
+        body.theme-dark .client-sidebar-beautiful .admin-nav-link.active,
+        html.theme-dark .client-sidebar-beautiful .admin-nav-link.active,
+        html[data-theme="dark"] .client-sidebar-beautiful .admin-nav-link.active {
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
-        .theme-dark .client-sidebar-beautiful .admin-nav-link.active:hover {
+        body.theme-dark .client-sidebar-beautiful .admin-nav-link.active:hover,
+        html.theme-dark .client-sidebar-beautiful .admin-nav-link.active:hover,
+        html[data-theme="dark"] .client-sidebar-beautiful .admin-nav-link.active:hover {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
         }
     </style>
