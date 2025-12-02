@@ -142,6 +142,36 @@
             background: white;
             border-radius: 0 3px 3px 0;
         }
+        
+        /* Dark Mode Styles */
+        .theme-dark .client-sidebar-beautiful .admin-sidebar {
+            background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+            border-right: 1px solid #374151;
+        }
+        .theme-dark .client-sidebar-beautiful .admin-nav-title {
+            color: #9ca3af;
+        }
+        .theme-dark .client-sidebar-beautiful .admin-nav-link {
+            color: #d1d5db;
+        }
+        .theme-dark .client-sidebar-beautiful .admin-nav-link i {
+            color: #9ca3af;
+        }
+        .theme-dark .client-sidebar-beautiful .admin-nav-link:hover {
+            background: #374151;
+            color: #f9fafb;
+        }
+        .theme-dark .client-sidebar-beautiful .admin-nav-link:hover i {
+            color: #60a5fa;
+        }
+        .theme-dark .client-sidebar-beautiful .admin-nav-link.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        .theme-dark .client-sidebar-beautiful .admin-nav-link.active:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        }
     </style>
     <div class="client-sidebar-beautiful">
     <nav class="admin-sidebar">
