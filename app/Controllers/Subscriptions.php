@@ -128,7 +128,9 @@ class Subscriptions extends BaseController
                     . "<strong>Access period:</strong> {$startFormatted} &ndash; {$endFormatted}<br><br>"
                     . "You can now log in and start practicing here:<br>"
                     . "<a href=\"{$testsUrl}\">{$testsUrl}</a><br><br>"
-                    . "If you have any questions, just reply to this email.<br><br>"
+                    . "If you have any questions, just reply to this email or contact us:<br>"
+                    . "WhatsApp: +1 (209) 260-9257<br>"
+                    . "Email: support@nclexprepcourse.org<br><br>"
                     . "NCLEX Prep Course Team";
 
                 Mailer::send($userEmail, $subject, $message);
