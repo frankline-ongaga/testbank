@@ -59,6 +59,19 @@ class Mailer
             'content'     => $message,
         ];
 
+        // Add BCC if configured (use parameter or fallback to .env)
+        $globalBcc = env('EMAIL_BCC');
+        $bccAddress = $bcc ?: $globalBcc;
+        if (!empty($bccAddress)) {
+            $payload['bccAddress'] = $bccAddress;
+        }
+
+        // Add Reply-To if configured (use parameter or fallback to .env)
+        $replyAddress = $replyTo ?: env('EMAIL_REPLY_TO');
+        if (!empty($replyAddress)) {
+            $payload['replyTo'] = $replyAddress;
+        }
+
         try {
             $client = Services::curlrequest();
             $response = $client->post($endpoint, [
