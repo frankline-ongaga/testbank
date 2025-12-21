@@ -147,14 +147,14 @@ class Auth extends BaseController
             $firstName = $this->request->getPost('first_name');
             $emailAddr = $this->request->getPost('email');
 
-            $subject = 'Welcome to NCLEX Test Bank';
+            $subject = 'Welcome to NCLEX Prep Course';
             $loginUrl = base_url('login/student');
             $message = "Hi {$firstName},<br><br>"
-                . "Thank you for creating your NCLEX Test Bank account. "
+                . "Thank you for creating your NCLEX Prep Course account. "
                 . "You can now choose an access plan and start practicing with our tests and study materials.<br><br>"
                 . "Login anytime at: <a href=\"{$loginUrl}\">{$loginUrl}</a><br><br>"
                 . "If you did not create this account, please ignore this email.<br><br>"
-                . "NCLEX Test Bank Team";
+                . "NCLEX Prep Course Team";
 
             Mailer::send($emailAddr, $subject, $message);
         } catch (\Throwable $e) {
@@ -324,11 +324,11 @@ class Auth extends BaseController
 
                 $subject = 'Password reset request';
                 $message = "Hi {$name},<br><br>"
-                    . "We received a request to reset the password for your NCLEX Test Bank account.<br>"
+                    . "We received a request to reset the password for your NCLEX Prep Course account.<br>"
                     . "You can reset your password by clicking the secure link below:<br><br>"
                     . "<a href=\"{$resetLink}\">{$resetLink}</a><br><br>"
                     . "If you did not request this, you can safely ignore this email.<br><br>"
-                    . "NCLEX Test Bank Team";
+                    . "NCLEX Prep Course Team";
 
                 Mailer::send($user['email'], $subject, $message);
             } catch (\Throwable $e) {

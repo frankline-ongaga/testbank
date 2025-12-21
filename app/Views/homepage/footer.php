@@ -127,7 +127,7 @@
       <ul class="mobile-nav__contact list-unstyled">
         <li>
           <i class="fas fa-envelope"></i>
-          <a href="mailto:example@company.com">support@nclexprepcourse.org</a>
+          <a href="mailto:support@nclexprepcourse.org">support@nclexprepcourse.org</a>
         </li>
         <li>
           <i class="fa fa-phone-alt"></i>

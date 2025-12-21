@@ -118,18 +118,18 @@ class Subscriptions extends BaseController
                 $startFormatted = date('M j, Y', strtotime($start));
                 $endFormatted   = date('M j, Y', strtotime($end));
 
-                $subject = "Your {$planLabel} NCLEX Test Bank access is confirmed";
+                $subject = "Your {$planLabel} NCLEX Prep Course access is confirmed";
 
                 $testsUrl = base_url('client/tests');
                 $message = "Hi {$userName},<br><br>"
-                    . "Thank you for your payment via PayPal. Your NCLEX Test Bank {$planLabel} access is now confirmed.<br><br>"
+                    . "Thank you for your payment via PayPal. Your NCLEX Prep Course {$planLabel} access is now confirmed.<br><br>"
                     . "<strong>Order ID:</strong> {$orderId}<br>"
                     . "<strong>Amount:</strong> $" . number_format($amount, 2) . " USD<br>"
                     . "<strong>Access period:</strong> {$startFormatted} &ndash; {$endFormatted}<br><br>"
                     . "You can now log in and start practicing here:<br>"
                     . "<a href=\"{$testsUrl}\">{$testsUrl}</a><br><br>"
                     . "If you have any questions, just reply to this email.<br><br>"
-                    . "NCLEX Test Bank Team";
+                    . "NCLEX Prep Course Team";
 
                 Mailer::send($userEmail, $subject, $message);
             }

@@ -22,7 +22,7 @@ class Mailer
      *   ZOHO_ACCOUNTS_URL     = https://accounts.zoho.com
      *   ZOHO_MAIL_API_BASE    = https://mail.zoho.com
      *   EMAIL_FROM_ADDRESS    = you@yourdomain.com
-     *   EMAIL_FROM_NAME       = "NCLEX Test Bank"
+     *   EMAIL_FROM_NAME       = "NCLEX Prep Course"
      */
     public static function send(string $to, string $subject, string $message, ?string $bcc = null, ?string $replyTo = null): bool
     {
@@ -35,7 +35,7 @@ class Mailer
         $accountId  = env('ZOHO_MAIL_ACCOUNT_ID');
         $apiBase    = rtrim(env('ZOHO_MAIL_API_BASE') ?? 'https://mail.zoho.com', '/');
         $from       = env('EMAIL_FROM_ADDRESS') ?: '';
-        $fromName   = env('EMAIL_FROM_NAME') ?? 'NCLEX Test Bank';
+        $fromName   = env('EMAIL_FROM_NAME') ?? 'NCLEX Prep Course';
 
         if (empty($accountId) || $from === '') {
             log_message('error', 'ZOHO_MAIL_ACCOUNT_ID or EMAIL_FROM_ADDRESS not configured for Mailer.');

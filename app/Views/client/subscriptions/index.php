@@ -233,7 +233,7 @@
                 createOrder: function(data, actions) {
                     return actions.order.create({
                         purchase_units: [{
-                            description: plan === 'monthly' ? '1-Month NCLEX Test Bank Access' : '3-Month NCLEX Test Bank Access',
+                            description: plan === 'monthly' ? '1-Month NCLEX Prep Course Access' : '3-Month NCLEX Prep Course Access',
                             amount: { value: amount.toString(), currency_code: 'USD' }
                         }]
                     });
