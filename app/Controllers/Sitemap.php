@@ -17,41 +17,14 @@ class Sitemap extends Controller
         $urls = [];
         $nowIso = date('c');
 
-        // Core pages (public, non-auth)
+        // Core pages (public, non-auth, indexable)
         $urls[] = [ 'loc' => base_url('/'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '1.0' ];
         $urls[] = [ 'loc' => base_url('how_it_works'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.7' ];
         $urls[] = [ 'loc' => base_url('pricing'), 'lastmod' => $nowIso, 'changefreq' => 'weekly', 'priority' => '0.7' ];
         $urls[] = [ 'loc' => base_url('reviews'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.6' ];
         $urls[] = [ 'loc' => base_url('tutoring'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.7' ];
-        $urls[] = [ 'loc' => base_url('notes'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '0.8' ];
-        $urls[] = [ 'loc' => base_url('client/study'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '0.8' ];
         $urls[] = [ 'loc' => base_url('login/student'), 'lastmod' => $nowIso, 'changefreq' => 'yearly', 'priority' => '0.3' ];
         $urls[] = [ 'loc' => base_url('register'), 'lastmod' => $nowIso, 'changefreq' => 'yearly', 'priority' => '0.4' ];
-
-        // Study notes (published)
-        $noteModel = new NoteModel();
-        $notes = $noteModel->where('status', 'published')->orderBy('updated_at', 'DESC')->findAll();
-        foreach ($notes as $n) {
-            $lastmod = !empty($n['updated_at']) ? date('c', strtotime($n['updated_at'])) : $nowIso;
-            $urls[] = [
-                'loc' => base_url('notes/' . (int)$n['id']),
-                'lastmod' => $lastmod,
-                'changefreq' => 'weekly',
-                'priority' => '0.8',
-            ];
-        }
-
-        // Study categories list pages (to aid discovery)
-        $catModel = new StudyCategoryModel();
-        $cats = $catModel->orderBy('name')->findAll();
-        foreach ($cats as $c) {
-            $urls[] = [
-                'loc' => base_url('client/study/' . (int)$c['id'] . '/subcategories'),
-                'lastmod' => $nowIso,
-                'changefreq' => 'weekly',
-                'priority' => '0.5',
-            ];
-        }
 
         // Free tests (publicly accessible testbank entries)
         try {
