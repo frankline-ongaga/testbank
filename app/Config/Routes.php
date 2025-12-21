@@ -259,6 +259,9 @@ $routes->get('tutoring', 'Home::tutoring');
 $routes->get('sitemap.xml', 'Sitemap::index');
 $routes->get('notes/(:num)', 'Notes::view/$1');
 
+// Zoho OAuth callback for one-time token exchange
+$routes->get('zoho/oauth/callback', 'ZohoOauth::callback');
+
 // Public Free Test Routes (homepage)
 $routes->get('free/test/(:num)', 'Home::freeTake/$1');
 $routes->post('free/submit/(:num)', 'Home::freeSubmit/$1');
