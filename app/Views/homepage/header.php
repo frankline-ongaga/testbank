@@ -12,6 +12,11 @@
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="assets/media/favicon.png">
 
+  <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('assets/images/fav/apple-touch-icon.png'); ?>">
+  <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('assets/images/fav/favicon-32x32.png'); ?>">
+  <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/fav/favicon-16x16.png'); ?>">
+  <link rel="manifest" href="/site.webmanifest">
+
   <!-- All CSS files -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -130,7 +135,7 @@
 
               <div class="main-menu__logo">
                 <a href="<?= base_url(); ?>">
-                  <img src="<?= base_url('assets/media/logo.png'); ?>" alt="Educate">
+                  <img src="<?= base_url('assets/media/logo.png'); ?>" alt="nclex prep exam">
                 </a>
               </div>
 
@@ -157,6 +162,23 @@
                   }
                   if (!$freeId && !empty($test) && !empty($test['is_free']) && !empty($test['id'])) {
                     $freeId = (int)$test['id'];
+                  }
+                  // Absolute fallback: query DB for any active free test
+                  if (!$freeId) {
+                    try {
+                      $db = \Config\Database::connect();
+                      $row = $db->table('tests')
+                        ->where('is_free', 1)
+                        ->where('status', 'active')
+                        ->orderBy('id', 'DESC')
+                        ->get(1)
+                        ->getRowArray();
+                      if (!empty($row['id'])) {
+                        $freeId = (int)$row['id'];
+                      }
+                    } catch (\Throwable $e) {
+                      // Silently ignore DB issues in the header
+                    }
                   }
                   $takeTestUrl = $freeId ? base_url('free/test/' . $freeId) : base_url('client/tests');
                 ?>

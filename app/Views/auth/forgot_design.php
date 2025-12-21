@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/vendor/nice-select/nice-select.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
     <style>
+        /* Restore original heading sizes for auth pages */
         h1, .h1 { font-size: 61px; }
         h2, .h2 { font-size: 47px; }
         h3, .h3 { font-size: 36px; }
@@ -27,9 +28,29 @@
         h5, .h5 { font-size: 21px; }
         h6, .h6 { font-size: 16px; }
 
-        html, body { height: 100%; overflow: hidden; }
+        /* Let page scroll naturally on small screens */
+        html, body { min-height: 100%; }
         #main-wrapper { min-height: 100vh; }
-        .form_page { padding-top: 60px; padding-bottom: 60px; min-height: 100vh; overflow: hidden; }
+        .form_page { padding-top: 60px; padding-bottom: 60px; min-height: 100vh; }
+
+        /* Make forgot-password page match the modern auth styling */
+        .forgot-subtitle {
+            font-size: 0.95rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+        .forgot-helper {
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+        .form_block {
+            box-shadow: 0 20px 50px rgba(15,23,42,0.12);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+        .form_block .text_block {
+            padding-top: 40px;
+        }
     </style>
 </head>
 
@@ -57,12 +78,15 @@
                     <div class="col-xl-6">
                         <div class="form_block">
                             <div class="text_block">
-                                <br><br><br><br>
                                 <a href="<?= base_url(); ?>" class="educate_link_btn color-primary h6 mb-48"><i class="far fa-chevron-left"></i> Back To Home</a>
                                 <div class="title">
                                     <img src="<?= base_url('assets/media/shapes/mic-speaker.png') ?>" alt="" class="speaker_icon">
                                     <h2 class="mb-48">Forgot Password</h2>
                                 </div>
+
+                                <p class="forgot-subtitle">
+                                    Enter the email address you used to sign up and we’ll send you a secure link to reset your password.
+                                </p>
 
                                 <?php if (session()->getFlashdata('message')): ?>
                                     <div class="alert alert-info mb-24"><?= esc(session()->getFlashdata('message')) ?></div>
@@ -86,6 +110,7 @@
                                 </form>
                                 <div class="bottom-row mt-3">
                                     <h6>Remembered your password? <a href="<?= base_url('login/student') ?>" class="color-primary">Login</a></h6>
+                                    <p class="forgot-helper mt-2">If you no longer have access to this email, contact support@nclexprepcourse.org for help.</p>
                                 </div>
                             </div>
                             <div class="shapes">

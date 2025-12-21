@@ -17,14 +17,13 @@ class Sitemap extends Controller
         $urls = [];
         $nowIso = date('c');
 
-        // Core pages
+        // Core pages (public, non-auth)
         $urls[] = [ 'loc' => base_url('/'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '1.0' ];
         $urls[] = [ 'loc' => base_url('how_it_works'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.7' ];
         $urls[] = [ 'loc' => base_url('pricing'), 'lastmod' => $nowIso, 'changefreq' => 'weekly', 'priority' => '0.7' ];
         $urls[] = [ 'loc' => base_url('reviews'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.6' ];
         $urls[] = [ 'loc' => base_url('tutoring'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.7' ];
         $urls[] = [ 'loc' => base_url('notes'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '0.8' ];
-        $urls[] = [ 'loc' => base_url('client/tests'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '0.9' ];
         $urls[] = [ 'loc' => base_url('client/study'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '0.8' ];
         $urls[] = [ 'loc' => base_url('login/student'), 'lastmod' => $nowIso, 'changefreq' => 'yearly', 'priority' => '0.3' ];
         $urls[] = [ 'loc' => base_url('register'), 'lastmod' => $nowIso, 'changefreq' => 'yearly', 'priority' => '0.4' ];
@@ -39,18 +38,6 @@ class Sitemap extends Controller
                 'lastmod' => $lastmod,
                 'changefreq' => 'weekly',
                 'priority' => '0.8',
-            ];
-        }
-
-        // Study questions listing per subcategory (client public path used earlier)
-        $subModel = new StudySubcategoryModel();
-        $subs = $subModel->orderBy('name')->findAll();
-        foreach ($subs as $s) {
-            $urls[] = [
-                'loc' => base_url('client/study/subcategory/' . (int)$s['id'] . '/questions'),
-                'lastmod' => $nowIso,
-                'changefreq' => 'weekly',
-                'priority' => '0.6',
             ];
         }
 

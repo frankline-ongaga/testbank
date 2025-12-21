@@ -29,9 +29,9 @@
         h5, .h5 { font-size: 21px; }
         h6, .h6 { font-size: 16px; }
 
-        html, body { height: 100%; overflow: hidden; }
+        html, body { min-height: 100%; }
         #main-wrapper { min-height: 100vh; }
-        .form_page { padding-top: 60px; padding-bottom: 60px; min-height: 100vh; overflow: hidden; }
+        .form_page { padding-top: 60px; padding-bottom: 60px; min-height: 100vh; }
     </style>
 </head>
 

@@ -1,6 +1,8 @@
 	<?php 
            // echo $h->num_rows();
-                                       foreach($h->result() as $row){ ?>
+           foreach($h->result() as $row){ 
+
+       ?>
         <!-- Page Title -->
      
 

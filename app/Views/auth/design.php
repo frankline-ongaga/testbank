@@ -10,8 +10,10 @@
     <title><?php if(isset($title)){ echo $title; } ?></title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/media/favicon.png">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('assets/images/fav/apple-touch-icon.png'); ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('assets/images/fav/favicon-32x32.png'); ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/fav/favicon-16x16.png'); ?>">
+    <link rel="manifest" href="/site.webmanifest">
     <!-- All CSS files -->
     <link rel="stylesheet" href="<?= base_url('assets/vendor/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/vendor/fontawesome/font-awesome.css') ?>">
@@ -30,6 +32,10 @@
         h4, .h4 { font-size: 27px; }
         h5, .h5 { font-size: 21px; }
         h6, .h6 { font-size: 16px; }
+
+        html, body { min-height: 100%; }
+        #main-wrapper { min-height: 100vh; }
+        .form_page { padding-top: 60px; padding-bottom: 60px; min-height: 100vh; }
     </style>
 
 </head>

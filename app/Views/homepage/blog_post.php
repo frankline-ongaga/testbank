@@ -68,5 +68,6 @@
             </div>
         </div>
     </div>
+    <?php include 'cta.php'; ?>
 </section>
 <!-- Blog Content Area End -->
