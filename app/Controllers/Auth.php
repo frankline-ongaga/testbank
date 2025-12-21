@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use CodeIgniter\Controller;
+use App\Libraries\Mailer;
 
 class Auth extends BaseController
 {
@@ -140,6 +141,25 @@ class Auth extends BaseController
             'user_email' => $this->request->getPost('email'),
             'username' => $this->request->getPost('first_name'),
         ]);
+
+        // Send welcome email (non-blocking)
+        try {
+            $firstName = $this->request->getPost('first_name');
+            $emailAddr = $this->request->getPost('email');
+
+            $subject = 'Welcome to NCLEX Test Bank';
+            $loginUrl = base_url('login/student');
+            $message = "Hi {$firstName},<br><br>"
+                . "Thank you for creating your NCLEX Test Bank account. "
+                . "You can now choose an access plan and start practicing with our tests and study materials.<br><br>"
+                . "Login anytime at: <a href=\"{$loginUrl}\">{$loginUrl}</a><br><br>"
+                . "If you did not create this account, please ignore this email.<br><br>"
+                . "NCLEX Test Bank Team";
+
+            Mailer::send($emailAddr, $subject, $message);
+        } catch (\Throwable $e) {
+            log_message('error', 'Failed to send signup email: {message}', ['message' => $e->getMessage()]);
+        }
 
         // Auto-login already set above. Redirect to client subscriptions to complete payment
         return redirect()->to('/client/subscription')->with('message', 'Account created. Choose a plan to complete signup.');
@@ -297,7 +317,23 @@ class Auth extends BaseController
                 'reset_token' => $token,
                 'reset_expires_at' => date('Y-m-d H:i:s', time() + 3600),
             ]);
-            // TODO: send email via configured email service
+            // Send password reset email (non-blocking)
+            try {
+                $resetLink = base_url('reset/' . $token);
+                $name      = $user['first_name'] ?? 'Student';
+
+                $subject = 'Password reset request';
+                $message = "Hi {$name},<br><br>"
+                    . "We received a request to reset the password for your NCLEX Test Bank account.<br>"
+                    . "You can reset your password by clicking the secure link below:<br><br>"
+                    . "<a href=\"{$resetLink}\">{$resetLink}</a><br><br>"
+                    . "If you did not request this, you can safely ignore this email.<br><br>"
+                    . "NCLEX Test Bank Team";
+
+                Mailer::send($user['email'], $subject, $message);
+            } catch (\Throwable $e) {
+                log_message('error', 'Failed to send password reset email: {message}', ['message' => $e->getMessage()]);
+            }
         }
         return redirect()->back()->with('message', 'If the email exists, a reset link has been sent.');
     }
