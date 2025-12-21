@@ -30,7 +30,7 @@
                                 <h6 class="mb-1 d-flex align-items-center justify-content-between">
                                     <span><i class="far fa-folder me-2"></i><?= esc($sub['name']) ?></span>
                                     <?php if ($isFree): ?>
-                                        <span class="badge border border-black text-black" style="color: black;">Free</span>
+                                        <span class="badge border border-black text-black badge-free">Free</span>
                                     <?php else: ?>
                                         <span class="badge border border-success text-success">Pro</span>
                                     <?php endif; ?>
@@ -46,4 +46,11 @@
     </div>
 </div>
 
+<style>
+    /* Ensure "Free" badge text is visible in dark mode */
+    .theme-dark .badge-free {
+        color: #ffffff !important;
+        border-color: #ffffff !important;
+    }
+</style>
 
