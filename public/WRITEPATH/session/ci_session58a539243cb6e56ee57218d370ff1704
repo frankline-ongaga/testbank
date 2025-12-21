@@ -1,1 +1,1 @@
-_ci_previous_url|s:32:"http://localhost:8081/index.php/";csrf_token_name|s:32:"b12022ce982aeab0fd777d02f7219b34";
+_ci_previous_url|s:68:"http://localhost:8081/index.php/client/study/subcategory/1/questions";csrf_token_name|s:32:"b12022ce982aeab0fd777d02f7219b34";user_id|s:1:"3";roles|a:1:{i:0;s:7:"student";}user_email|s:18:"client@example.com";username|s:6:"client";current_role|s:6:"client";

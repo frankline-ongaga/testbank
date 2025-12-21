@@ -50,7 +50,9 @@
                                             </div>
                                         <?php endforeach; ?>
                                         <?php if (!empty($q['rationale'])): ?>
-                                            <div class="mt-2 p-2 bg-light border small">General: <?= esc($q['rationale']) ?></div>
+                                            <div class="mt-2 p-2 bg-light border" style="font-size: 0.95rem;">
+                                                <strong>General:</strong> <strong><?= esc($q['rationale']) ?></strong>
+                                            </div>
                                         <?php endif; ?>
                                     </div>
                                 </div>
