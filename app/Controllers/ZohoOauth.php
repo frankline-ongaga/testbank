@@ -59,8 +59,9 @@ class ZohoOauth extends BaseController
 
         if (empty($clientId) || empty($clientSecret)) {
             return $this->response
-                ->setStatusCode(500)
-                ->setBody('ZOHO_CLIENT_ID or ZOHO_CLIENT_SECRET is not configured in .env');
+                // Use 200 so the message is visible instead of a generic HTTP 500 page
+                ->setStatusCode(200)
+                ->setBody('ZOHO_CLIENT_ID or ZOHO_CLIENT_SECRET is not configured in .env on this server.');
         }
 
         $redirectUri = base_url('zoho/oauth/callback');
@@ -115,7 +116,8 @@ class ZohoOauth extends BaseController
             log_message('error', 'Zoho OAuth token exchange failed: ' . $e->getMessage());
 
             return $this->response
-                ->setStatusCode(500)
+                // Use 200 so you can read the error text in the browser
+                ->setStatusCode(200)
                 ->setBody('Zoho OAuth token exchange failed: ' . $e->getMessage());
         }
     }
