@@ -49,13 +49,14 @@
                                                 <div class="text-muted small"><?= esc($c['explanation'] ?? '') ?></div>
                                             </div>
                                         <?php endforeach; ?>
-                                        <?php if (!empty($q['rationale'])): ?>
-                                            <div class="mt-2 p-2 bg-light border" style="font-size: 0.95rem;">
-                                                <strong>General:</strong> <strong><?= esc($q['rationale']) ?></strong>
-                                            </div>
-                                        <?php endif; ?>
                                     </div>
                                 </div>
+                                <?php if (!empty($q['rationale'])): ?>
+                                    <div class="mt-3 p-3 bg-light border rounded" style="font-size: 1.05rem;">
+                                        <div class="fw-bold mb-1">Rationale</div>
+                                        <div><?= nl2br(esc($q['rationale'])) ?></div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -88,5 +89,4 @@
         </div>
     </div>
 </div>
-
 

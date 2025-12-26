@@ -6,6 +6,7 @@ use App\Models\StudySubcategoryModel;
 use App\Models\StudyQuestionModel;
 use App\Models\StudyChoiceModel;
 use App\Models\StudyQuestionCategoryModel;
+use CodeIgniter\HTTP\Response;
 
 class StudyAdmin extends BaseController
 {
@@ -325,6 +326,161 @@ class StudyAdmin extends BaseController
         }
         return redirect()->to(base_url('admin/study'));
     }
-}
 
+    public function downloadQuestionTemplate($subcategoryId)
+    {
+        $subcategory = $this->subcategories->find((int)$subcategoryId);
+        if (!$subcategory) return redirect()->to(base_url('admin/study'));
+
+        $filename = 'study-questions-template-subcat-' . (int)$subcategoryId . '.csv';
+        $fh = fopen('php://temp', 'r+');
+        $headers = [
+            'stem',
+            'rationale',
+            'topic',
+            'choice_a',
+            'choice_a_correct',
+            'choice_a_explanation',
+            'choice_b',
+            'choice_b_correct',
+            'choice_b_explanation',
+            'choice_c',
+            'choice_c_correct',
+            'choice_c_explanation',
+            'choice_d',
+            'choice_d_correct',
+            'choice_d_explanation',
+        ];
+        fputcsv($fh, $headers);
+        fputcsv($fh, [
+            'What is the normal range for adult heart rate?',
+            'Reference range question for vital signs.',
+            'Vitals',
+            '60-100 bpm',
+            1,
+            'Normal resting range',
+            '40-50 bpm',
+            0,
+            'Too low for normal adult at rest',
+            '90-120 bpm',
+            0,
+            'Upper end exceeds typical resting range',
+            '30-40 bpm',
+            0,
+            'Marked bradycardia',
+        ]);
+        rewind($fh);
+        $csv = stream_get_contents($fh);
+        fclose($fh);
+        return $this->response
+            ->setHeader('Content-Type', 'text/csv')
+            ->setHeader('Content-Disposition', 'attachment; filename="'.$filename.'"')
+            ->setBody($csv);
+    }
+
+    public function importQuestions($subcategoryId)
+    {
+        $subcategory = $this->subcategories->find((int)$subcategoryId);
+        if (!$subcategory) return redirect()->to(base_url('admin/study'));
+        $file = $this->request->getFile('questions_file');
+        if (!$file || !$file->isValid()) {
+            return redirect()->back()->with('error', 'Please upload a valid CSV file.');
+        }
+
+        $ext = strtolower($file->getClientExtension());
+        if (!in_array($ext, ['csv'])) {
+            return redirect()->back()->with('error', 'Only CSV files are supported. Please save your Excel as CSV.');
+        }
+
+        $path = $file->getTempName();
+        $handle = fopen($path, 'r');
+        if (!$handle) {
+            return redirect()->back()->with('error', 'Could not read uploaded file.');
+        }
+
+        $header = fgetcsv($handle);
+        $normalizedHeader = array_map(function ($h) {
+            return strtolower(trim((string)$h));
+        }, $header ?: []);
+
+        $requiredCols = ['stem', 'choice_a', 'choice_b'];
+        foreach ($requiredCols as $col) {
+            if (!in_array($col, $normalizedHeader, true)) {
+                fclose($handle);
+                return redirect()->back()->with('error', 'Missing required column: '.$col);
+            }
+        }
+
+        $colIndex = array_flip($normalizedHeader);
+        $created = 0;
+        $skipped = 0;
+        while (($row = fgetcsv($handle)) !== false) {
+            $get = function ($key) use ($colIndex, $row) {
+                return array_key_exists($key, $colIndex) ? ($row[$colIndex[$key]] ?? '') : '';
+            };
+
+            $stem = trim((string)$get('stem'));
+            if ($stem === '') { $skipped++; continue; }
+            $rationale = trim((string)$get('rationale'));
+            $topicName = trim((string)$get('topic'));
+
+            $questionId = $this->questions->insert([
+                'subcategory_id' => (int)$subcategoryId,
+                'stem' => $stem,
+                'rationale' => $rationale,
+                'created_by' => (int)session()->get('user_id'),
+            ], true);
+
+            $qcategoryId = null;
+            if ($topicName !== '') {
+                $existing = $this->questionCategories
+                    ->where('subcategory_id', (int)$subcategoryId)
+                    ->where('name', $topicName)
+                    ->first();
+                if ($existing) {
+                    $qcategoryId = (int)$existing['id'];
+                } else {
+                    $qcategoryId = (int)$this->questionCategories->insert([
+                        'subcategory_id' => (int)$subcategoryId,
+                        'name' => $topicName,
+                        'slug' => strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $topicName))),
+                    ], true);
+                }
+                $this->questions->update($questionId, ['study_question_category_id' => $qcategoryId]);
+            }
+
+            $letters = ['a','b','c','d'];
+            $anyChoice = false;
+            foreach ($letters as $idx => $letter) {
+                $content = trim((string)$get('choice_'.$letter));
+                if ($content === '') continue;
+                $anyChoice = true;
+                $isCorrect = in_array(strtolower((string)$get('choice_'.$letter.'_correct')), ['1','true','yes','y'], true) ? 1 : 0;
+                $explanation = trim((string)$get('choice_'.$letter.'_explanation'));
+                $this->choices->insert([
+                    'question_id' => $questionId,
+                    'label' => strtoupper($letter),
+                    'content' => $content,
+                    'is_correct' => $isCorrect,
+                    'explanation' => $explanation ?: null,
+                ]);
+            }
+
+            if (!$anyChoice) {
+                // Remove question with no choices
+                $this->questions->delete($questionId);
+                $skipped++;
+                continue;
+            }
+
+            $created++;
+        }
+        fclose($handle);
+
+        $msg = $created . ' questions imported.';
+        if ($skipped > 0) $msg .= ' Skipped '.$skipped.' row(s) with no question text or choices.';
+        return redirect()->to(base_url('admin/study/subcategory/'.$subcategoryId.'/questions'))
+            ->with('success', $msg);
+    }
+}
 

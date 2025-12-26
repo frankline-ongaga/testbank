@@ -128,6 +128,8 @@ $routes->group('admin', function($routes) {
     $routes->get('study/subcategory/(:num)/questions', 'StudyAdmin::questions/$1');
     $routes->get('study/subcategory/(:num)/question/create', 'StudyAdmin::createQuestion/$1');
     $routes->post('study/subcategory/(:num)/question/store', 'StudyAdmin::storeQuestion/$1');
+    $routes->get('study/subcategory/(:num)/questions/template', 'StudyAdmin::downloadQuestionTemplate/$1');
+    $routes->post('study/subcategory/(:num)/questions/import', 'StudyAdmin::importQuestions/$1');
     $routes->get('study/question/(:num)/edit', 'StudyAdmin::editQuestion/$1');
     $routes->post('study/question/(:num)/update', 'StudyAdmin::updateQuestion/$1');
     $routes->get('study/question/(:num)/delete', 'StudyAdmin::deleteQuestion/$1');

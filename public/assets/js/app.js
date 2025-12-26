@@ -158,11 +158,19 @@
       }
 
       if ($(".main-menu__nav").length && $(".mobile-nav__container").length) {
-        let navContent = document.querySelector(".main-menu__nav").innerHTML;
         let mobileNavContainer = document.querySelector(
           ".mobile-nav__container"
         );
-        mobileNavContainer.innerHTML = navContent;
+        let isStatic =
+          mobileNavContainer &&
+          mobileNavContainer.hasAttribute("data-static");
+        let hasMenu =
+          mobileNavContainer &&
+          mobileNavContainer.querySelector(".main-menu__list");
+        if (mobileNavContainer && !isStatic && !hasMenu) {
+          let navContent = document.querySelector(".main-menu__nav").innerHTML;
+          mobileNavContainer.innerHTML = navContent;
+        }
       }
       if ($(".sticky-header__content").length) {
         let navContent = document.querySelector(".main-menu").innerHTML;
@@ -201,6 +209,25 @@
           $("body").toggleClass("locked");
         });
       }
+
+      // Close on overlay or X click
+      $(".mobile-nav__close, .mobile-nav__overlay").on(
+        "click touchstart",
+        function (e) {
+          e.preventDefault();
+          $(".mobile-nav__wrapper").removeClass("expanded");
+          $("body").removeClass("locked");
+        }
+      );
+
+      // Close after clicking any mobile nav link
+      document.querySelectorAll(".mobile-nav__container a").forEach((link) => {
+        link.addEventListener("click", () => {
+          const wrapper = document.querySelector(".mobile-nav__wrapper");
+          wrapper?.classList.remove("expanded");
+          document.body.classList.remove("locked");
+        });
+      });
 
       $(window).on("scroll", function () {
         if ($(".stricked-menu").length) {

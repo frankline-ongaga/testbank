@@ -117,13 +117,24 @@
     <div class="mobile-nav__content">
       <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
       <div class="logo-box">
-      
+        <a href="<?= base_url(); ?>">
+          <img src="<?= base_url('assets/media/logo.png'); ?>" alt="NCLEX Prep Course">
+        </a>
       </div>
-      <div class="mobile-nav__container"></div>
-      <ul class="mobile-nav__links list-unstyled">
-        <li><a href="<?= base_url('login/student'); ?>">Login</a></li>
-        <li><a href="<?= base_url('register'); ?>">Register</a></li>
-      </ul>
+      <div class="mobile-nav__container" data-static="true">
+        <nav class="main-menu__nav">
+          <ul class="main-menu__list">
+            <li><a href="<?= base_url('how_it_works'); ?>">How It Works</a></li>
+            <li><a href="<?= base_url('pricing'); ?>">Pricing</a></li>
+            <li><a href="<?= base_url('reviews'); ?>">Reviews</a></li>
+            <li><a href="<?= base_url('login/student'); ?>">Account</a></li>
+            <li><a href="<?= base_url('register'); ?>">Get Started</a></li>
+
+            <li class="mobile-nav__cta-gap"><a href="<?= base_url('tutoring'); ?>" class="btn btn-primary btn-sm" style="font-weight:700; color:#fff;">Tutoring</a></li>
+            <li><a href="<?= base_url('free/test'); ?>" class="btn btn-warning btn-sm" style="font-weight:700; color:#000;">Take a Test</a></li>
+          </ul>
+        </nav>
+      </div>
       <ul class="mobile-nav__contact list-unstyled">
         <li>
           <i class="fas fa-envelope"></i>

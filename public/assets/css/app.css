@@ -2624,7 +2624,7 @@ input[type=search]::-webkit-search-results-decoration {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 999;
+  z-index: 1200;
   transform: translateX(-100%);
   transform-origin: left center;
   transition: transform 500ms ease 500ms, visibility 500ms ease 500ms;
@@ -2735,6 +2735,14 @@ input[type=search]::-webkit-search-results-decoration {
   transform: rotate(0deg);
   background-color: #fefcfb;
   color: #2a322d;
+}
+.mobile-nav__wrapper .mobile-nav__content .main-menu__list li.mobile-nav__cta-gap {
+  margin-bottom: 12px;
+  border-bottom: 0;
+}
+.mobile-nav__wrapper .mobile-nav__content .main-menu__list li a.btn {
+  width: 100%;
+  justify-content: center;
 }
 .mobile-nav__wrapper .mobile-nav__close {
   position: absolute;
@@ -4311,41 +4319,47 @@ footer .copyright_row P {
 .page_title_banner {
   background: url(../media/banners/page-title-bg_2.png);
   background-position: center;
-  height: 562px;
   position: relative;
   overflow: hidden;
+  height: auto;
+  padding: 96px 0 48px;
 }
 @media (max-width: 992px) {
   .page_title_banner {
-    height: 450px;
+    padding: 88px 0 40px;
   }
 }
 @media (max-width: 767px) {
   .page_title_banner {
-    height: 400px;
+    padding: 84px 0 36px;
   }
 }
 @media (max-width: 575px) {
   .page_title_banner {
     background: url(../media/banners/page-title-bg.png);
-    height: 350px;
+    padding: 80px 0 32px;
   }
 }
 .page_title_banner .content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 120px 0 46px;
+  padding: 60px 0 24px;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 @media (max-width: 767px) {
   .page_title_banner .content {
-    gap: 24px;
-    padding: 135px 0 46px;
+    padding: 40px 0 16px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 @media (max-width: 575px) {
   .page_title_banner .content {
-    padding-top: 200px;
+    padding: 32px 0 12px;
+    align-items: center;
+    text-align: center;
   }
 }
 .page_title_banner .content .title {
@@ -4365,6 +4379,11 @@ footer .copyright_row P {
   left: 190px;
   -webkit-animation: animation-upDown-2 3s linear 0s infinite alternate;
   animation: animation-upDown-2 3s linear 0s infinite alternate;
+}
+@media (max-width: 991px) {
+  .page_title_banner .content .title .tag {
+    display: none;
+  }
 }
 @media (max-width: 575px) {
   .page_title_banner .content .title .tag {
