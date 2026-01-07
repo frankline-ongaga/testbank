@@ -45,6 +45,9 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="me-3">
                             <?= esc(mb_strimwidth(strip_tags($q['stem']), 0, 140, '...')) ?>
+                            <?php if (!empty($q['image_path'])): ?>
+                                <span class="badge text-bg-secondary ms-2">Image</span>
+                            <?php endif; ?>
                         </div>
                         <div class="d-flex gap-2">
                             <a class="btn btn-outline-primary btn-sm" href="<?= base_url('admin/study/question/'.$q['id'].'/edit') ?>">Edit</a>
@@ -57,4 +60,3 @@
         <?php endif; ?>
     </div>
 </div>
-

@@ -71,6 +71,11 @@ if (empty($renderInHomepage)) {
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <div class="question-stem"><?= $q['stem'] ?></div>
+                            <?php if (!empty($q['media_path'])): ?>
+                                <div class="mb-3">
+                                    <img src="<?= base_url('questions/media/' . (int)$q['id']) ?>" alt="Question image" class="img-fluid border rounded" style="max-height: 420px;">
+                                </div>
+                            <?php endif; ?>
                             <?php $choices = $choicesByQ[$q['id']] ?? []; ?>
                             <?php foreach ($choices as $choice): ?>
                                 <?php if ($q['type'] === 'sata'): ?>

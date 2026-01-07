@@ -7,6 +7,11 @@
         <div class="mb-3">
             <?= $question['stem'] ?>
         </div>
+        <?php if (!empty($question['media_path'])): ?>
+            <div class="mb-3">
+                <img src="<?= base_url('admin/questions/media/' . (int)$question['id']) ?>" alt="Question image" class="img-fluid border rounded" style="max-height: 420px;">
+            </div>
+        <?php endif; ?>
         <div>
             <?php foreach ($choices as $c): ?>
                 <div class="p-2 border rounded mb-2 <?= (int)$c['is_correct'] === 1 ? 'bg-success-subtle border-success' : '' ?>">
@@ -19,6 +24,5 @@
         <?php endif; ?>
     </div>
 </div>
-
 
 

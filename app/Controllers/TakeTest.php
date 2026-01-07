@@ -72,7 +72,7 @@ class TakeTest extends BaseController
         if (!$test) return redirect()->to('/client/tests');
 
         $questions = $this->db->table('test_questions tq')
-->select('q.id, q.stem, q.type')
+            ->select('q.id, q.stem, q.type, q.media_path')
             ->join('questions q', 'q.id = tq.question_id', 'inner')
             ->where('tq.test_id', $attempt['test_id'])
             ->orderBy('tq.sort_order', 'ASC')
@@ -216,5 +216,4 @@ class TakeTest extends BaseController
         return view('tests/results', $data);
     }
 }
-
 

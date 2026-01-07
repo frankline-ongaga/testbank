@@ -29,6 +29,15 @@
             </div>
 
             <div class="mb-4">
+                <label class="form-label">Question Image (optional)</label>
+                <input id="question_image" type="file" name="image" class="form-control" accept="image/*">
+                <div class="form-text text-muted">Allowed: JPG, PNG, GIF, WEBP. Max 5MB.</div>
+                <div id="question_image_preview_wrap" class="mt-2 d-none">
+                    <img id="question_image_preview" src="" alt="Selected question image" class="img-fluid border rounded" style="max-height: 320px;">
+                </div>
+            </div>
+
+            <div class="mb-4">
                 <label class="form-label">Rationale</label>
                 <textarea name="rationale" class="form-control" rows="4" placeholder="Explain the correct answer..."><?= old('rationale') ?></textarea>
                 <div class="form-text text-muted">Provide an explanation for the correct answer</div>
@@ -139,4 +148,24 @@ function removeChoice(btn) {
     const card = btn.closest('.card');
     if (card) card.remove();
 }
+</script>
+
+<script>
+(() => {
+    const input = document.getElementById('question_image');
+    const wrap = document.getElementById('question_image_preview_wrap');
+    const img = document.getElementById('question_image_preview');
+    if (!input || !wrap || !img) return;
+
+    input.addEventListener('change', () => {
+        const file = input.files && input.files[0];
+        if (!file || !file.type || !file.type.startsWith('image/')) {
+            wrap.classList.add('d-none');
+            img.src = '';
+            return;
+        }
+        img.src = URL.createObjectURL(file);
+        wrap.classList.remove('d-none');
+    });
+})();
 </script>

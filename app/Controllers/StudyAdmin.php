@@ -6,6 +6,7 @@ use App\Models\StudySubcategoryModel;
 use App\Models\StudyQuestionModel;
 use App\Models\StudyChoiceModel;
 use App\Models\StudyQuestionCategoryModel;
+use CodeIgniter\Files\File;
 use CodeIgniter\HTTP\Response;
 
 class StudyAdmin extends BaseController
@@ -221,6 +222,37 @@ class StudyAdmin extends BaseController
             . view('admin/layout/footer');
     }
 
+    public function questionImage($questionId)
+    {
+        $q = $this->questions->find((int)$questionId);
+        if (!$q || empty($q['image_path'])) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $existing = (string)$q['image_path'];
+        if (strpos($existing, 'writable/uploads/study_questions/') !== 0) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $filename = basename($existing);
+        $path = WRITEPATH . 'uploads/study_questions/' . $filename;
+        if (!is_file($path)) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $mime = 'application/octet-stream';
+        try {
+            $mime = (new File($path))->getMimeType() ?: $mime;
+        } catch (\Throwable $e) {
+            // ignore
+        }
+
+        return $this->response
+            ->setHeader('Content-Type', $mime)
+            ->setHeader('Content-Disposition', 'inline; filename="' . $filename . '"')
+            ->setBody((string) file_get_contents($path));
+    }
+
     public function createQuestion($subcategoryId)
     {
         $subcategory = $this->subcategories->find((int)$subcategoryId);
@@ -235,9 +267,37 @@ class StudyAdmin extends BaseController
 
     public function storeQuestion($subcategoryId)
     {
+        $imagePath = null;
+        $image = $this->request->getFile('image');
+        if ($image && $image->getError() !== UPLOAD_ERR_NO_FILE) {
+            if (!$image->isValid() || $image->hasMoved()) {
+                return redirect()->back()->withInput()->with('error', 'Please upload a valid image file.');
+            }
+
+            $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            $ext = strtolower((string)$image->getClientExtension());
+            if (!in_array($ext, $allowedExt, true)) {
+                return redirect()->back()->withInput()->with('error', 'Image must be JPG, PNG, GIF, or WEBP.');
+            }
+
+            if ((int)$image->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->withInput()->with('error', 'Image is too large. Max 5MB.');
+            }
+
+            $targetDir = WRITEPATH . 'uploads/study_questions';
+            if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+                return redirect()->back()->withInput()->with('error', 'Could not create upload directory.');
+            }
+
+            $newName = $image->getRandomName();
+            $image->move($targetDir, $newName);
+            $imagePath = 'writable/uploads/study_questions/' . $newName;
+        }
+
         $questionId = $this->questions->insert([
             'subcategory_id' => (int)$subcategoryId,
             'stem' => $this->request->getPost('stem'),
+            'image_path' => $imagePath,
             'rationale' => $this->request->getPost('rationale'),
             'created_by' => (int)session()->get('user_id'),
         ], true);
@@ -289,12 +349,59 @@ class StudyAdmin extends BaseController
     {
         $q = $this->questions->find((int)$questionId);
         if (!$q) return redirect()->to(base_url('admin/study'));
+
         $studyQuestionCategoryId = (int)($this->request->getPost('study_question_category_id') ?? 0);
-        $this->questions->update((int)$questionId, [
+        $update = [
             'stem' => $this->request->getPost('stem'),
             'rationale' => $this->request->getPost('rationale'),
             'study_question_category_id' => $studyQuestionCategoryId ?: null,
-        ]);
+        ];
+
+        $image = $this->request->getFile('image');
+        $hasNewImage = $image && $image->getError() !== UPLOAD_ERR_NO_FILE;
+        $removeImage = (int)($this->request->getPost('remove_image') ?? 0) === 1;
+
+        $deleteExisting = function () use ($q) {
+            $existing = (string)($q['image_path'] ?? '');
+            if ($existing !== '' && strpos($existing, 'writable/uploads/study_questions/') === 0) {
+                $filename = basename($existing);
+                $path = WRITEPATH . 'uploads/study_questions/' . $filename;
+                if (is_file($path)) {
+                    @unlink($path);
+                }
+            }
+        };
+
+        if ($hasNewImage) {
+            if (!$image->isValid() || $image->hasMoved()) {
+                return redirect()->back()->withInput()->with('error', 'Please upload a valid image file.');
+            }
+
+            $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            $ext = strtolower((string)$image->getClientExtension());
+            if (!in_array($ext, $allowedExt, true)) {
+                return redirect()->back()->withInput()->with('error', 'Image must be JPG, PNG, GIF, or WEBP.');
+            }
+
+            if ((int)$image->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->withInput()->with('error', 'Image is too large. Max 5MB.');
+            }
+
+            $targetDir = WRITEPATH . 'uploads/study_questions';
+            if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+                return redirect()->back()->withInput()->with('error', 'Could not create upload directory.');
+            }
+
+            $newName = $image->getRandomName();
+            $image->move($targetDir, $newName);
+            $deleteExisting();
+            $update['image_path'] = 'writable/uploads/study_questions/' . $newName;
+        } elseif ($removeImage) {
+            $deleteExisting();
+            $update['image_path'] = null;
+        }
+
+        $this->questions->update((int)$questionId, $update);
 
         // Replace choices
         $this->choices->where('question_id', (int)$questionId)->delete();
@@ -321,6 +428,14 @@ class StudyAdmin extends BaseController
         $q = $this->questions->find((int)$questionId);
         if ($q) {
             $this->choices->where('question_id', (int)$questionId)->delete();
+            $existing = (string)($q['image_path'] ?? '');
+            if ($existing !== '' && strpos($existing, 'writable/uploads/study_questions/') === 0) {
+                $filename = basename($existing);
+                $path = WRITEPATH . 'uploads/study_questions/' . $filename;
+                if (is_file($path)) {
+                    @unlink($path);
+                }
+            }
             $this->questions->delete((int)$questionId);
             return redirect()->to(base_url('admin/study/subcategory/'.$q['subcategory_id'].'/questions'));
         }
@@ -483,4 +598,3 @@ class StudyAdmin extends BaseController
             ->with('success', $msg);
     }
 }
-

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\QuestionModel;
 use App\Models\ChoiceModel;
 use App\Models\TaxonomyModel;
+use CodeIgniter\Files\File;
 
 class Questions extends BaseController
 {
@@ -89,11 +90,39 @@ class Questions extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        $mediaPath = null;
+        $image = $this->request->getFile('image');
+        if ($image && $image->getError() !== UPLOAD_ERR_NO_FILE) {
+            if (!$image->isValid() || $image->hasMoved()) {
+                return redirect()->back()->withInput()->with('errors', ['Please upload a valid image file.']);
+            }
+
+            $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            $ext = strtolower((string)$image->getClientExtension());
+            if (!in_array($ext, $allowedExt, true)) {
+                return redirect()->back()->withInput()->with('errors', ['Image must be JPG, PNG, GIF, or WEBP.']);
+            }
+
+            if ((int)$image->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->withInput()->with('errors', ['Image is too large. Max 5MB.']);
+            }
+
+            $targetDir = WRITEPATH . 'uploads/questions';
+            if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+                return redirect()->back()->withInput()->with('errors', ['Could not create upload directory.']);
+            }
+
+            $newName = $image->getRandomName();
+            $image->move($targetDir, $newName);
+            $mediaPath = 'writable/uploads/questions/' . $newName;
+        }
+
         $questionId = $this->questionModel->insert([
             'author_id' => (int) ($this->session->get('user_id') ?: 0),
             'type' => $this->request->getPost('type'),
             'stem' => $this->request->getPost('stem'),
             'rationale' => $this->request->getPost('rationale'),
+            'media_path' => $mediaPath,
             'is_active' => $this->isAdmin() ? 1 : 0,
         ], true);
 
@@ -163,12 +192,58 @@ class Questions extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Update question
-        $this->questionModel->update($id, [
+        $update = [
             'type' => $this->request->getPost('type'),
             'stem' => $this->request->getPost('stem'),
             'rationale' => $this->request->getPost('rationale'),
-        ]);
+        ];
+
+        $image = $this->request->getFile('image');
+        $hasNewImage = $image && $image->getError() !== UPLOAD_ERR_NO_FILE;
+        $removeImage = (int)($this->request->getPost('remove_image') ?? 0) === 1;
+
+        $deleteExisting = function () use ($question) {
+            $existing = (string)($question['media_path'] ?? '');
+            if ($existing !== '' && strpos($existing, 'writable/uploads/questions/') === 0) {
+                $filename = basename($existing);
+                $path = WRITEPATH . 'uploads/questions/' . $filename;
+                if (is_file($path)) {
+                    @unlink($path);
+                }
+            }
+        };
+
+        if ($hasNewImage) {
+            if (!$image->isValid() || $image->hasMoved()) {
+                return redirect()->back()->withInput()->with('errors', ['Please upload a valid image file.']);
+            }
+
+            $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            $ext = strtolower((string)$image->getClientExtension());
+            if (!in_array($ext, $allowedExt, true)) {
+                return redirect()->back()->withInput()->with('errors', ['Image must be JPG, PNG, GIF, or WEBP.']);
+            }
+
+            if ((int)$image->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->withInput()->with('errors', ['Image is too large. Max 5MB.']);
+            }
+
+            $targetDir = WRITEPATH . 'uploads/questions';
+            if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+                return redirect()->back()->withInput()->with('errors', ['Could not create upload directory.']);
+            }
+
+            $newName = $image->getRandomName();
+            $image->move($targetDir, $newName);
+            $deleteExisting();
+            $update['media_path'] = 'writable/uploads/questions/' . $newName;
+        } elseif ($removeImage) {
+            $deleteExisting();
+            $update['media_path'] = null;
+        }
+
+        // Update question
+        $this->questionModel->update($id, $update);
 
         // Replace choices
         $this->choiceModel->where('question_id', $id)->delete();
@@ -210,11 +285,50 @@ class Questions extends BaseController
         if (!$question) {
             return redirect()->to('/admin/questions')->with('error', 'Question not found');
         }
+        $existing = (string)($question['media_path'] ?? '');
+        if ($existing !== '' && strpos($existing, 'writable/uploads/questions/') === 0) {
+            $filename = basename($existing);
+            $path = WRITEPATH . 'uploads/questions/' . $filename;
+            if (is_file($path)) {
+                @unlink($path);
+            }
+        }
         $this->choiceModel->where('question_id', $id)->delete();
         // Remove taxonomy links
         $this->db->table('question_terms')->where('question_id', $id)->delete();
         $this->questionModel->delete($id);
         return redirect()->to('/admin/questions')->with('message', 'Question deleted');
+    }
+
+    public function media($id)
+    {
+        $question = $this->questionModel->find((int)$id);
+        if (!$question || empty($question['media_path'])) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $existing = (string)$question['media_path'];
+        if (strpos($existing, 'writable/uploads/questions/') !== 0) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $filename = basename($existing);
+        $path = WRITEPATH . 'uploads/questions/' . $filename;
+        if (!is_file($path)) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $mime = 'application/octet-stream';
+        try {
+            $mime = (new File($path))->getMimeType() ?: $mime;
+        } catch (\Throwable $e) {
+            // ignore
+        }
+
+        return $this->response
+            ->setHeader('Content-Type', $mime)
+            ->setHeader('Content-Disposition', 'inline; filename="' . $filename . '"')
+            ->setBody((string) file_get_contents($path));
     }
 
     public function preview($id)

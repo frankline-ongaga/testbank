@@ -13,7 +13,7 @@
         <h5 class="card-title mb-0">Edit Question</h5>
     </div>
     <div class="card-body">
-        <form method="post" action="<?= base_url('admin/questions/update/' . (int)$question['id']) ?>">
+        <form method="post" action="<?= base_url('admin/questions/update/' . (int)$question['id']) ?>" enctype="multipart/form-data">
             <?= csrf_field() ?>
 
             <div class="mb-4">
@@ -28,6 +28,26 @@
             <div class="mb-4">
                 <label class="form-label">Question Text</label>
                 <textarea name="stem" class="form-control" rows="5" required><?= esc($question['stem']) ?></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Question Image</label>
+                <?php if (!empty($question['media_path'])): ?>
+                    <div class="mb-2">
+                        <img id="question_image_current" src="<?= base_url('admin/questions/media/' . (int)$question['id']) ?>" alt="Question image" class="img-fluid border rounded" style="max-height: 320px;">
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="remove_image" value="1" id="remove_image">
+                        <label class="form-check-label" for="remove_image">Remove current image</label>
+                    </div>
+                <?php endif; ?>
+                <div class="<?= !empty($question['media_path']) ? 'mt-2' : '' ?>">
+                    <input id="question_image" type="file" name="image" class="form-control" accept="image/*">
+                </div>
+                <div class="form-text">Allowed: JPG, PNG, GIF, WEBP. Max 5MB.</div>
+                <div id="question_image_preview_wrap" class="mt-2 d-none">
+                    <img id="question_image_preview" src="" alt="Selected question image" class="img-fluid border rounded" style="max-height: 320px;">
+                </div>
             </div>
 
             <div class="mb-4">
@@ -116,5 +136,26 @@ function removeChoice(btn) {
 }
 </script>
 
+<script>
+(() => {
+    const input = document.getElementById('question_image');
+    const wrap = document.getElementById('question_image_preview_wrap');
+    const img = document.getElementById('question_image_preview');
+    const removeToggle = document.getElementById('remove_image');
+    if (!input || !wrap || !img) return;
+
+    input.addEventListener('change', () => {
+        const file = input.files && input.files[0];
+        if (!file || !file.type || !file.type.startsWith('image/')) {
+            wrap.classList.add('d-none');
+            img.src = '';
+            return;
+        }
+        img.src = URL.createObjectURL(file);
+        wrap.classList.remove('d-none');
+        if (removeToggle) removeToggle.checked = false;
+    });
+})();
+</script>
 
 

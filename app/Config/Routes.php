@@ -70,6 +70,7 @@ $routes->group('admin', function($routes) {
     $routes->get('questions/create', 'Questions::create');
     $routes->post('questions/store', 'Questions::store');
     $routes->get('questions/edit/(:num)', 'Questions::edit/$1');
+    $routes->get('questions/media/(:num)', 'Questions::media/$1');
     $routes->post('questions/update/(:num)', 'Questions::update/$1');
     $routes->get('questions/delete/(:num)', 'Questions::delete/$1');
     $routes->get('questions/preview/(:num)', 'Questions::preview/$1');
@@ -128,6 +129,7 @@ $routes->group('admin', function($routes) {
     $routes->get('study/subcategory/(:num)/questions', 'StudyAdmin::questions/$1');
     $routes->get('study/subcategory/(:num)/question/create', 'StudyAdmin::createQuestion/$1');
     $routes->post('study/subcategory/(:num)/question/store', 'StudyAdmin::storeQuestion/$1');
+    $routes->get('study/question-image/(:num)', 'StudyAdmin::questionImage/$1');
     $routes->get('study/subcategory/(:num)/questions/template', 'StudyAdmin::downloadQuestionTemplate/$1');
     $routes->post('study/subcategory/(:num)/questions/import', 'StudyAdmin::importQuestions/$1');
     $routes->get('study/question/(:num)/edit', 'StudyAdmin::editQuestion/$1');
@@ -233,6 +235,7 @@ $routes->group('client', function($routes) {
     $routes->get('study', 'Study::index');
     $routes->get('study/(:num)/subcategories', 'Study::subcategories/$1');
     $routes->get('study/subcategory/(:num)/questions', 'Study::questions/$1');
+    $routes->get('study/question-image/(:num)', 'Study::questionImage/$1');
     
     // Study Bank PDFs (Paid Students Only)
     $routes->get('study-bank-pdfs', 'StudyBankPdfs::clientIndex');
@@ -247,6 +250,7 @@ $routes->get('subscriptions', 'Subscriptions::index');
 $routes->get('subscriptions/success', 'Subscriptions::success');
 
 // Public Routes
+$routes->get('questions/media/(:num)', 'Questions::media/$1');
 $routes->get('notes', 'Notes::index');
 $routes->get('pricing', 'Home::pricing');
 $routes->get('how_it_works', 'Home::how_it_works');

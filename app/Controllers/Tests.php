@@ -330,6 +330,34 @@ class Tests extends BaseController
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
+
+        $mediaPath = null;
+        $image = $this->request->getFile('image');
+        if ($image && $image->getError() !== UPLOAD_ERR_NO_FILE) {
+            if (!$image->isValid() || $image->hasMoved()) {
+                return redirect()->back()->withInput()->with('errors', ['Please upload a valid image file.']);
+            }
+
+            $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            $ext = strtolower((string)$image->getClientExtension());
+            if (!in_array($ext, $allowedExt, true)) {
+                return redirect()->back()->withInput()->with('errors', ['Image must be JPG, PNG, GIF, or WEBP.']);
+            }
+
+            if ((int)$image->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->withInput()->with('errors', ['Image is too large. Max 5MB.']);
+            }
+
+            $targetDir = WRITEPATH . 'uploads/questions';
+            if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+                return redirect()->back()->withInput()->with('errors', ['Could not create upload directory.']);
+            }
+
+            $newName = $image->getRandomName();
+            $image->move($targetDir, $newName);
+            $mediaPath = 'writable/uploads/questions/' . $newName;
+        }
+
         // Read choices (support both nested view format and global questions/create format)
         $choiceContents = (array) $this->request->getPost('contents');
         $choiceLabels = (array) $this->request->getPost('labels');
@@ -354,6 +382,7 @@ class Tests extends BaseController
             'type' => $this->request->getPost('type'),
             'stem' => $this->request->getPost('stem'),
             'rationale' => $this->request->getPost('rationale'),
+            'media_path' => $mediaPath,
             'is_active' => 1,
         ], true);
         // Optional taxonomy linking (NCLEX category)

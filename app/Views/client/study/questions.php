@@ -32,6 +32,11 @@
                         <div class="card h-100">
                             <div class="card-body">
                                 <div class="mb-2"><?= $q['stem'] ?></div>
+                                <?php if (!empty($q['image_path'])): ?>
+                                    <div class="mb-3">
+                                        <img src="<?= base_url('client/study/question-image/' . (int)$q['id']) ?>" alt="Question image" class="img-fluid border rounded" style="max-height: 420px;">
+                                    </div>
+                                <?php endif; ?>
                                 <?php $choices = $choicesByQ[$q['id']] ?? []; ?>
                                 <div class="row">
                                     <div class="col-6">
@@ -89,4 +94,3 @@
         </div>
     </div>
 </div>
-

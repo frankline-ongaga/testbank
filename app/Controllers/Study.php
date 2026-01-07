@@ -7,6 +7,7 @@ use App\Models\StudyQuestionModel;
 use App\Models\StudyChoiceModel;
 use App\Models\NoteModel;
 use App\Models\SubscriptionModel;
+use CodeIgniter\Files\File;
 
 class Study extends BaseController
 {
@@ -100,6 +101,59 @@ class Study extends BaseController
             . view('client/study/questions', $data)
             . view('client/layout/footer');
     }
-}
 
+    public function questionImage($questionId)
+    {
+        $q = $this->questions->find((int)$questionId);
+        if (!$q || empty($q['image_path'])) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $subcategoryId = (int)($q['subcategory_id'] ?? 0);
+        $subcategory = $this->subcategories->find($subcategoryId);
+        if (!$subcategory) {
+            return $this->response->setStatusCode(404);
+        }
+
+        // Same access rules as `questions()`
+        $firstSub = $this->subcategories
+            ->where('category_id', (int)$subcategory['category_id'])
+            ->orderBy('name')
+            ->first();
+        $freeSubId = (int)($firstSub['id'] ?? 0);
+        if ($subcategoryId !== $freeSubId) {
+            $userId = (int)(session()->get('user_id') ?? 0);
+            if (!$userId) {
+                return $this->response->setStatusCode(403);
+            }
+            $active = $this->subs->getActiveForUser($userId);
+            if (!$active) {
+                return $this->response->setStatusCode(403);
+            }
+        }
+
+        $existing = (string)$q['image_path'];
+        if (strpos($existing, 'writable/uploads/study_questions/') !== 0) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $filename = basename($existing);
+        $path = WRITEPATH . 'uploads/study_questions/' . $filename;
+        if (!is_file($path)) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $mime = 'application/octet-stream';
+        try {
+            $mime = (new File($path))->getMimeType() ?: $mime;
+        } catch (\Throwable $e) {
+            // ignore
+        }
+
+        return $this->response
+            ->setHeader('Content-Type', $mime)
+            ->setHeader('Content-Disposition', 'inline; filename="' . $filename . '"')
+            ->setBody((string) file_get_contents($path));
+    }
+}
 
