@@ -228,6 +228,10 @@
                 <i class="fas fa-file-alt"></i>
                 <span>Study Bank Docs</span>
             </a>
+            <a class="admin-nav-link" href="<?= base_url('client/cheat-sheets'); ?>">
+                <i class="fas fa-file-image"></i>
+                <span>Cheat Sheets</span>
+            </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Account</div>

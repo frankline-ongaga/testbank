@@ -127,6 +127,10 @@
                 <i class="fas fa-file"></i>
                 <span>Study Bank Docs</span>
             </a>
+            <a class="admin-nav-link" href="<?= base_url('admin/cheat-sheets'); ?>" data-path="admin/cheat-sheets">
+                <i class="fas fa-file-image"></i>
+                <span>Cheat Sheets</span>
+            </a>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Payments</div>
@@ -155,7 +159,11 @@
             try {
                 const url = new URL(href, window.location.origin);
                 const linkPath = normalizePath(url.pathname);
-                if (current === linkPath) link.classList.add('active');
+                const isDashboard = linkPath === 'admin';
+                const shouldActivate = isDashboard
+                    ? current === linkPath
+                    : (current === linkPath || current.startsWith(linkPath + '/'));
+                if (shouldActivate) link.classList.add('active');
                 else link.classList.remove('active');
             } catch (e) {
                 // ignore invalid URLs
@@ -169,4 +177,3 @@
             <h1 class="admin-page-title"><?= isset($title) ? esc($title) : 'Dashboard' ?></h1>
         </div>
         <div class="admin-content">
-

@@ -162,6 +162,13 @@ $normalizedPath = preg_replace('#^index\.php/#', '', $currentPath);
                     <span>Study Bank Docs</span>
                 </a>
             <?php endif; ?>
+            <?php if ($isAdmin || $isInstructor): ?>
+                <a class="admin-nav-link <?= strpos($currentPath, 'admin/cheat-sheets') === 0 ? 'active' : '' ?>"
+                   href="<?= base_url('admin/cheat-sheets'); ?>">
+                    <i class="fas fa-file-image"></i>
+                    <span>Cheat Sheets</span>
+                </a>
+            <?php endif; ?>
         </div>
         <div class="admin-nav-section">
             <div class="admin-nav-title">Business</div>

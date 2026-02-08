@@ -159,6 +159,23 @@ $routes->group('admin', function($routes) {
     $routes->get('study-bank-pdfs/pdf/(:num)/edit', 'StudyBankPdfs::adminEdit/$1');
     $routes->post('study-bank-pdfs/pdf/(:num)/update', 'StudyBankPdfs::adminUpdate/$1');
     $routes->get('study-bank-pdfs/pdf/(:num)/delete', 'StudyBankPdfs::adminDelete/$1');
+
+    // Cheat Sheets (images/PDFs)
+    $routes->get('cheat-sheets', 'CheatSheets::adminIndex');
+    $routes->get('cheat-sheets/(:num)/subcategories', 'CheatSheets::adminSubcategories/$1');
+    // Category-level manager
+    $routes->get('cheat-sheets/category/(:num)/docs', 'CheatSheets::adminCheatSheetsByCategory/$1');
+    $routes->get('cheat-sheets/category/(:num)/upload', 'CheatSheets::adminUploadFormCategory/$1');
+    $routes->post('cheat-sheets/category/(:num)/upload', 'CheatSheets::adminUploadCategory/$1');
+    $routes->get('cheat-sheets/subcategory/(:num)/docs', 'CheatSheets::adminCheatSheets/$1');
+    $routes->get('cheat-sheets/subcategory/(:num)/upload', 'CheatSheets::adminUploadForm/$1');
+    $routes->post('cheat-sheets/subcategory/(:num)/upload', 'CheatSheets::adminUpload/$1');
+    $routes->get('cheat-sheets/doc/(:num)/view', 'CheatSheets::adminView/$1');
+    $routes->get('cheat-sheets/doc/(:num)/file', 'CheatSheets::adminFile/$1');
+    $routes->get('cheat-sheets/doc/(:num)/download', 'CheatSheets::adminDownload/$1');
+    $routes->get('cheat-sheets/doc/(:num)/edit', 'CheatSheets::adminEdit/$1');
+    $routes->post('cheat-sheets/doc/(:num)/update', 'CheatSheets::adminUpdate/$1');
+    $routes->get('cheat-sheets/doc/(:num)/delete', 'CheatSheets::adminDelete/$1');
 });
 
 // Instructor Routes
@@ -243,6 +260,15 @@ $routes->group('client', function($routes) {
     $routes->get('study-bank-pdfs/(:num)/subcategories', 'StudyBankPdfs::clientSubcategories/$1');
     $routes->get('study-bank-pdfs/subcategory/(:num)/pdfs', 'StudyBankPdfs::clientPdfs/$1');
     $routes->get('study-bank-pdfs/pdf/(:num)/download', 'StudyBankPdfs::clientDownload/$1');
+
+    // Cheat Sheets (Paid Students Only)
+    $routes->get('cheat-sheets', 'CheatSheets::clientIndex');
+    $routes->get('cheat-sheets/category/(:num)/docs', 'CheatSheets::clientCheatSheetsByCategory/$1');
+    $routes->get('cheat-sheets/(:num)/subcategories', 'CheatSheets::clientSubcategories/$1');
+    $routes->get('cheat-sheets/subcategory/(:num)/docs', 'CheatSheets::clientCheatSheets/$1');
+    $routes->get('cheat-sheets/doc/(:num)', 'CheatSheets::clientView/$1');
+    $routes->get('cheat-sheets/doc/(:num)/file', 'CheatSheets::clientFile/$1');
+    $routes->get('cheat-sheets/doc/(:num)/download', 'CheatSheets::clientDownload/$1');
 });
 
 // Subscription Routes

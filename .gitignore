@@ -60,8 +60,16 @@ writable/session/*
 writable/uploads/*
 !writable/uploads/index.html
 
+writable/uploads/cheat_sheets/*
+
 writable/debugbar/*
 !writable/debugbar/.gitkeep
+
+# Cheat Sheets uploads (served via controller, stored outside public/)
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/uploads/cheat_sheets/*
+!storage/uploads/cheat_sheets/.gitkeep
 
 php_errors.log
 
