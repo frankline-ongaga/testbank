@@ -41,11 +41,8 @@ $isPdf = $ext === 'pdf';
             <?php if ($isPdf): ?>
                 <iframe src="<?= base_url('client/cheat-sheets/doc/' . (int)$doc['id'] . '/file') ?>" style="width:100%; height:80vh;" class="border rounded"></iframe>
             <?php else: ?>
-                <div class="text-center">
-                    <img src="<?= base_url('client/cheat-sheets/doc/' . (int)$doc['id'] . '/file') ?>" alt="Cheat sheet" class="img-fluid border rounded">
-                </div>
+                <img src="<?= base_url('client/cheat-sheets/doc/' . (int)$doc['id'] . '/file') ?>" alt="Cheat sheet" class="w-100 border rounded">
             <?php endif; ?>
         </div>
     </div>
 </div>
-
