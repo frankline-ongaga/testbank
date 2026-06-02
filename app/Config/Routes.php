@@ -278,6 +278,7 @@ $routes->get('subscriptions/success', 'Subscriptions::success');
 // Public Routes
 $routes->get('questions/media/(:num)', 'Questions::media/$1');
 $routes->get('notes', 'Notes::index');
+$routes->get('services', 'Home::services');
 $routes->get('pricing', 'Home::pricing');
 $routes->get('how_it_works', 'Home::how_it_works');
 $routes->get('terms', 'Home::terms');

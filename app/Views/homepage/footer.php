@@ -22,7 +22,10 @@
                   <li><a href="<?= base_url('register'); ?>"><i class="fad fa-chevron-right"></i>Get Started</a></li>
                   <li><a href="<?= base_url('login/student'); ?>"><i class="fad fa-chevron-right"></i>Login</a></li>
                   <li><a href="<?= base_url('how_it_works'); ?>"><i class="fad fa-chevron-right"></i>How It Works</a></li>
+                  <li><a href="<?= base_url('services'); ?>"><i class="fad fa-chevron-right"></i>Services</a></li>
                   <li><a href="<?= base_url('reviews'); ?>"><i class="fad fa-chevron-right"></i>Reviews</a></li>
+                  <li><a href="<?= base_url('terms'); ?>"><i class="fad fa-chevron-right"></i>Terms and Conditions</a></li>
+                  <li><a href="<?= base_url('refund_policy'); ?>"><i class="fad fa-chevron-right"></i>Refund Policy</a></li>
                   <li><a href="<?= base_url(); ?>"><i class="fad fa-chevron-right"></i>Home</a></li>
 
 
@@ -101,6 +104,9 @@
             </div>
           </div>
           <?php endif; ?>
+          <p class="mt-4 mb-0" style="font-size:12px; line-height:1.6; color:#94a3b8;">
+            Please note that NCLEX-RN&reg; and NCLEX-PN&reg; are registered trademarks of the National Council of State Boards of Nursing, Inc (NCSBN&reg;), and TEAS 7 is a trademark for the Test of Essential Academic Skills.
+          </p>
         </div>
       </div>
       <div class="copyright_row">

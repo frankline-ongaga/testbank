@@ -6,6 +6,9 @@
     <li class="nav-item" role="presentation">
         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#testsTab" type="button" role="tab">Tests & Performance</button>
     </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#studentsTab" type="button" role="tab">Per Student</button>
+    </li>
 </ul>
 
 <div class="tab-content">
@@ -256,6 +259,112 @@
             </div>
         </div>
     </div>
+</div>
+</div>
+
+<div class="tab-pane fade" id="studentsTab" role="tabpanel">
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Students</h5>
+                    <div class="display-6 mb-2"><?= number_format($student_analytics_summary['total_students'] ?? 0) ?></div>
+                    <div class="small">Students tracked in the test bank</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Active (30d)</h5>
+                    <div class="display-6 mb-2"><?= number_format($student_analytics_summary['active_students_30d'] ?? 0) ?></div>
+                    <div class="small">Students with recent attempts</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Avg Attempts</h5>
+                    <div class="display-6 mb-2"><?= number_format($student_analytics_summary['avg_attempts_per_student'] ?? 0, 1) ?></div>
+                    <div class="small">Per student across the cohort</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Top Avg Score</h5>
+                    <div class="display-6 mb-2"><?= number_format($student_analytics_summary['top_student_avg_score'] ?? 0, 1) ?>%</div>
+                    <div class="small"><?= esc($student_analytics_summary['top_student_name'] ?? 'N/A') ?></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="card-title mb-0">Student Performance</h5>
+            <span class="text-muted small"><?= number_format($student_analytics_summary['students_with_attempts'] ?? 0) ?> students have test activity</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Student</th>
+                            <th>Status</th>
+                            <th class="text-end">Attempts</th>
+                            <th class="text-end">Avg Score</th>
+                            <th class="text-end">Best Score</th>
+                            <th>Last Attempt</th>
+                            <th class="text-end">Recent 30d</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($student_analytics_rows)): ?>
+                            <?php foreach ($student_analytics_rows as $student): ?>
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold"><?= esc($student['username'] ?: $student['email'] ?: ('Student #' . $student['id'])) ?></div>
+                                        <div class="text-muted small"><?= esc($student['email'] ?? '-') ?></div>
+                                    </td>
+                                    <td>
+                                        <?php
+                                            $status = strtolower((string) ($student['status'] ?? 'unknown'));
+                                            $statusClass = match ($status) {
+                                                'active' => 'success',
+                                                'pending' => 'warning',
+                                                'suspended' => 'danger',
+                                                default => 'secondary',
+                                            };
+                                        ?>
+                                        <span class="badge bg-<?= $statusClass ?>"><?= esc(ucfirst($status)) ?></span>
+                                    </td>
+                                    <td class="text-end"><?= number_format((int) ($student['total_attempts'] ?? 0)) ?></td>
+                                    <td class="text-end"><?= number_format((float) ($student['avg_score'] ?? 0), 1) ?>%</td>
+                                    <td class="text-end"><?= number_format((float) ($student['best_score'] ?? 0), 1) ?>%</td>
+                                    <td>
+                                        <?php if (!empty($student['last_attempt_at'])): ?>
+                                            <?= esc(date('Y-m-d H:i', strtotime($student['last_attempt_at']))) ?>
+                                        <?php else: ?>
+                                            <span class="text-muted">No attempts yet</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-end"><?= number_format((int) ($student['attempts_30d'] ?? 0)) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">No student analytics available yet.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

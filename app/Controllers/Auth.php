@@ -71,7 +71,8 @@ class Auth extends BaseController
         $rules = [
             'email' => 'required|valid_email|is_unique[users.email]',
             'password' => 'required|min_length[6]',
-            'first_name' => 'required|min_length[2]'
+            'first_name' => 'required|min_length[2]',
+            'terms_agreement' => 'required|in_list[1]',
         ];
 
         $messages = [
@@ -87,6 +88,10 @@ class Auth extends BaseController
             'first_name' => [
                 'required'   => 'First name is required',
                 'min_length' => 'First name must be at least 2 characters',
+            ],
+            'terms_agreement' => [
+                'required' => 'You must agree to the Terms and Conditions and Refund Policy.',
+                'in_list'  => 'You must agree to the Terms and Conditions and Refund Policy.',
             ],
         ];
 

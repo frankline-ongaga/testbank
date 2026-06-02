@@ -1,92 +1,251 @@
-<main>
-        <!-- Page Title -->
-        <section class="page-heading parallax effect-section" style="background-image: url(static/img/bg-banner-1.webp);">
-            <div class="mask bg-dark-gradient opacity-8"></div>
-            <div class="container position-relative">
-                <h1 class="display-6 text-white mb-3 text-center">Refund Policy</h1>
-                <ol class="breadcrumb light m-0">
-                    <li class="breadcrumb-item"><a class="text-reset" href="<?php echo base_url(); ?>"><i class="bi bi-house-fill"></i> Home</a></li>
-                    <li class="breadcrumb-item active text-white-50" aria-current="page">Refund Policy </li>
-                </ol>
-            </div>
-        </section>
-        <!-- End Page Title -->
-        <!-- End Page Title -->
-        <!-- Section -->
-        <section class="section">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-lg-9 col-xl-12 my-3 wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.1s">
-                        <div class="h3 mb-3">Refund Policy</div>
-                        <p class="lead mb-4">EssayPrompt.org offers a money-back guarantee policy. This gives a client the right to request a refund in case our service fails to fulfill our duties. We want to emphasize we offer a full refund only in the following situations:</p>
+<main class="legal-page refund-page">
+  <section class="legal-hero">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-9 col-lg-10">
+          <nav aria-label="breadcrumb" class="legal-crumb">
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Refund Policy</li>
+            </ol>
+          </nav>
+          <p class="legal-eyebrow">Legal information</p>
+          <h1 class="legal-title">Refund Policy</h1>
+          <p class="legal-date"><strong>Effective Date:</strong> 12 TH NOVEMBER 2025</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-                        <ul>
-                            <li>If no expert has been assigned your academic writing assignment. We will refund the full amount including the fees charged. If such a situation occurs, we will notify you immediately.</li>
-                            <li>If you want a refund when we have already assigned your order, you won’t get a full refund. In this case, we will deduct up to 50% to cover the effort our experts made in their attempt to write your paper. </li>
-                            <li>We will offer you a full refund in case your paper is delivered late. However, if we slightly miss your deadline, we will refund an appropriate amount to compensate for the late delivery. We will discuss the exact amount with you. </li>
-                            <li>We will offer you a full refund in case your paper is delivered late. However, if we slightly miss your deadline, we will refund an appropriate amount to compensate for the late delivery. We will discuss the exact amount with you. </li>
-                            <li>We also offer refunds when dispute claims are filed. For instance, if you are not satisfied with your paper after a couple of revisions, we will refund up to 70% of your money. </li>
-                            <li>We also offer a full refund in case of accidental duplicate orders. You need to contact us if you want to cancel a duplicate order. </li>
-                            <li>We offer a full refund if the paper is plagiarized. A plagiarism report is required for any refund to be issued. </li>
+  <section class="legal-body">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-9 col-lg-10">
+          <div class="legal-content policy-content">
+            <p>
+              At NCLEXPREPCOURSE.ORG, we are committed to providing high-quality NCLEX
+              preparation resources and educational support. Please read our refund policy carefully before
+              purchasing any course, subscription, membership, practice test package, or digital product.
+            </p>
 
-                        </ul>
+            <h2>1. Digital Product Policy</h2>
+            <p>
+              All products and services offered through NCLEXPREPCOURSE.ORG are digital educational
+              resources. Due to the immediate access provided upon purchase, all sales are generally
+              considered final.
+            </p>
+            <p>
+              Once a user has gained access to course materials, question banks, mock exams, downloadable
+              resources, study guides, videos, or other digital content, refunds may not be available except as
+              expressly stated in this policy.
+            </p>
 
-                        <h3>You are not entitled to a refund if:</h3>
+            <h2>2. Eligibility for Refund Requests</h2>
+            <p>Refund requests may be considered under the following circumstances:</p>
+            <ul>
+              <li>Duplicate charges resulting from a billing error.</li>
+              <li>Technical issues that prevent access to purchased content and cannot be resolved by our support team within a reasonable timeframe.</li>
+              <li>Accidental purchases reported within 24 hours of purchase, provided that no substantial portion of the course or content has been accessed.</li>
+            </ul>
+            <p>
+              NCLEXPREPCOURSE.ORG reserves the right to investigate all refund requests before making
+              a determination.
+            </p>
 
-                        <ul>
-                            <li>You received a lower grade than what was expected.</li>
-                            <li>You miss a deadline due to failure to download the paper delivered before the deadline you set when placing an order. </li>
-                            <li>If you claim that paper was plagiarized without providing proof (a plagiarism report). </li>
-                            <li>If you fail to cancel a duplicate order or notify our support team to cancel the order before assigning it to our academic writing expert. </li>
-                        
-                        </ul>
+            <h2>3. Non-Refundable Situations</h2>
+            <p>Refunds will generally not be granted for:</p>
+            <ul>
+              <li>Failure to pass the NCLEX examination.</li>
+              <li>Change of study plans or personal circumstances.</li>
+              <li>Failure to complete the course.</li>
+              <li>Dissatisfaction based on personal preferences after accessing course content.</li>
+              <li>Incorrect purchase decisions made by the customer.</li>
+              <li>Subscription renewals where cancellation was not requested before the renewal date.</li>
+              <li>Partial use of course materials, question banks, mock exams, or study resources.</li>
+            </ul>
 
-                        <h3>Refund processing</h3>
-                        <p class="lead mb-4">Once we receive the refund request, we will forward your claim to our refund assessment team. If your refund request is approved, we will send you a refund confirmation and submit your money within two business days. Please note that our custom paper writing service cannot be held responsible for your transfer anomalies, bank transfer fees, or any delay that may occur when your bank is transferring your money.  </p>
+            <h2>4. Subscription Cancellation</h2>
+            <p>
+              Users may cancel recurring subscriptions at any time through their account settings or by
+              contacting support.
+            </p>
+            <p>
+              Cancellation prevents future billing but does not automatically generate a refund for previously
+              charged subscription periods.
+            </p>
+            <p>Access to subscription content may continue until the end of the current billing cycle.</p>
 
-                        
-                        <h5>Otherwise, go ahead and place your <a href="<?php echo base_url('home/order_now'); ?>">order now.</a> </h5>
+            <h2>5. Refund Request Procedure</h2>
+            <p>To request a refund, users must contact our support team and provide:</p>
+            <ul>
+              <li>Full name</li>
+              <li>Registered email address</li>
+              <li>Order number</li>
+              <li>Description of the issue</li>
+              <li>Supporting documentation where applicable</li>
+            </ul>
+            <p>
+              Refund requests must be submitted within seven (7) days of the original purchase date unless
+              otherwise required by applicable law.
+            </p>
 
-                        <!--<div class="media mb-6">
-                            <div class="icon icon-lg border border-primary rounded bg-gray-100 dots-icon">
-                                <i class="icon-desktop"></i>
-                                <span class="dots"><i class="dot dot1"></i><i class="dot dot2"></i><i class="dot dot3"></i></span>
-                            </div>
-                            <div class="media-body ps-3">
-                                <h6>Web Development</h6>
-                                <p class="m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="icon icon-lg border border-primary rounded bg-gray-100 dots-icon">
-                                <i class="icon-tools"></i>
-                                <span class="dots"><i class="dot dot1"></i><i class="dot dot2"></i><i class="dot dot3"></i></span>
-                            </div>
-                            <div class="media-body ps-3">
-                                <h6>Logo &amp; Identity</h6>
-                                <p class="m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
-                            </div>
-                        </div>-->
-                    </div>
+            <h2>6. Processing of Approved Refunds</h2>
+            <p>If a refund is approved:</p>
+            <ul>
+              <li>Refunds will be issued using the original payment method whenever possible.</li>
+              <li>Processing times may vary depending on the payment provider.</li>
+              <li>NCLEXPREPCOURSE.ORG is not responsible for delays caused by banks, credit card providers, or payment processors.</li>
+            </ul>
 
-                    <!--<div class="col-lg-3 col-xl-4 my-3 wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.1s">
-                        <?php include 'sidebar.php'; ?>
-                    </div>-->
-                    
-                </div>
-            </div>
-        </section>
-              <?php include 'cta.php'; ?>
+            <h2>7. Promotional Offers and Discounts</h2>
+            <p>
+              Purchases made during special promotions, discounts, bundle offers, or limited-time sales may
+              be subject to additional restrictions and may be non-refundable unless required by applicable
+              law.
+            </p>
 
-        <!-- End Section -->
-        <!-- Section -->
-       
-        <!-- End Section -->
-        <!-- Section -->
-        
-        <!-- End Section -->
-        <!-- Section -->
-       
-        <!-- End Section -->
-        <!-- Section -->
-        
+            <h2>8. Chargebacks</h2>
+            <p>
+              Customers are encouraged to contact NCLEXPREPCOURSE.ORG before initiating a
+              chargeback or payment dispute.
+            </p>
+            <p>
+              Fraudulent chargebacks may result in account suspension, termination of access, and further
+              investigation.
+            </p>
+
+            <h2>9. Policy Updates</h2>
+            <p>
+              NCLEXPREPCOURSE.ORG reserves the right to modify this Refund Policy at any time.
+              Updated versions will be posted on this page with a revised effective date.
+            </p>
+
+            <h2>Contact Information</h2>
+            <p>
+              For questions regarding this Refund Policy, please contact our support team through the contact
+              information provided on NCLEXPREPCOURSE.ORG.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<style>
+  .legal-page {
+    background: #fff;
+    color: #0f172a;
+  }
+
+  .legal-hero {
+    padding: 132px 0 42px;
+    background: #f6fafc;
+    border-bottom: 1px solid #e2edf2;
+  }
+
+  .legal-crumb {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 18px;
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  .legal-crumb a {
+    color: #0f172a;
+  }
+
+  .legal-crumb .breadcrumb {
+    gap: 10px;
+    padding: 0;
+    background: transparent;
+  }
+
+  .legal-crumb .breadcrumb-item,
+  .legal-crumb .breadcrumb-item a {
+    color: #64748b;
+  }
+
+  .legal-crumb .breadcrumb-item:first-child a {
+    color: #0f172a;
+  }
+
+  .legal-crumb .breadcrumb-item + .breadcrumb-item {
+    padding-left: 0;
+  }
+
+  .legal-crumb .breadcrumb-item + .breadcrumb-item::before {
+    padding-right: 10px;
+    color: #94a3b8;
+  }
+
+  .legal-eyebrow {
+    margin: 0 0 10px;
+    color: #1680a6;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .legal-title {
+    margin: 0 0 10px;
+    color: #071327;
+    font-size: clamp(32px, 3.6vw, 48px);
+    line-height: 1.08;
+    font-weight: 800;
+  }
+
+  .legal-date {
+    margin: 0;
+    color: #64748b;
+    font-size: 16px;
+  }
+
+  .legal-body {
+    padding: 40px 0 70px;
+  }
+
+  .legal-content {
+    max-width: 850px;
+    color: #475569;
+    font-size: 16px;
+    line-height: 1.68;
+  }
+
+  .legal-content > p:first-child {
+    margin-bottom: 28px;
+    color: #334155;
+    font-size: 18px;
+    line-height: 1.62;
+  }
+
+  .policy-content h2 {
+    color: #0f172a;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 1.65rem 0 .55rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .policy-content ul {
+    padding-left: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .policy-content li {
+    margin-bottom: .45rem;
+  }
+
+  @media (max-width: 575px) {
+    .legal-hero {
+      padding: 96px 0 30px;
+    }
+
+    .legal-body {
+      padding-top: 32px;
+    }
+  }
+</style>

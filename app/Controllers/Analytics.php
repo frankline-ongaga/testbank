@@ -183,6 +183,11 @@ class Analytics extends BaseController
             $packagePerformance[$plan]['avg_order_30d'] = (float) ($row['avg_order_30d'] ?? 0);
         }
 
+        $studentAnalytics = ['rows' => [], 'summary' => []];
+        if ($currentRole === 'admin') {
+            $studentAnalytics = $this->buildStudentAnalytics($db, $since30);
+        }
+
         $data = [
             'title' => 'Analytics',
             'total_tests' => $totalTests,
@@ -209,6 +214,8 @@ class Analytics extends BaseController
             'failed_payments_30d' => $failedPayments30d,
             'latest_payments' => $latestPayments,
             'package_performance' => $packagePerformance,
+            'student_analytics_rows' => $studentAnalytics['rows'],
+            'student_analytics_summary' => $studentAnalytics['summary'],
         ];
 
         switch ($currentRole) {
@@ -258,6 +265,73 @@ class Analytics extends BaseController
             'labels' => $labels,
             'scores' => $scores,
             'attempts' => $attempts,
+        ];
+    }
+
+    private function buildStudentAnalytics(\CodeIgniter\Database\BaseConnection $db, string $since30): array
+    {
+        try {
+            $rows = $db->table('users u')
+                ->select("
+                    u.id,
+                    u.username,
+                    u.email,
+                    u.status,
+                    u.created_at AS joined_at,
+                    COUNT(a.id) AS total_attempts,
+                    COALESCE(ROUND(AVG(a.score), 1), 0) AS avg_score,
+                    COALESCE(ROUND(MAX(a.score), 1), 0) AS best_score,
+                    MAX(a.completed_at) AS last_attempt_at,
+                    SUM(CASE WHEN a.completed_at >= " . $db->escape($since30) . " THEN 1 ELSE 0 END) AS attempts_30d
+                ", false)
+                ->join('user_roles ur', 'ur.user_id = u.id', 'inner')
+                ->join('roles r', 'r.id = ur.role_id', 'inner')
+                ->join('attempts a', 'a.user_id = u.id AND a.completed_at IS NOT NULL', 'left', false)
+                ->where('r.name', 'student')
+                ->groupBy(['u.id', 'u.username', 'u.email', 'u.status', 'u.created_at'])
+                ->orderBy('total_attempts', 'DESC', false)
+                ->orderBy('u.created_at', 'DESC')
+                ->get()
+                ->getResultArray();
+        } catch (\Throwable $e) {
+            return ['rows' => [], 'summary' => []];
+        }
+
+        $totalStudents = count($rows);
+        $activeStudents30d = 0;
+        $studentsWithAttempts = 0;
+        $attemptTotal = 0;
+        $bestStudent = null;
+        $bestAverage = -1;
+
+        foreach ($rows as $row) {
+            $attempts = (int) ($row['total_attempts'] ?? 0);
+            $attempts30d = (int) ($row['attempts_30d'] ?? 0);
+            $avgScore = (float) ($row['avg_score'] ?? 0);
+
+            $attemptTotal += $attempts;
+            if ($attempts > 0) {
+                $studentsWithAttempts++;
+            }
+            if ($attempts30d > 0) {
+                $activeStudents30d++;
+            }
+            if ($attempts > 0 && $avgScore >= $bestAverage) {
+                $bestAverage = $avgScore;
+                $bestStudent = $row;
+            }
+        }
+
+        return [
+            'rows' => $rows,
+            'summary' => [
+                'total_students' => $totalStudents,
+                'active_students_30d' => $activeStudents30d,
+                'students_with_attempts' => $studentsWithAttempts,
+                'avg_attempts_per_student' => $totalStudents ? round($attemptTotal / $totalStudents, 1) : 0,
+                'top_student_name' => $bestStudent['username'] ?? $bestStudent['email'] ?? 'N/A',
+                'top_student_avg_score' => $bestStudent ? round((float) ($bestStudent['avg_score'] ?? 0), 1) : 0,
+            ],
         ];
     }
 

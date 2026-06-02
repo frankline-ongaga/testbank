@@ -581,6 +581,45 @@ class Home extends BaseController
     }
 
     /**
+     * Refund policy page
+     */
+    public function refund_policy()
+    {
+        $data['title'] = "Refund Policy - NCLEX Prep Course";
+        $data['description'] = "Read the NCLEX Prep Course refund policy for courses, subscriptions, memberships, practice tests, and digital products.";
+
+        return view('homepage/header', $data)
+             . view('homepage/refund_policy', $data)
+             . view('homepage/footer');
+    }
+
+    /**
+     * Terms and conditions page
+     */
+    public function terms()
+    {
+        $data['title'] = "Terms and Conditions - NCLEX Prep Course";
+        $data['description'] = "Review the NCLEX Prep Course terms and conditions for website access, subscriptions, digital content, payments, and user accounts.";
+
+        return view('homepage/header', $data)
+             . view('homepage/terms', $data)
+             . view('homepage/footer');
+    }
+
+    /**
+     * Services page
+     */
+    public function services()
+    {
+        $data['title'] = "NCLEX Prep Services";
+        $data['description'] = "Explore NCLEX practice tests, question banks, study materials, analytics, cheat sheets, and tutoring services.";
+
+        return view('homepage/header', $data)
+             . view('homepage/services', $data)
+             . view('homepage/footer');
+    }
+
+    /**
      * Order now page
      */
     public function orderNow(): string
