@@ -10,7 +10,7 @@
               <div class="footer_widget">
                 <a href="index.html" class="mb-8"><img src="assets/media/logo.png" alt=""></a>
                 <p class="description_text">Pass Your NCLEX on the First Try.</p>
-                <p class="description_text">Whatsapp: +1 (209) 260-9257</p>
+                <p class="description_text">Whatsapp: +1 (206) 350-4565</p>
                 <p class="description_text">Email: support@nclexprepcourse.org </p>
 
               </div>
@@ -148,7 +148,7 @@
         </li>
         <li>
           <i class="fa fa-phone-alt"></i>
-          <a href="https://wa.me/12092609257">+1 (209) 260-9257</a>
+          <a href="https://wa.me/12063504565">+1 (206) 350-4565</a>
         </li>
       </ul>
   

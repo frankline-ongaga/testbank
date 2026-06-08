@@ -246,7 +246,7 @@
                                     Learn More About Tutoring
                                 </a>
                                 &nbsp;
-                                <a href="https://wa.me/12092609257?text=Hi!%20I'm%20interested%20in%20NCLEX%20tutoring%20services." 
+                                <a href="https://wa.me/12063504565?text=Hi!%20I'm%20interested%20in%20NCLEX%20tutoring%20services." 
                                    target="_blank"
                                    class="btn btn-success btn-md" style="padding: 0.875rem 2rem; font-weight: 600; border-radius: 8px; background: #25D366; border-color: #25D366;">
                                     <i class="fab fa-whatsapp me-2"></i> Get A Tutor
@@ -676,7 +676,7 @@ Subject-Focused Review: Covers core subjects such as reading comprehension, gram
           <h2 class="mb-8 color-white">Talk to a <br><span class="fm-sec">tutor</span></h2>
           <p class="mb-16 color-white">Get NCLEX expert help</p>
           <div class="mx-auto">
-            <a href="https://wa.me/12092609257" class="h5 phone_number"> +1 (209) 260-9257</a>
+            <a href="https://wa.me/12063504565" class="h5 phone_number"> +1 (206) 350-4565</a>
           </div>
           <div class="icons">
             <img src="<?= base_url('assets/media/shapes/dots-1.png'); ?>" alt="ati" class="element-1">

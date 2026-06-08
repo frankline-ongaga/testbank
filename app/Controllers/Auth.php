@@ -159,7 +159,7 @@ class Auth extends BaseController
                 . "You can now choose an access plan and start practicing with our NCLEX tests and study materials.<br><br>"
                 . "Login anytime at: <a href=\"{$loginUrl}\">{$loginUrl}</a><br><br>"
                 . "If you did not create this account, please ignore this email.<br><br>"
-                . "WhatsApp: +1 (209) 260-9257<br>"
+                . "WhatsApp: +1 (206) 350-4565<br>"
                 . "Email: support@nclexprepcourse.org<br><br>"
                 . "NCLEX Prep Course Team";
 
@@ -335,7 +335,7 @@ class Auth extends BaseController
                     . "You can reset your password by clicking the secure link below:<br><br>"
                     . "<a href=\"{$resetLink}\">{$resetLink}</a><br><br>"
                     . "If you did not request this, you can safely ignore this email.<br><br>"
-                    . "WhatsApp: +1 (209) 260-9257<br>"
+                    . "WhatsApp: +1 (206) 350-4565<br>"
                     . "Email: support@nclexprepcourse.org<br><br>"
                     . "NCLEX Prep Course Team";
 
