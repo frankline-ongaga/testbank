@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
         <h5 class="mb-0">Edit Cheat Sheet</h5>
-        <div class="small text-muted"><?= esc($subcategory['name']) ?> • <?= esc($category['name']) ?></div>
+        <div class="small text-muted"><?= esc($category['name']) ?></div>
     </div>
-    <a href="<?= base_url('admin/cheat-sheets/subcategory/' . (int)$subcategory['id'] . '/docs') ?>" class="btn btn-secondary btn-sm">Back</a>
+    <a href="<?= base_url('admin/cheat-sheets/category/' . (int)$category['id'] . '/docs') ?>" class="btn btn-secondary btn-sm">Back</a>
 </div>
 
 <?php if (session()->getFlashdata('error')): ?>
@@ -34,9 +34,8 @@
             </div>
             <div class="d-flex gap-2">
                 <button class="btn btn-primary">Save</button>
-                <a href="<?= base_url('admin/cheat-sheets/subcategory/' . (int)$subcategory['id'] . '/docs') ?>" class="btn btn-secondary">Cancel</a>
+                <a href="<?= base_url('admin/cheat-sheets/category/' . (int)$category['id'] . '/docs') ?>" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
 </div>
-

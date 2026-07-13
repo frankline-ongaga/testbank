@@ -42,13 +42,10 @@ class CheatSheets extends BaseController
         if (!empty($subIds)) {
             $docs = $this->cheatSheets->whereIn('subcategory_id', $subIds)->orderBy('created_at', 'DESC')->findAll();
         }
-        $subMap = [];
-        foreach ($subs as $s) { $subMap[(int)$s['id']] = $s['name']; }
         $data = [
             'title' => 'Cheat Sheets - ' . $category['name'],
             'category' => $category,
             'cheatSheets' => $docs,
-            'subcategoryMap' => $subMap,
         ];
         return view('admin/layout/header', $data)
             . view('admin/cheat_sheets/category_docs_index', $data)
@@ -124,6 +121,12 @@ class CheatSheets extends BaseController
         return (int)$id;
     }
 
+    private function categoryIdFromSubcategory($subcategoryId): ?int
+    {
+        $subcategory = $this->subcategories->find((int)$subcategoryId);
+        return $subcategory ? (int)$subcategory['category_id'] : null;
+    }
+
     // ============ ADMIN METHODS ============
 
     public function adminIndex()
@@ -139,39 +142,21 @@ class CheatSheets extends BaseController
     {
         $category = $this->categories->find((int)$categoryId);
         if (!$category) return redirect()->to(base_url('admin/cheat-sheets'));
-        $data['title'] = 'Cheat Sheet Subcategories - ' . $category['name'];
-        $data['category'] = $category;
-        $data['subcategories'] = $this->subcategories->where('category_id', (int)$categoryId)->orderBy('name')->findAll();
-        return view('admin/layout/header', $data)
-            . view('admin/cheat_sheets/subcategories_index', $data)
-            . view('admin/layout/footer');
+        return redirect()->to(base_url('admin/cheat-sheets/category/' . (int)$categoryId . '/docs'));
     }
 
     public function adminCheatSheets($subcategoryId)
     {
-        $subcategory = $this->subcategories->find((int)$subcategoryId);
-        if (!$subcategory) return redirect()->to(base_url('admin/cheat-sheets'));
-        $category = $this->categories->find((int)$subcategory['category_id']);
-        $data['title'] = 'Cheat Sheets - ' . $subcategory['name'];
-        $data['category'] = $category;
-        $data['subcategory'] = $subcategory;
-        $data['cheatSheets'] = $this->cheatSheets->where('subcategory_id', (int)$subcategoryId)->orderBy('created_at', 'DESC')->findAll();
-        return view('admin/layout/header', $data)
-            . view('admin/cheat_sheets/docs_index', $data)
-            . view('admin/layout/footer');
+        $categoryId = $this->categoryIdFromSubcategory($subcategoryId);
+        if (!$categoryId) return redirect()->to(base_url('admin/cheat-sheets'));
+        return redirect()->to(base_url('admin/cheat-sheets/category/' . $categoryId . '/docs'));
     }
 
     public function adminUploadForm($subcategoryId)
     {
-        $subcategory = $this->subcategories->find((int)$subcategoryId);
-        if (!$subcategory) return redirect()->to(base_url('admin/cheat-sheets'));
-        $category = $this->categories->find((int)$subcategory['category_id']);
-        $data['title'] = 'Upload Cheat Sheet - ' . $subcategory['name'];
-        $data['category'] = $category;
-        $data['subcategory'] = $subcategory;
-        return view('admin/layout/header', $data)
-            . view('admin/cheat_sheets/upload_form', $data)
-            . view('admin/layout/footer');
+        $categoryId = $this->categoryIdFromSubcategory($subcategoryId);
+        if (!$categoryId) return redirect()->to(base_url('admin/cheat-sheets'));
+        return redirect()->to(base_url('admin/cheat-sheets/category/' . $categoryId . '/upload'));
     }
 
     public function adminUpload($subcategoryId)
@@ -207,7 +192,7 @@ class CheatSheets extends BaseController
             'created_by' => (int)session()->get('user_id'),
         ]);
 
-        return redirect()->to(base_url('admin/cheat-sheets/subcategory/' . $subcategoryId . '/docs'))
+        return redirect()->to(base_url('admin/cheat-sheets/category/' . (int)$subcategory['category_id'] . '/docs'))
             ->with('message', 'Cheat sheet uploaded successfully.');
     }
 
@@ -216,9 +201,10 @@ class CheatSheets extends BaseController
         $doc = $this->cheatSheets->find((int)$id);
         if (!$doc) return redirect()->to(base_url('admin/cheat-sheets'));
         $subcategory = $this->subcategories->find((int)$doc['subcategory_id']);
-        $category = $this->categories->find((int)$subcategory['category_id']);
+        $category = $subcategory ? $this->categories->find((int)$subcategory['category_id']) : null;
+        if (!$category) return redirect()->to(base_url('admin/cheat-sheets'));
         $data = [
-            'title' => 'Edit Cheat Sheet - ' . $subcategory['name'],
+            'title' => 'Edit Cheat Sheet - ' . $category['name'],
             'category' => $category,
             'subcategory' => $subcategory,
             'doc' => $doc,
@@ -264,7 +250,12 @@ class CheatSheets extends BaseController
 
         $this->cheatSheets->update((int)$id, $updateData);
 
-        return redirect()->to(base_url('admin/cheat-sheets/subcategory/' . (int)$doc['subcategory_id'] . '/docs'))
+        $categoryId = $this->categoryIdFromSubcategory((int)$doc['subcategory_id']);
+        $redirectUrl = $categoryId
+            ? base_url('admin/cheat-sheets/category/' . $categoryId . '/docs')
+            : base_url('admin/cheat-sheets');
+
+        return redirect()->to($redirectUrl)
             ->with('message', 'Cheat sheet updated successfully.');
     }
 
@@ -272,11 +263,15 @@ class CheatSheets extends BaseController
     {
         $doc = $this->cheatSheets->find((int)$id);
         if ($doc) {
+            $categoryId = $this->categoryIdFromSubcategory((int)$doc['subcategory_id']);
             if (!empty($doc['file_path']) && is_file($doc['file_path'])) {
                 @unlink($doc['file_path']);
             }
             $this->cheatSheets->delete((int)$id);
-            return redirect()->to(base_url('admin/cheat-sheets/subcategory/' . (int)$doc['subcategory_id'] . '/docs'))
+            $redirectUrl = $categoryId
+                ? base_url('admin/cheat-sheets/category/' . $categoryId . '/docs')
+                : base_url('admin/cheat-sheets');
+            return redirect()->to($redirectUrl)
                 ->with('message', 'Cheat sheet deleted successfully.');
         }
         return redirect()->to(base_url('admin/cheat-sheets'));
@@ -287,7 +282,8 @@ class CheatSheets extends BaseController
         $doc = $this->cheatSheets->find((int)$id);
         if (!$doc) return redirect()->to(base_url('admin/cheat-sheets'));
         $subcategory = $this->subcategories->find((int)$doc['subcategory_id']);
-        $category = $this->categories->find((int)$subcategory['category_id']);
+        $category = $subcategory ? $this->categories->find((int)$subcategory['category_id']) : null;
+        if (!$category) return redirect()->to(base_url('admin/cheat-sheets'));
         $data = [
             'title' => 'View Cheat Sheet',
             'category' => $category,
@@ -321,7 +317,27 @@ class CheatSheets extends BaseController
     {
         $this->enforcePaidClient();
         $data['title'] = 'Cheat Sheets';
-        $data['categories'] = $this->categories->orderBy('name')->findAll();
+        $categories = $this->categories->orderBy('name')->findAll();
+        $data['categories'] = $categories;
+        $data['cheatSheetCounts'] = [];
+
+        $categoryIds = array_map(static fn ($category) => (int) $category['id'], $categories);
+        if (!empty($categoryIds)) {
+            $db = \Config\Database::connect();
+
+            $docRows = $db->table('study_subcategories s')
+                ->select('s.category_id, COUNT(cs.id) AS total')
+                ->join('cheat_sheets cs', 'cs.subcategory_id = s.id', 'left')
+                ->whereIn('s.category_id', $categoryIds)
+                ->groupBy('s.category_id')
+                ->get()
+                ->getResultArray();
+
+            foreach ($docRows as $row) {
+                $data['cheatSheetCounts'][(int) $row['category_id']] = (int) $row['total'];
+            }
+        }
+
         return view('client/layout/header', $data)
             . view('client/cheat_sheets/categories', $data)
             . view('client/layout/footer');
@@ -332,32 +348,15 @@ class CheatSheets extends BaseController
         $this->enforcePaidClient();
         $category = $this->categories->find((int)$categoryId);
         if (!$category) return redirect()->to(base_url('client/cheat-sheets'));
-        $data['title'] = $category['name'] . ' - Cheat Sheets';
-        $data['category'] = $category;
-        $data['categories'] = $this->categories->orderBy('name')->findAll();
-        $data['subcategories'] = $this->subcategories
-            ->where('category_id', (int)$categoryId)
-            ->orderBy('name')
-            ->findAll();
-        return view('client/layout/header', $data)
-            . view('client/cheat_sheets/subcategories', $data)
-            . view('client/layout/footer');
+        return redirect()->to(base_url('client/cheat-sheets/category/' . (int)$categoryId . '/docs'));
     }
 
     public function clientCheatSheets($subcategoryId)
     {
         $this->enforcePaidClient();
-        $subcategory = $this->subcategories->find((int)$subcategoryId);
-        if (!$subcategory) return redirect()->to(base_url('client/cheat-sheets'));
-        $category = $this->categories->find((int)$subcategory['category_id']);
-        $data['title'] = $subcategory['name'] . ' - Cheat Sheets';
-        $data['category'] = $category;
-        $data['subcategory'] = $subcategory;
-        $data['categories'] = $this->categories->orderBy('name')->findAll();
-        $data['cheatSheets'] = $this->cheatSheets->where('subcategory_id', (int)$subcategoryId)->orderBy('created_at', 'DESC')->findAll();
-        return view('client/layout/header', $data)
-            . view('client/cheat_sheets/docs', $data)
-            . view('client/layout/footer');
+        $categoryId = $this->categoryIdFromSubcategory($subcategoryId);
+        if (!$categoryId) return redirect()->to(base_url('client/cheat-sheets'));
+        return redirect()->to(base_url('client/cheat-sheets/category/' . $categoryId . '/docs'));
     }
 
     public function clientCheatSheetsByCategory($categoryId)
@@ -372,14 +371,10 @@ class CheatSheets extends BaseController
         if (!empty($subIds)) {
             $docs = $this->cheatSheets->whereIn('subcategory_id', $subIds)->orderBy('created_at', 'DESC')->findAll();
         }
-        $subMap = [];
-        foreach ($subs as $s) { $subMap[(int)$s['id']] = $s['name']; }
-
         $data = [
             'title' => $category['name'] . ' - Cheat Sheets',
             'category' => $category,
             'cheatSheets' => $docs,
-            'subcategoryMap' => $subMap,
         ];
         return view('client/layout/header', $data)
             . view('client/cheat_sheets/category_docs', $data)
@@ -424,14 +419,8 @@ class CheatSheets extends BaseController
 
     private function enforcePaidClient(): void
     {
-        $userId = (int)(session()->get('user_id') ?? 0);
-        if (!$userId) {
-            redirect()->to(base_url('subscriptions'))->send();
-            exit;
-        }
-        $active = $this->subs->getActiveForUser($userId);
-        if (!$active) {
-            redirect()->to(base_url('client/subscription'))->with('error', 'Your subscription is inactive. Please subscribe to access Cheat Sheets.')->send();
+        if ($redirect = $this->requireProductAccess('nclex', 'Cheat Sheets')) {
+            $redirect->send();
             exit;
         }
     }

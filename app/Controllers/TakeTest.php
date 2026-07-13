@@ -22,13 +22,43 @@ class TakeTest extends BaseController
     public function start($testId)
     {
         $userId = (int) $this->session->get('user_id');
-        // Enforce subscription - no free trial for tests
-        $active = $this->subs->getActiveForUser($userId);
+        if (!$userId) {
+            return redirect()->to('/login/student')->with('error', 'Please login to continue.');
+        }
+
+        $testId = (int) $testId;
+        $test = $this->db->table('tests')
+            ->where('id', $testId)
+            ->where('is_free', 0)
+            ->where('status', 'active')
+            ->get()
+            ->getRowArray();
+
+        if (!$test) {
+            return redirect()->to('/client/tests')->with('error', 'This test is not available.');
+        }
+
+        $productRows = $this->db->table('test_products')
+            ->select('product_id')
+            ->where('test_id', $testId)
+            ->get()
+            ->getResultArray();
+        $productIds = array_map('intval', array_column($productRows, 'product_id'));
+
+        $active = null;
+        foreach ($productIds as $productId) {
+            $active = $this->activeSubscriptionForUser($userId, $productId);
+            if ($active) {
+                break;
+            }
+        }
+
         if (!$active) {
             return redirect()->to('/client/subscription')->with('error', 'Subscribe to access practice tests.');
         }
+
         $attemptId = $this->attemptModel->insert([
-            'test_id' => (int) $testId,
+            'test_id' => $testId,
             'user_id' => $userId,
             'started_at' => date('Y-m-d H:i:s'),
         ], true);
@@ -216,4 +246,3 @@ class TakeTest extends BaseController
         return view('tests/results', $data);
     }
 }
-

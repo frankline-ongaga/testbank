@@ -50,8 +50,6 @@
                                         <p class="card-text text-muted mb-2"><?= esc($doc['description']) ?></p>
                                     <?php endif; ?>
                                     <small class="text-muted">
-                                        <i class="fas fa-tag"></i> <?= esc($subcategoryMap[(int)$doc['subcategory_id']] ?? 'General') ?>
-                                        <span class="mx-2">|</span>
                                         <i class="fas fa-file"></i> <?= esc($doc['file_name']) ?>
                                     </small>
                                 </div>

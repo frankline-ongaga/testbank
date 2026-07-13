@@ -8,10 +8,7 @@ $isPdf = $ext === 'pdf';
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?= base_url('client/cheat-sheets') ?>">Cheat Sheets</a></li>
             <?php if (!empty($category)): ?>
-                <li class="breadcrumb-item"><a href="<?= base_url('client/cheat-sheets/' . (int)$category['id'] . '/subcategories') ?>"><?= esc($category['name']) ?></a></li>
-            <?php endif; ?>
-            <?php if (!empty($subcategory)): ?>
-                <li class="breadcrumb-item"><a href="<?= base_url('client/cheat-sheets/subcategory/' . (int)$subcategory['id'] . '/docs') ?>"><?= esc($subcategory['name']) ?></a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('client/cheat-sheets/category/' . (int)$category['id'] . '/docs') ?>"><?= esc($category['name']) ?></a></li>
             <?php endif; ?>
             <li class="breadcrumb-item active" aria-current="page"><?= esc($doc['title']) ?></li>
         </ol>
@@ -25,8 +22,8 @@ $isPdf = $ext === 'pdf';
             <?php endif; ?>
         </div>
         <div class="d-flex gap-2">
-            <?php if (!empty($subcategory)): ?>
-                <a href="<?= base_url('client/cheat-sheets/subcategory/' . (int)$subcategory['id'] . '/docs') ?>" class="btn btn-outline-secondary">Back</a>
+            <?php if (!empty($category)): ?>
+                <a href="<?= base_url('client/cheat-sheets/category/' . (int)$category['id'] . '/docs') ?>" class="btn btn-outline-secondary">Back</a>
             <?php else: ?>
                 <a href="<?= base_url('client/cheat-sheets') ?>" class="btn btn-outline-secondary">Back</a>
             <?php endif; ?>
@@ -48,4 +45,3 @@ $isPdf = $ext === 'pdf';
         </div>
     </div>
 </div>
-

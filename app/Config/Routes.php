@@ -243,6 +243,10 @@ $routes->group('client', function($routes) {
     // Study Notes
     $routes->get('notes', 'Notes::index');
     $routes->get('notes/(:num)', 'Notes::view/$1');
+    $routes->get('nursing-care-plans', 'NursingResources::carePlans');
+    $routes->get('nursing-care-plans/(:segment)', 'NursingResources::carePlanPost/$1');
+    $routes->get('nursing-nclex-reviews', 'NursingResources::nclexReviews');
+    $routes->get('nursing-nclex-reviews/(:segment)', 'NursingResources::nclexReviewPost/$1');
 
     // Subscription (client aliases)
     $routes->get('subscription', 'Subscriptions::index');
@@ -289,6 +293,14 @@ $routes->get('blog', 'Home::blog');
 $routes->get('blog/(:segment)', 'Blog::show/$1');
 $routes->get('reviews', 'Home::reviews');
 $routes->get('tutoring', 'Home::tutoring');
+$routes->get('ati-teas-7', 'Home::teas');
+$routes->get('teas', 'Home::teas');
+$routes->get('hesi', 'Home::hesi2');
+$routes->get('hesi-a2', 'Home::hesi2');
+$routes->get('practice-test/(:num)', 'PublicContent::test/$1');
+$routes->get('practice-test/(:num)/(:segment)', 'PublicContent::test/$1/$2');
+$routes->get('practice-question/(:num)', 'PublicContent::question/$1');
+$routes->get('practice-question/(:num)/(:segment)', 'PublicContent::question/$1/$2');
 $routes->get('sitemap.xml', 'Sitemap::index');
 $routes->get('notes/(:num)', 'Notes::view/$1');
 

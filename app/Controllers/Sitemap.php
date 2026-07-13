@@ -3,11 +3,6 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\NoteModel;
-use App\Models\StudySubcategoryModel;
-use App\Models\StudyCategoryModel;
-use App\Models\TestModel;
-
 class Sitemap extends Controller
 {
     public function index()
@@ -15,28 +10,71 @@ class Sitemap extends Controller
         helper('url');
 
         $urls = [];
+        $seen = [];
         $nowIso = date('c');
+        $addUrl = static function (array $url) use (&$urls, &$seen): void {
+            if (empty($url['loc']) || isset($seen[$url['loc']])) {
+                return;
+            }
+
+            $seen[$url['loc']] = true;
+            $urls[] = $url;
+        };
 
         // Core pages (public, non-auth, indexable)
-        $urls[] = [ 'loc' => base_url('/'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '1.0' ];
-        $urls[] = [ 'loc' => base_url('how_it_works'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.7' ];
-        $urls[] = [ 'loc' => base_url('pricing'), 'lastmod' => $nowIso, 'changefreq' => 'weekly', 'priority' => '0.7' ];
-        $urls[] = [ 'loc' => base_url('reviews'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.6' ];
-        $urls[] = [ 'loc' => base_url('tutoring'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.7' ];
-        $urls[] = [ 'loc' => base_url('login/student'), 'lastmod' => $nowIso, 'changefreq' => 'yearly', 'priority' => '0.3' ];
-        $urls[] = [ 'loc' => base_url('register'), 'lastmod' => $nowIso, 'changefreq' => 'yearly', 'priority' => '0.4' ];
+        $addUrl([ 'loc' => base_url('/'), 'lastmod' => $nowIso, 'changefreq' => 'daily', 'priority' => '1.0' ]);
+        $addUrl([ 'loc' => base_url('pricing'), 'lastmod' => $nowIso, 'changefreq' => 'weekly', 'priority' => '0.8' ]);
+        $addUrl([ 'loc' => base_url('tutoring'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.7' ]);
+        $addUrl([ 'loc' => base_url('ati-teas-7'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.8' ]);
+        $addUrl([ 'loc' => base_url('hesi'), 'lastmod' => $nowIso, 'changefreq' => 'monthly', 'priority' => '0.8' ]);
+        $addUrl([ 'loc' => base_url('login/student'), 'lastmod' => $nowIso, 'changefreq' => 'yearly', 'priority' => '0.3' ]);
+        $addUrl([ 'loc' => base_url('register'), 'lastmod' => $nowIso, 'changefreq' => 'yearly', 'priority' => '0.5' ]);
 
-        // Free tests (publicly accessible testbank entries)
+        // Public test landing pages for all active products/tests.
         try {
-            $testModel = new TestModel();
-            $freeTests = $testModel->getActiveFreeTests();
-            foreach ($freeTests as $t) {
-                $urls[] = [
-                    'loc' => base_url('free/test/' . (int)$t['id']),
+            $db = \Config\Database::connect();
+            $tests = $db->table('tests')
+                ->select('id, title, updated_at')
+                ->where('status', 'active')
+                ->orderBy('id', 'DESC')
+                ->get()
+                ->getResultArray();
+
+            foreach ($tests as $t) {
+                $addUrl([
+                    'loc' => base_url('practice-test/' . (int)$t['id'] . '/' . $this->slugify($t['title'] ?? 'practice-test')),
                     'lastmod' => !empty($t['updated_at']) ? date('c', strtotime($t['updated_at'])) : $nowIso,
                     'changefreq' => 'weekly',
-                    'priority' => '0.7',
-                ];
+                    'priority' => '0.75',
+                ]);
+            }
+        } catch (\Throwable $e) {
+            // ignore
+        }
+
+        // Public question landing pages. To protect premium content, only index
+        // questions that belong to at least one active free test.
+        try {
+            $db = \Config\Database::connect();
+            $questions = $db->table('questions q')
+                ->select('q.id, q.stem, q.updated_at')
+                ->join('test_questions tq', 'tq.question_id = q.id', 'inner')
+                ->join('tests t', 't.id = tq.test_id', 'inner')
+                ->where('q.is_active', 1)
+                ->where('t.status', 'active')
+                ->where('t.is_free', 1)
+                ->groupBy(['q.id', 'q.stem', 'q.updated_at'])
+                ->orderBy('q.id', 'DESC')
+                ->get()
+                ->getResultArray();
+
+            foreach ($questions as $q) {
+                $addUrl([
+                    'loc' => base_url('practice-question/' . (int)$q['id'] . '/' . $this->slugify($q['stem'] ?? 'practice-question')),
+                    'lastmod' => !empty($q['updated_at']) ? date('c', strtotime($q['updated_at'])) : $nowIso,
+                    'changefreq' => 'monthly',
+                    'priority' => '0.65',
+                ]);
             }
         } catch (\Throwable $e) {
             // ignore
@@ -57,12 +95,12 @@ class Sitemap extends Controller
                 foreach ($posts as $p) {
                     $slug = trim($p['post_name'] ?? '');
                     $loc = !empty($slug) ? base_url('blog/' . $slug) : base_url('blog/' . (int)$p['ID']);
-                    $urls[] = [
+                    $addUrl([
                         'loc' => $loc,
                         'lastmod' => !empty($p['post_date']) ? date('c', strtotime($p['post_date'])) : $nowIso,
                         'changefreq' => 'weekly',
                         'priority' => '0.7',
-                    ];
+                    ]);
                 }
             }
         } catch (\Throwable $e) {
@@ -83,6 +121,17 @@ class Sitemap extends Controller
             ->setHeader('Content-Type', 'application/xml; charset=UTF-8')
             ->setBody($xml->asXML());
     }
+
+    private function slugify(string $value): string
+    {
+        $value = trim(strip_tags(html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        $value = preg_replace('/\s+/', ' ', $value) ?? '';
+        $value = preg_replace('/^[\s\.\-:;]+/', '', $value) ?? '';
+        $value = strtolower($value);
+        $value = preg_replace('/[^a-z0-9]+/', '-', $value) ?? '';
+        $value = trim($value, '-');
+        $value = substr($value, 0, 90);
+
+        return $value !== '' ? $value : 'item';
+    }
 }
-
-

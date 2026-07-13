@@ -52,7 +52,7 @@ class Client extends BaseController
             ->get()->getRowArray();
         $avgScore = isset($avgRow['avg_score']) ? (float) $avgRow['avg_score'] : null;
 
-        $activeSub = $this->subs->getActiveForUser($userId);
+        $activeSub = $this->activeSubscriptionForUser($userId);
         $daysRemaining = null;
         if ($activeSub) {
             $now = time();

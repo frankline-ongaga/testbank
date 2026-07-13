@@ -1,4 +1,58 @@
 
+    <style>
+      :root {
+        --site-blue: #0aa6d7;
+        --site-blue-dark: #088fb8;
+        --site-blue-light: rgba(10, 166, 215, .12);
+      }
+
+      .btn-primary,
+      .bg-primary,
+      .educate-btn,
+      .free-test-cta,
+      .free-test-badge,
+      .free-benefit-icon {
+        background-color: var(--site-blue) !important;
+        border-color: var(--site-blue) !important;
+        color: #ffffff !important;
+      }
+
+      .btn-primary:hover,
+      .btn-primary:focus,
+      .educate-btn:hover,
+      .educate-btn:focus,
+      .free-test-cta:hover,
+      .free-test-cta:focus {
+        background-color: var(--site-blue-dark) !important;
+        border-color: var(--site-blue-dark) !important;
+        color: #ffffff !important;
+      }
+
+      .color-primary,
+      .text-primary,
+      .blog-content a,
+      .hiw-features li i {
+        color: var(--site-blue) !important;
+      }
+
+      .hiw-benefit-icon.icon-3 {
+        background: var(--site-blue-light) !important;
+        color: var(--site-blue) !important;
+      }
+
+      .free-benefit-item {
+        border-left-color: var(--site-blue) !important;
+      }
+
+      .free-test-card:before {
+        background: var(--site-blue) !important;
+      }
+
+      .free-test-card:hover {
+        border-color: var(--site-blue) !important;
+      }
+    </style>
+
     <!-- Footer Area Start -->
     <footer>
       <div class="footer_main py-60">
@@ -81,7 +135,7 @@
                   // Build internal URL to render on our site
                   $url = !empty($slug) ? base_url('blog/' . $slug) : base_url('blog/' . (int)($bp['ID'] ?? 0));
                 ?>
-                <li class="mb-2"><a href="<?= esc($url) ?>" style="color:#3b82f6;">
+                <li class="mb-2"><a href="<?= esc($url) ?>" style="color:#0aa6d7;">
                   <?= esc($title) ?>
                 </a></li>
                 <?php endforeach; ?>
@@ -96,7 +150,7 @@
                   // Build internal URL to render on our site
                   $url = !empty($slug) ? base_url('blog/' . $slug) : base_url('blog/' . (int)($bp['ID'] ?? 0));
                 ?>
-                <li class="mb-2"><a href="<?= esc($url) ?>" style="color:#3b82f6;">
+                <li class="mb-2"><a href="<?= esc($url) ?>" style="color:#0aa6d7;">
                   <?= esc($title) ?>
                 </a></li>
                 <?php endforeach; ?>
@@ -130,9 +184,10 @@
       <div class="mobile-nav__container" data-static="true">
         <nav class="main-menu__nav">
           <ul class="main-menu__list">
-            <li><a href="<?= base_url('how_it_works'); ?>">How It Works</a></li>
+            <li><a href="<?= base_url('register'); ?>">NCLEX</a></li>
+            <li><a href="<?= base_url('ati-teas-7'); ?>">ATI TEAS 7</a></li>
+            <li><a href="<?= base_url('hesi'); ?>">HESI</a></li>
             <li><a href="<?= base_url('pricing'); ?>">Pricing</a></li>
-            <li><a href="<?= base_url('reviews'); ?>">Reviews</a></li>
             <li><a href="<?= base_url('login/student'); ?>">Account</a></li>
             <li><a href="<?= base_url('register'); ?>">Get Started</a></li>
 

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Models\ExamProductModel;
 use CodeIgniter\Controller;
 
 class Admin extends BaseController
@@ -33,6 +34,41 @@ class Admin extends BaseController
         // Revenue (sum of payments.amount)
         $revenueRow = $db->table('payments')->selectSum('amount')->get()->getRowArray();
         $totalRevenue = (float) ($revenueRow['amount'] ?? 0);
+        $productModel = new ExamProductModel();
+        $productStats = [];
+        foreach ($productModel->getActiveProducts() as $product) {
+            $productId = (int) $product['id'];
+            $activeClientRow = $db->table('subscriptions')
+                ->select('COUNT(DISTINCT user_id) AS cnt')
+                ->where('product_id', $productId)
+                ->where('status', 'active')
+                ->where('start_at <=', date('Y-m-d H:i:s'))
+                ->where('end_at >=', date('Y-m-d H:i:s'))
+                ->get()
+                ->getRowArray();
+            $testRow = $db->table('test_products')
+                ->select('COUNT(DISTINCT test_id) AS cnt')
+                ->where('product_id', $productId)
+                ->get()
+                ->getRowArray();
+            $productRevenueRow = $db->table('payments p')
+                ->selectSum('p.amount', 'amount')
+                ->join('subscriptions s', 's.id = p.subscription_id', 'inner')
+                ->where('s.product_id', $productId)
+                ->where('p.status', 'COMPLETED')
+                ->get()
+                ->getRowArray();
+
+            $productStats[] = [
+                'name' => $product['name'],
+                'slug' => $product['slug'],
+                'monthly_price' => $product['monthly_price'],
+                'quarterly_price' => $product['quarterly_price'],
+                'active_clients' => (int) ($activeClientRow['cnt'] ?? 0),
+                'tests_count' => (int) ($testRow['cnt'] ?? 0),
+                'revenue' => (float) ($productRevenueRow['amount'] ?? 0),
+            ];
+        }
 
         // Chart data: last 4 weeks average score and pass rate
         $since = date('Y-m-d 00:00:00', strtotime('-28 days'));
@@ -85,13 +121,15 @@ class Admin extends BaseController
             'chart_labels' => $labels,
             'chart_avg_scores' => $avgScores,
             'chart_pass_rates' => $passRates,
+            'product_stats' => $productStats,
         ];
 
         // Latest 10 transactions (payments)
         $latestPayments = $db->table('payments p')
-            ->select('p.*, u.email as user_email, u.first_name as user_first_name, s.plan as subscription_plan')
+            ->select('p.*, u.email as user_email, u.first_name as user_first_name, s.plan as subscription_plan, products.name as product_name')
             ->join('users u', 'u.id = p.user_id', 'left')
             ->join('subscriptions s', 's.id = p.subscription_id', 'left')
+            ->join('products', 'products.id = s.product_id', 'left')
             ->orderBy('p.created_at', 'DESC')
             ->limit(10)
             ->get()

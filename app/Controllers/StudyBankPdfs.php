@@ -282,16 +282,8 @@ class StudyBankPdfs extends BaseController
 
     public function clientIndex()
     {
-        // Check if user has active subscription
-        $userId = session()->get('user_id');
-        if (!$userId) {
-            return redirect()->to(base_url('subscriptions'))
-                ->with('error', 'Please login and subscribe to access Study Bank Docs.');
-        }
-        $active = $this->subs->getActiveForUser((int)$userId);
-        if (!$active) {
-            return redirect()->to(base_url('client/subscription'))
-                ->with('error', 'Your subscription is inactive. Please subscribe to access Study Bank Docs.');
+        if ($redirect = $this->requireProductAccess('nclex', 'Study Bank Docs')) {
+            return $redirect;
         }
 
         $data['title'] = 'Study Bank Docs';
@@ -303,16 +295,8 @@ class StudyBankPdfs extends BaseController
 
     public function clientSubcategories($categoryId)
     {
-        // Check if user has active subscription
-        $userId = session()->get('user_id');
-        if (!$userId) {
-            return redirect()->to(base_url('subscriptions'))
-                ->with('error', 'Please login and subscribe to access Study Bank Docs.');
-        }
-        $active = $this->subs->getActiveForUser((int)$userId);
-        if (!$active) {
-            return redirect()->to(base_url('client/subscription'))
-                ->with('error', 'Your subscription is inactive. Please subscribe to access Study Bank Docs.');
+        if ($redirect = $this->requireProductAccess('nclex', 'Study Bank Docs')) {
+            return $redirect;
         }
 
         $category = $this->categories->find((int)$categoryId);
@@ -331,16 +315,8 @@ class StudyBankPdfs extends BaseController
 
     public function clientPdfs($subcategoryId)
     {
-        // Check if user has active subscription
-        $userId = session()->get('user_id');
-        if (!$userId) {
-            return redirect()->to(base_url('subscriptions'))
-                ->with('error', 'Please login and subscribe to access Study Bank Docs.');
-        }
-        $active = $this->subs->getActiveForUser((int)$userId);
-        if (!$active) {
-            return redirect()->to(base_url('client/subscription'))
-                ->with('error', 'Your subscription is inactive. Please subscribe to access Study Bank Docs.');
+        if ($redirect = $this->requireProductAccess('nclex', 'Study Bank Docs')) {
+            return $redirect;
         }
 
         $subcategory = $this->subcategories->find((int)$subcategoryId);
@@ -358,16 +334,8 @@ class StudyBankPdfs extends BaseController
 
     public function clientPdfsByCategory($categoryId)
     {
-        // Check if user has active subscription
-        $userId = session()->get('user_id');
-        if (!$userId) {
-            return redirect()->to(base_url('subscriptions'))
-                ->with('error', 'Please login and subscribe to access Study Bank Docs.');
-        }
-        $active = $this->subs->getActiveForUser((int)$userId);
-        if (!$active) {
-            return redirect()->to(base_url('client/subscription'))
-                ->with('error', 'Your subscription is inactive. Please subscribe to access Study Bank Docs.');
+        if ($redirect = $this->requireProductAccess('nclex', 'Study Bank Docs')) {
+            return $redirect;
         }
 
         $category = $this->categories->find((int)$categoryId);
@@ -394,16 +362,8 @@ class StudyBankPdfs extends BaseController
     }
     public function clientDownload($pdfId)
     {
-        // Check if user has active subscription
-        $userId = session()->get('user_id');
-        if (!$userId) {
-            return redirect()->to(base_url('subscriptions'))
-                ->with('error', 'Please login and subscribe to access Study Bank Docs.');
-        }
-        $active = $this->subs->getActiveForUser((int)$userId);
-        if (!$active) {
-            return redirect()->to(base_url('client/subscription'))
-                ->with('error', 'Your subscription is inactive. Please subscribe to access Study Bank Docs.');
+        if ($redirect = $this->requireProductAccess('nclex', 'Study Bank Docs')) {
+            return $redirect;
         }
 
         $pdf = $this->pdfs->find((int)$pdfId);
@@ -414,4 +374,3 @@ class StudyBankPdfs extends BaseController
         return $this->response->download($pdf['file_path'], null)->setFileName($pdf['file_name']);
     }
 }
-

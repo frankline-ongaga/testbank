@@ -4,18 +4,21 @@ namespace App\Controllers;
 
 use App\Models\SubscriptionModel;
 use App\Models\PaymentModel;
+use App\Models\ExamProductModel;
 use App\Libraries\Mailer;
 
 class Subscriptions extends BaseController
 {
     protected $subs;
     protected $payments;
+    protected $products;
     protected $session;
 
     public function __construct()
     {
         $this->subs = new SubscriptionModel();
         $this->payments = new PaymentModel();
+        $this->products = new ExamProductModel();
         $this->session = session();
     }
 
@@ -40,8 +43,17 @@ class Subscriptions extends BaseController
         // Client portal specific view
         $currentPortal = $this->session->get('current_role');
         $userId = (int) ($this->session->get('user_id') ?? 0);
-        // Current user's active subscription (if any)
-        $data['current_subscription'] = $userId ? $this->subs->getActiveForUser($userId) : null;
+        $data['products'] = $this->products->getActiveProducts();
+        $currentSubscription = $userId ? $this->activeSubscriptionForUser($userId) : null;
+        $currentSubscriptions = $userId ? $this->subs->getActiveProductsForUser($userId) : [];
+        if (empty($currentSubscriptions) && $currentSubscription && !empty($currentSubscription['product_id'])) {
+            $product = $this->products->find((int) $currentSubscription['product_id']);
+            $currentSubscription['product_name'] = $product['name'] ?? 'NCLEX';
+            $currentSubscription['product_slug'] = $product['slug'] ?? 'nclex';
+            $currentSubscriptions[] = $currentSubscription;
+        }
+        $data['current_subscriptions'] = $currentSubscriptions;
+        $data['current_subscription'] = $currentSubscription;
         if ($currentPortal === 'client') {
             return view('client/layout/header', $data)
                 . view('client/subscriptions/index', $data)
@@ -64,15 +76,30 @@ class Subscriptions extends BaseController
     public function success()
     {
         $orderId = $this->request->getGet('orderID');
-        $plan = $this->request->getGet('plan');
-        $amount = $plan === 'monthly' ? 49.00 : 99.00;
-        $days = $plan === 'monthly' ? 30 : 90;
+        $plan = (string) $this->request->getGet('plan');
+        $productSlug = (string) ($this->request->getGet('product') ?: 'nclex');
+        $product = $this->products->findBySlug($productSlug);
+
+        if (!$product || ($product['status'] ?? '') !== 'active') {
+            return redirect()->to('/subscriptions')->with('error', 'Please choose a valid product.');
+        }
+
+        $isMonthly = in_array($plan, ['monthly', '1-month'], true);
+        $isQuarterly = in_array($plan, ['quarterly', '3-month'], true);
+        if (!$isMonthly && !$isQuarterly) {
+            return redirect()->to('/subscriptions')->with('error', 'Please choose a valid access plan.');
+        }
+
+        $amount = $isMonthly ? (float) $product['monthly_price'] : (float) $product['quarterly_price'];
+        $days = $isMonthly ? 30 : 90;
+        $storedPlan = $isMonthly ? '1-month' : '3-month';
 
         $userId = (int) $this->session->get('user_id');
         if (!$userId) return redirect()->to('/login');
 
-        // Check if there's an active access pass
+        // Check if there's an active access pass for this product.
         $activePass = $this->subs->where('user_id', $userId)
+            ->where('product_id', (int) $product['id'])
             ->where('status', 'active')
             ->where('end_at >', date('Y-m-d H:i:s'))
             ->first();
@@ -88,7 +115,8 @@ class Subscriptions extends BaseController
         // Record the access pass
         $passId = $this->subs->insert([
             'user_id' => $userId,
-            'plan' => $plan === 'monthly' ? '1-month' : '3-month',
+            'product_id' => (int) $product['id'],
+            'plan' => $storedPlan,
             'status' => 'active',
             'paypal_order_id' => $orderId,
             'amount' => $amount,
@@ -113,16 +141,17 @@ class Subscriptions extends BaseController
             $userName  = (string) ($this->session->get('username') ?? 'Student');
 
             if ($userEmail !== '') {
-                $planLabel = $plan === 'monthly' ? '1-Month' : '3-Month';
+                $planLabel = $isMonthly ? '1-Month' : '3-Month';
+                $productName = (string) ($product['name'] ?? 'NCLEX Prep Course');
 
                 $startFormatted = date('M j, Y', strtotime($start));
                 $endFormatted   = date('M j, Y', strtotime($end));
 
-                $subject = "Your {$planLabel} NCLEX Prep Course access is confirmed";
+                $subject = "Your {$planLabel} {$productName} access is confirmed";
 
                 $testsUrl = base_url('client/tests');
                 $message = "Hi {$userName},<br><br>"
-                    . "Thank you for your payment via PayPal. Your NCLEX Prep Course {$planLabel} access is now confirmed.<br><br>"
+                    . "Thank you for your payment via PayPal. Your {$productName} {$planLabel} access is now confirmed.<br><br>"
                     . "<strong>Order ID:</strong> {$orderId}<br>"
                     . "<strong>Amount:</strong> $" . number_format($amount, 2) . " USD<br>"
                     . "<strong>Access period:</strong> {$startFormatted} &ndash; {$endFormatted}<br><br>"
@@ -140,8 +169,8 @@ class Subscriptions extends BaseController
         }
 
         $message = $activePass 
-            ? 'Access pass purchased successfully! It will start after your current pass expires.'
-            : 'Access pass activated! You now have full access to the test bank.';
+            ? $product['name'] . ' access purchased successfully! It will start after your current pass expires.'
+            : $product['name'] . ' access activated! You now have full access to the matching test bank.';
 
         return redirect()->to('/subscriptions')->with('message', $message);
     }

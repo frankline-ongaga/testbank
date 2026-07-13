@@ -314,8 +314,14 @@ class Home extends BaseController
             ->orderBy('id', 'DESC')
             ->first();
         $data['activeFreeTest'] = $activeFree ?: null;
-        // Also load all active free tests for homepage listing
-        $data['freeTests'] = $testModel->getActiveFreeTests();
+        // Show a curated preview on the homepage instead of the full free-test archive.
+        $questionCountSubquery = "(SELECT test_id, COUNT(*) as question_count FROM test_questions GROUP BY test_id) as q";
+        $data['freeTests'] = $testModel->select('tests.*, COALESCE(q.question_count, 0) as question_count')
+            ->join($questionCountSubquery, 'q.test_id = tests.id', 'left')
+            ->where('tests.status', 'active')
+            ->where('tests.is_free', 1)
+            ->orderBy('tests.id', 'DESC')
+            ->findAll(3);
 
         return view('homepage/header', $data)
              . view('homepage/index', $data)
@@ -324,13 +330,52 @@ class Home extends BaseController
 
     public function teas(): string
     {
-        // $data = $this->getCalculationVariables();
-
-        $data['title'] = "Professional essay writing and editing service";
-        $data['description'] = "We are a one-stop solution for all types of custom papers including case studies, lab reports, term papers, dissertation papers, thesis papers, research papers, PowerPoint presentations, projects, and much more. Our essay writing service has professional writers with several years of experience in writing papers on any topic and discipline. Some of these disciplines include statistics, finance, accounting, economics, physics, mathematics, chemistry, law, engineering, nursing, medicine, programming, computer science, and much more.";
+        $data['title'] = "ATI TEAS 7 Prep Course and Practice Tests | NCLEX Prep Course";
+        $data['description'] = "Prepare for the ATI TEAS 7 with focused Reading, Math, Science, and English review, realistic practice questions, detailed rationales, and a practical study plan.";
+        $data['exam'] = [
+            'key' => 'teas',
+            'eyebrow' => 'Nursing school starts here',
+            'name' => 'ATI TEAS 7',
+            'headline' => 'ATI TEAS 7 Prep',
+            'intro' => 'Build the academic foundation and test-day confidence you need for your nursing school application.',
+            'image' => 'assets/media/nursingentranceexams.webp',
+            'imageAlt' => 'Nursing students preparing for the ATI TEAS 7 exam',
+            'statLabel' => 'Core subject areas',
+            'statValue' => '4',
+            'overviewTitle' => 'Prepare with purpose, not guesswork',
+            'overview' => 'The TEAS measures the skills nursing programs expect you to bring into the classroom. Our preparation path helps you identify weak areas early, review the concepts that matter, and practice applying them under realistic time pressure.',
+            'subjectsTitle' => 'Master every TEAS 7 subject',
+            'subjectsIntro' => 'Move through focused review in the same four academic areas assessed on the exam.',
+            'subjects' => [
+                ['icon' => 'fa-book-open', 'title' => 'Reading', 'text' => 'Strengthen key ideas, supporting details, inference, text structure, and the integration of information from multiple sources.'],
+                ['icon' => 'fa-calculator', 'title' => 'Mathematics', 'text' => 'Practice numbers and algebra, measurement, data interpretation, ratios, percentages, and multi-step problem solving.'],
+                ['icon' => 'fa-flask', 'title' => 'Science', 'text' => 'Review human anatomy and physiology, biology, chemistry, scientific reasoning, and the relationships between body systems.'],
+                ['icon' => 'fa-pen-nib', 'title' => 'English & Language Usage', 'text' => 'Improve grammar, sentence structure, punctuation, vocabulary, and your ability to communicate ideas clearly.'],
+            ],
+            'features' => [
+                ['title' => 'Diagnostic practice', 'text' => 'Start with a clear picture of what you know and where your study time will have the greatest impact.'],
+                ['title' => 'Detailed rationales', 'text' => 'Learn why an answer works, why the alternatives do not, and how to approach similar questions next time.'],
+                ['title' => 'Timed exam practice', 'text' => 'Develop a steady pace and make confident decisions without feeling rushed on test day.'],
+                ['title' => 'Progress you can use', 'text' => 'Turn performance patterns into a focused weekly plan instead of reviewing everything equally.'],
+            ],
+            'plan' => [
+                ['number' => '01', 'title' => 'Find your baseline', 'text' => 'Complete a diagnostic set and note your strongest and weakest subject areas.'],
+                ['number' => '02', 'title' => 'Review by priority', 'text' => 'Study one skill at a time, beginning with the concepts that cost you the most points.'],
+                ['number' => '03', 'title' => 'Practice and explain', 'text' => 'Answer mixed questions and use the rationales to correct the thinking behind each miss.'],
+                ['number' => '04', 'title' => 'Rehearse test day', 'text' => 'Finish with timed practice so pacing, stamina, and your test routine feel familiar.'],
+            ],
+            'faqs' => [
+                ['question' => 'What subjects should I study for the ATI TEAS 7?', 'answer' => 'Plan to review Reading, Mathematics, Science, and English and Language Usage. Your diagnostic results can help you decide how much time to devote to each area.'],
+                ['question' => 'How long should I prepare for the TEAS?', 'answer' => 'Preparation time depends on your starting point and target score. Many students benefit from several consistent weeks of focused review rather than a short period of cramming.'],
+                ['question' => 'Can I use this course if my test date is close?', 'answer' => 'Yes. Begin with a diagnostic, prioritize the two or three skills with the largest gaps, and include timed mixed practice before your exam.'],
+            ],
+            'ctaTitle' => 'Make your TEAS study time count',
+            'ctaText' => 'Create your account and turn every practice session into a clear next step.',
+            'disclaimer' => 'ATI and TEAS are trademarks of their respective owner. NCLEX Prep Course is an independent exam-preparation provider and is not affiliated with or endorsed by ATI.',
+        ];
 
         return view('homepage/header', $data)
-             . view('homepage/teas', $data)
+             . view('homepage/exam_prep', $data)
              . view('homepage/footer', $data);
     }
 
@@ -515,13 +560,54 @@ class Home extends BaseController
     }
     public function hesi2(): string
     {
-        // $data = $this->getCalculationVariables();
-
-        $data['title'] = "Professional essay writing and editing service";
-        $data['description'] = "We are a one-stop solution for all types of custom papers including case studies, lab reports, term papers, dissertation papers, thesis papers, research papers, PowerPoint presentations, projects, and much more. Our essay writing service has professional writers with several years of experience in writing papers on any topic and discipline. Some of these disciplines include statistics, finance, accounting, economics, physics, mathematics, chemistry, law, engineering, nursing, medicine, programming, computer science, and much more.";
+        $data['title'] = "HESI A2 Prep Course and Practice Tests | NCLEX Prep Course";
+        $data['description'] = "Prepare for the HESI A2 nursing entrance exam with targeted subject review, realistic practice questions, clear rationales, and a flexible study plan.";
+        $data['exam'] = [
+            'key' => 'hesi',
+            'eyebrow' => 'Your nursing journey, one strong step at a time',
+            'name' => 'HESI A2',
+            'headline' => 'HESI A2 Prep',
+            'intro' => 'Focus your preparation on the subjects your nursing program requires and walk into test day with a plan.',
+            'image' => 'assets/media/hesi.webp',
+            'imageAlt' => 'Nursing students reviewing HESI A2 preparation material',
+            'statLabel' => 'Targeted study path',
+            'statValue' => '1',
+            'overviewTitle' => 'Study for your program requirements',
+            'overview' => 'HESI A2 requirements can differ from one nursing program to another. Our flexible preparation approach helps you concentrate on your assigned sections, reinforce essential academic skills, and build the pacing needed for a long testing session.',
+            'subjectsTitle' => 'Build confidence across HESI subjects',
+            'subjectsIntro' => 'Choose the areas required by your school and give more attention to the subjects where your diagnostic performance is lowest.',
+            'subjects' => [
+                ['icon' => 'fa-calculator', 'title' => 'Math', 'text' => 'Review fractions, decimals, ratios, proportions, percentages, conversions, and practical word problems.'],
+                ['icon' => 'fa-book-reader', 'title' => 'Reading & Vocabulary', 'text' => 'Practice comprehension, main ideas, inference, context clues, and the language used in academic and healthcare settings.'],
+                ['icon' => 'fa-spell-check', 'title' => 'Grammar', 'text' => 'Strengthen sentence structure, parts of speech, punctuation, agreement, and commonly confused words.'],
+                ['icon' => 'fa-heartbeat', 'title' => 'Anatomy & Physiology', 'text' => 'Connect body structures with their functions and review how major organ systems work together.'],
+                ['icon' => 'fa-dna', 'title' => 'Biology', 'text' => 'Refresh cellular biology, genetics, metabolism, biological molecules, and foundational scientific concepts.'],
+                ['icon' => 'fa-vial', 'title' => 'Chemistry', 'text' => 'Review matter, atoms, chemical equations, reactions, solutions, acids, bases, and essential calculations.'],
+            ],
+            'features' => [
+                ['title' => 'Program-focused review', 'text' => 'Concentrate on the exact HESI A2 sections your school asks you to complete.'],
+                ['title' => 'Clear answer rationales', 'text' => 'Use every question as a short lesson and correct misconceptions before they become habits.'],
+                ['title' => 'Flexible practice sets', 'text' => 'Study one subject deeply or combine topics when you are ready to test your recall.'],
+                ['title' => 'Test-day readiness', 'text' => 'Practice pacing, careful reading, and disciplined elimination across longer question sets.'],
+            ],
+            'plan' => [
+                ['number' => '01', 'title' => 'Confirm your sections', 'text' => 'Check your nursing program requirements, target scores, testing deadline, and retake policy.'],
+                ['number' => '02', 'title' => 'Measure your starting point', 'text' => 'Use diagnostic questions to identify the subjects and skills that need the most attention.'],
+                ['number' => '03', 'title' => 'Build a focused routine', 'text' => 'Alternate content review with practice, then revisit missed concepts until your reasoning is reliable.'],
+                ['number' => '04', 'title' => 'Practice under time', 'text' => 'Complete mixed timed sets and refine a calm, repeatable approach for the real exam.'],
+            ],
+            'faqs' => [
+                ['question' => 'Which HESI A2 sections do I need to take?', 'answer' => 'Each nursing school chooses its required sections and score expectations. Confirm the details directly with your program before creating your study schedule.'],
+                ['question' => 'What is the best way to begin HESI preparation?', 'answer' => 'Start with your school requirements and a diagnostic assessment. Use the results to rank your subjects by urgency, then combine focused review with regular question practice.'],
+                ['question' => 'Should I practice every HESI subject?', 'answer' => 'Prioritize the sections required by your program. Additional review can be helpful, but it should not take time away from the subjects that determine your admission score.'],
+            ],
+            'ctaTitle' => 'Turn your HESI goal into a study plan',
+            'ctaText' => 'Create your account and begin focused practice for the sections that matter to your program.',
+            'disclaimer' => 'HESI is a trademark of its respective owner. NCLEX Prep Course is an independent exam-preparation provider and is not affiliated with or endorsed by the HESI examination owner.',
+        ];
 
         return view('homepage/header', $data)
-             . view('homepage/hesi2', $data)
+             . view('homepage/exam_prep', $data)
              . view('homepage/footer', $data);
     }
 
@@ -546,9 +632,28 @@ class Home extends BaseController
     public function pricing()
     {
         //$data = $this->getCalculationVariables();
+        $products = new \App\Models\ExamProductModel();
+        $pricingProducts = $products->getActiveProducts();
+        $pricingOrder = [
+            'hesi' => 1,
+            'ati-teas-7' => 2,
+            'nclex' => 3,
+        ];
 
-        $data['title'] = "Affordable NCLEX Prep Practice";
-        $data['description'] = "Get access to NCLEX styled questions and study materials for as low as $49";
+        usort($pricingProducts, static function (array $a, array $b) use ($pricingOrder): int {
+            $aOrder = $pricingOrder[$a['slug'] ?? ''] ?? 999;
+            $bOrder = $pricingOrder[$b['slug'] ?? ''] ?? 999;
+
+            if ($aOrder === $bOrder) {
+                return strcmp((string) ($a['name'] ?? ''), (string) ($b['name'] ?? ''));
+            }
+
+            return $aOrder <=> $bOrder;
+        });
+
+        $data['title'] = "Affordable Nursing Exam Prep Practice";
+        $data['description'] = "Choose NCLEX, ATI TEAS 7, or HESI access with realistic practice tests and focused review.";
+        $data['products'] = $pricingProducts;
 
         return view('homepage/header', $data)
              . view('homepage/pricing', $data)

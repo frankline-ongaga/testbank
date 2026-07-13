@@ -27,6 +27,42 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
+                <div class="card-title">Product Overview</div>
+                <div class="card-subtitle">Tests, active learners, and revenue by product</div>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <?php foreach (($product_stats ?? []) as $product): ?>
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 h-100">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h5 class="mb-0"><?= esc($product['name']) ?></h5>
+                                    <span class="badge bg-info text-dark">$<?= esc(number_format((float)$product['monthly_price'], 0)) ?> / $<?= esc(number_format((float)$product['quarterly_price'], 0)) ?></span>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <div class="fw-bold"><?= esc(number_format($product['tests_count'] ?? 0)) ?></div>
+                                        <div class="small text-muted">Tests</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fw-bold"><?= esc(number_format($product['active_clients'] ?? 0)) ?></div>
+                                        <div class="small text-muted">Active</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fw-bold">$<?= esc(number_format((float)($product['revenue'] ?? 0), 0)) ?></div>
+                                        <div class="small text-muted">Revenue</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
                 <div class="card-title">Latest Transactions</div>
                 <div class="card-subtitle">Most recent 10 payments</div>
             </div>
@@ -37,6 +73,7 @@
                             <tr>
                                 <th>Date</th>
                                 <th>User</th>
+                                <th>Product</th>
                                 <th>Plan</th>
                                 <th>Status</th>
                                 <th>Amount</th>
@@ -49,6 +86,7 @@
                                     <tr>
                                         <td><?= esc(date('Y-m-d H:i', strtotime($p['created_at'] ?? 'now'))) ?></td>
                                         <td><?= esc($p['user_first_name'] ?: $p['user_email'] ?: ('#'.$p['user_id'])) ?></td>
+                                        <td><?= esc($p['product_name'] ?? '-') ?></td>
                                         <td><?= esc(ucfirst($p['subscription_plan'] ?? '-')) ?></td>
                                         <td><span class="badge bg-<?= ($p['status'] ?? '') === 'COMPLETED' ? 'success' : 'secondary' ?>"><?= esc($p['status'] ?? '-') ?></span></td>
                                         <td>$<?= esc(number_format((float)($p['amount'] ?? 0), 2)) ?> <?= esc($p['currency'] ?? 'USD') ?></td>
@@ -56,7 +94,7 @@
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <tr><td colspan="6" class="text-muted">No transactions yet.</td></tr>
+                                <tr><td colspan="7" class="text-muted">No transactions yet.</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>

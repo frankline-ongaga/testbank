@@ -6,6 +6,16 @@
         border-radius: 10px;
         border: 1px solid #e9ecef;
     }
+    .study-docs-page {
+        padding-bottom: 5rem !important;
+        margin-bottom: 4rem !important;
+    }
+    .study-docs-grid {
+        margin-bottom: 4rem;
+    }
+    .study-docs-grid > [class*="col-"] {
+        margin-bottom: 1.75rem;
+    }
     .study-docs-hero h2 {
         font-size: 1.75rem;
         font-weight: 600;
@@ -136,7 +146,7 @@
     }
 </style>
 
-<div class="container py-4">
+<div class="container py-4 study-docs-page">
     <div class="study-docs-hero text-center">
         <div class="container">
             <h2>Download premium study material</h2>
@@ -156,7 +166,7 @@
     </div>
     <?php endif; ?>
 
-    <div class="row g-4">
+    <div class="row g-4 study-docs-grid">
         <?php foreach (($categories ?? []) as $cat): ?>
         <div class="col-md-6 col-lg-4">
             <div class="card category-card h-100">
@@ -191,4 +201,3 @@
         <?php endif; ?>
     </div>
 </div>
-

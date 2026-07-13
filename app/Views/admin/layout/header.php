@@ -3,177 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= isset($title) ? esc($title) : 'Admin' ?> - NCLEX Admin</title>
+    <title><?= isset($title) ? esc($title) : 'Admin' ?> - NCLEX Prep Course</title>
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= base_url('assets/css/admin.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('panel_assets/css/praxis-panel.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('panel_assets/css/nclex-panel-bridge.css'); ?>">
 </head>
-<body class="admin-body">
-<div class="admin-layout">
-    <header class="admin-header">
-        <div class="admin-header-left">
-            <button class="admin-menu-toggle js-mobile-toggle" aria-label="Toggle mobile menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="admin-brand">
-                <img src="<?= base_url('assets/media/logo.png'); ?>" alt="Logo" class="admin-logo">
-            </div>
-        </div>
-        <div class="admin-header-right">
-            <button class="admin-action-btn" title="Notifications">
-                <i class="fas fa-bell"></i>
-                <span class="admin-badge">3</span>
-            </button>
-            <button class="admin-action-btn js-theme-toggle" title="Toggle theme" aria-pressed="false">
-                <i class="fas fa-toggle-off"></i>
-            </button>
-            <div class="admin-user-menu">
-                <?php
-                    $userEmail = session()->get('user_email');
-                    $userName = session()->get('username');
-                    $displayName = $userName ?: 'Admin';
-                    $avatarName = urlencode($displayName);
-                ?>
-                <button class="admin-user-btn" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/?name=<?= $avatarName ?>&background=6366f1&color=fff" alt="User" class="admin-avatar">
-                    <span class="admin-user-name"><?= esc($displayName) ?></span>
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end admin-user-dropdown">
-                    <?php if (!empty($userEmail)): ?>
-                    <li class="admin-user-info">
-                        <div class="admin-user-email"><?= esc($userEmail) ?></div>
-                    </li>
-                    <?php endif; ?>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="<?= base_url('admin/profile'); ?>"><i class="fas fa-user"></i> Profile</a></li>
-                    <li><a class="dropdown-item" href="<?= base_url(); ?>" target="_blank"><i class="fas fa-external-link"></i> View Site</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="<?= base_url('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
-    
-    <nav class="admin-sidebar">
-        <div class="admin-nav-section">
-            <div class="admin-nav-title">Main</div>
-            <a class="admin-nav-link" href="<?= base_url('admin'); ?>" data-path="admin">
-                <i class="fas fa-chart-pie"></i>
-                <span>Dashboard</span>
-            </a>
-            <a class="admin-nav-link" href="<?= base_url('admin/analytics'); ?>" data-path="admin/analytics">
-                <i class="fas fa-chart-line"></i>
-                <span>Analytics</span>
-            </a>
-        </div>
-        <div class="admin-nav-section">
-            <div class="admin-nav-title">Users</div>
-            <a class="admin-nav-link" href="<?= base_url('admin/users'); ?>" data-path="admin/users">
-                <i class="fas fa-users"></i>
-                <span>Users</span>
-            </a>
-        </div>
-        <div class="admin-nav-section">
-            <div class="admin-nav-title">Test</div>
+<body class="ielts-panel-body ielts-panel-body--admin">
+<?php
+    $currentPath = trim(service('uri')->getPath(), '/');
+    if (strpos($currentPath, 'index.php/') === 0) {
+        $currentPath = substr($currentPath, strlen('index.php/'));
+    }
 
-             <a class="admin-nav-link" href="<?= base_url('admin/tests/create'); ?>" data-path="admin/tests/create">
-                <i class="fas fa-plus-square"></i>
-                <span>Create Test</span>
-            </a>
-            <a class="admin-nav-link" href="<?= base_url('admin/tests/create-free'); ?>" data-path="admin/tests/create-free">
-                <i class="fas fa-gift"></i>
-                <span>Create Free Test</span>
-            </a>
-          
-            <a class="admin-nav-link" href="<?= base_url('admin/tests'); ?>" data-path="admin/tests">
-                <i class="fas fa-file-lines"></i>
-                <span>Tests</span>
-            </a>
-           
-        </div>
-        <div class="admin-nav-section">
-            <div class="admin-nav-title">Test Bank Questions</div>
-
-            <a class="admin-nav-link" href="<?= base_url('admin/questions/create'); ?>" data-path="admin/questions/create">
-                <i class="fas fa-plus-circle"></i>
-                <span>Add Question</span>
-            </a>
-            <a class="admin-nav-link" href="<?= base_url('admin/questions/pending'); ?>" data-path="admin/questions/pending">
-                <i class="fas fa-eye"></i>
-                <span>Review Questions</span>
-            </a>
-
-            <a class="admin-nav-link" href="<?= base_url('admin/questions'); ?>" data-path="admin/questions">
-                <i class="fas fa-circle-question"></i>
-                <span>Questions</span>
-            </a>
-            <a class="admin-nav-link" href="<?= base_url('admin/taxonomy/nclex'); ?>" data-path="admin/taxonomy/nclex">
-                <i class="fas fa-list"></i>
-                <span>Question Categories</span>
-            </a>
-        </div>
-        <div class="admin-nav-section">
-            <div class="admin-nav-title">Study Materials</div>
-          
-            <a class="admin-nav-link" href="<?= base_url('admin/study'); ?>" data-path="admin/study">
-                <i class="fas fa-layer-group"></i>
-                <span>Study Questions</span>
-            </a>
-            <a class="admin-nav-link" href="<?= base_url('admin/study-bank-pdfs'); ?>" data-path="admin/study-bank-pdfs">
-                <i class="fas fa-file"></i>
-                <span>Study Bank Docs</span>
-            </a>
-            <a class="admin-nav-link" href="<?= base_url('admin/cheat-sheets'); ?>" data-path="admin/cheat-sheets">
-                <i class="fas fa-file-image"></i>
-                <span>Cheat Sheets</span>
-            </a>
-        </div>
-        <div class="admin-nav-section">
-            <div class="admin-nav-title">Payments</div>
-            <a class="admin-nav-link" href="<?= base_url('admin/subscriptions'); ?>" data-path="admin/subscriptions">
-                <i class="fas fa-credit-card"></i>
-                <span>Payments</span>
-            </a>
-        </div>
-    </nav>
-    
-    <script>
-    // Robust exact-match active highlighting using hrefs
-    document.addEventListener('DOMContentLoaded', function() {
-        const appBasePath = "<?= rtrim((string)(parse_url(base_url(), PHP_URL_PATH) ?: ''), '/') ?>";
-        function normalizePath(pathname) {
-            let p = pathname || '';
-            if (appBasePath && p.startsWith(appBasePath)) p = p.slice(appBasePath.length);
-            p = p.replace(/^\//, '').replace(/\/$/, '');
-            p = p.replace(/^index\.php\//, '');
-            return p;
-        }
-        const current = normalizePath(window.location.pathname);
-        const links = document.querySelectorAll('.admin-nav-link[data-path], .admin-nav-link[href]');
-        links.forEach(link => {
-            const href = link.getAttribute('href') || '';
-            try {
-                const url = new URL(href, window.location.origin);
-                const linkPath = normalizePath(url.pathname);
-                const isDashboard = linkPath === 'admin';
-                const shouldActivate = isDashboard
-                    ? current === linkPath
-                    : (current === linkPath || current.startsWith(linkPath + '/'));
-                if (shouldActivate) link.classList.add('active');
-                else link.classList.remove('active');
-            } catch (e) {
-                // ignore invalid URLs
+    $isActive = static function (array $patterns) use ($currentPath): bool {
+        foreach ($patterns as $pattern) {
+            $pattern = trim($pattern, '/');
+            if ($pattern === $currentPath) {
+                return true;
             }
-        });
-    });
-    </script>
-    
-    <main class="admin-main">
-        <div class="admin-page-header">
-            <h1 class="admin-page-title"><?= isset($title) ? esc($title) : 'Dashboard' ?></h1>
-        </div>
-        <div class="admin-content">
+            if (str_contains($pattern, '*') && fnmatch($pattern, $currentPath)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    $navSections = [
+        [
+            'title' => 'Overview',
+            'items' => [
+                ['path' => 'admin', 'label' => 'Dashboard', 'icon' => 'grid', 'active' => ['admin']],
+                ['path' => 'admin/analytics', 'label' => 'Analytics', 'icon' => 'calendar', 'active' => ['admin/analytics', 'admin/analytics/*']],
+            ],
+        ],
+        [
+            'title' => 'People',
+            'items' => [
+                ['path' => 'admin/users', 'label' => 'Users', 'icon' => 'user', 'active' => ['admin/users', 'admin/users/*', 'admin/viewUsers', 'admin/addUser', 'admin/editUser', 'admin/editUser/*']],
+            ],
+        ],
+        [
+            'title' => 'Tests',
+            'items' => [
+                ['path' => 'admin/tests/create', 'label' => 'Create Test', 'icon' => 'book', 'active' => ['admin/tests/create']],
+                ['path' => 'admin/tests/create-free', 'label' => 'Create Free Test', 'icon' => 'audio', 'active' => ['admin/tests/create-free']],
+                ['path' => 'admin/tests', 'label' => 'Manage Tests', 'icon' => 'book', 'active' => ['admin/tests', 'admin/tests/edit/*', 'admin/tests/*/questions*']],
+            ],
+        ],
+        [
+            'title' => 'Questions',
+            'items' => [
+                ['path' => 'admin/questions/create', 'label' => 'Add Question', 'icon' => 'pen', 'active' => ['admin/questions/create']],
+                ['path' => 'admin/questions/pending', 'label' => 'Review Questions', 'icon' => 'chat', 'active' => ['admin/questions/pending']],
+                ['path' => 'admin/questions', 'label' => 'Question Bank', 'icon' => 'book', 'active' => ['admin/questions', 'admin/questions/edit/*', 'admin/questions/media/*', 'admin/questions/preview/*']],
+                ['path' => 'admin/taxonomy/nclex', 'label' => 'Question Categories', 'icon' => 'calendar', 'active' => ['admin/taxonomy/nclex', 'admin/taxonomy/nclex/*']],
+            ],
+        ],
+        [
+            'title' => 'Study',
+            'items' => [
+                ['path' => 'admin/study', 'label' => 'Study Questions', 'icon' => 'grid', 'active' => ['admin/study', 'admin/study/*']],
+                ['path' => 'admin/study-bank-pdfs', 'label' => 'Study Bank Docs', 'icon' => 'book', 'active' => ['admin/study-bank-pdfs', 'admin/study-bank-pdfs/*']],
+                ['path' => 'admin/cheat-sheets', 'label' => 'Cheat Sheets', 'icon' => 'card', 'active' => ['admin/cheat-sheets', 'admin/cheat-sheets/*']],
+            ],
+        ],
+        [
+            'title' => 'Billing',
+            'items' => [
+                ['path' => 'admin/subscriptions', 'label' => 'Payments', 'icon' => 'card', 'active' => ['admin/subscriptions', 'admin/subscriptions/*']],
+            ],
+        ],
+    ];
+
+    $userEmail = (string) (session()->get('user_email') ?? '');
+    $userName = (string) (session()->get('username') ?: 'Admin');
+?>
+<div class="ielts-panel-mobilebar">
+    <a class="ielts-panel-mobilebrand" href="<?= base_url('admin') ?>">
+        <img src="<?= base_url('assets/media/logo.png') ?>" alt="NCLEX Prep Course">
+    </a>
+    <a class="ielts-panel-mobilelogout" href="<?= base_url('logout') ?>">Logout</a>
+</div>
+<div class="ielts-panel-shell">
+    <aside class="ielts-panel-sidebar">
+        <a class="ielts-panel-brand" href="<?= base_url('admin') ?>">
+            <img src="<?= base_url('assets/media/logo.png') ?>" alt="NCLEX Prep Course">
+            <small>Admin Suite</small>
+        </a>
+        <nav class="ielts-panel-nav">
+            <?php foreach ($navSections as $section): ?>
+                <span class="ielts-panel-section"><?= esc($section['title']) ?></span>
+                <?php foreach ($section['items'] as $item): ?>
+                    <?php $active = $isActive($item['active']); ?>
+                    <a class="<?= $active ? 'active' : '' ?>" data-icon="<?= esc($item['icon']) ?>" href="<?= base_url($item['path']) ?>">
+                        <span><?= esc($item['label']) ?></span>
+                    </a>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </nav>
+    </aside>
+    <main class="ielts-panel-main">
+        <header class="ielts-panel-topbar">
+            <div>
+                <small>Signed in as admin</small>
+                <span><?= esc($userName) ?></span>
+            </div>
+            <div class="ielts-panel-topbar-meta">
+                <span><?= esc($userEmail) ?></span>
+            </div>
+            <div class="ielts-panel-topbar-actions">
+                <a class="ielts-panel-toplink" href="<?= base_url() ?>" target="_blank">View Site</a>
+                <a class="ielts-panel-toplink" href="<?= base_url('admin/profile') ?>">Profile</a>
+                <a class="ielts-panel-logout" href="<?= base_url('logout') ?>">Logout</a>
+            </div>
+        </header>
+
+        <?php if (session()->getFlashdata('message')): ?>
+            <div class="ielts-alert ielts-alert-success"><?= esc(session()->getFlashdata('message')) ?></div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('error')): ?>
+            <div class="ielts-alert ielts-alert-error"><?= esc(session()->getFlashdata('error')) ?></div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('errors')): ?>
+            <div class="ielts-alert ielts-alert-error">
+                <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                    <div><?= esc($error) ?></div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+        <section class="ielts-panel-pagehead">
+            <small>NCLEX Prep Course</small>
+            <h1><?= isset($title) ? esc($title) : 'Admin Dashboard' ?></h1>
+        </section>
+
+        <div class="ielts-panel-content">

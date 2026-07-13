@@ -31,6 +31,10 @@ class Study extends BaseController
 
     public function index()
     {
+        if ($redirect = $this->requireProductAccess('nclex', 'Study Questions')) {
+            return $redirect;
+        }
+
         $data['title'] = 'Study Library';
         $data['categories'] = $this->categories->orderBy('name')->findAll();
         return view('client/layout/header', $data)
@@ -40,21 +44,55 @@ class Study extends BaseController
 
     public function subcategories($categoryId)
     {
+        if ($redirect = $this->requireProductAccess('nclex', 'Study Questions')) {
+            return $redirect;
+        }
+
         $category = $this->categories->find((int)$categoryId);
         if (!$category) return redirect()->to(base_url('client/study'));
         $data['title'] = $category['name'];
         $data['category'] = $category;
         $data['categories'] = $this->categories->orderBy('name')->findAll();
-        $data['subcategories'] = $this->subcategories
+        $subcategories = $this->subcategories
             ->where('category_id', (int)$categoryId)
             ->orderBy('name')
             ->findAll();
-        // Mark the first subcategory (by name) as free for onboarding
-        $firstSub = $this->subcategories
-            ->where('category_id', (int)$categoryId)
-            ->orderBy('name')
-            ->first();
-        $data['freeSubcategoryId'] = $firstSub['id'] ?? null;
+        $data['subcategories'] = $subcategories;
+
+        $subcategoryIds = array_map(static fn ($sub) => (int) $sub['id'], $subcategories);
+        $data['questionCounts'] = [];
+        $data['noteCounts'] = [];
+
+        if (!empty($subcategoryIds)) {
+            $db = \Config\Database::connect();
+
+            $questionRows = $db->table('study_questions')
+                ->select('subcategory_id, COUNT(*) AS total')
+                ->whereIn('subcategory_id', $subcategoryIds)
+                ->groupBy('subcategory_id')
+                ->get()
+                ->getResultArray();
+
+            foreach ($questionRows as $row) {
+                $data['questionCounts'][(int) $row['subcategory_id']] = (int) $row['total'];
+            }
+
+            $noteRows = $db->table('notes')
+                ->select('subcategory_id, COUNT(*) AS total')
+                ->whereIn('subcategory_id', $subcategoryIds)
+                ->where('status', 'published')
+                ->groupBy('subcategory_id')
+                ->get()
+                ->getResultArray();
+
+            foreach ($noteRows as $row) {
+                $data['noteCounts'][(int) $row['subcategory_id']] = (int) $row['total'];
+            }
+        }
+
+        $userId = (int) (session()->get('user_id') ?? 0);
+        $data['hasStudyAccess'] = $userId > 0 && $this->hasActiveProductAccess($userId, 'nclex');
+
         return view('client/layout/header', $data)
             . view('client/study/subcategories', $data)
             . view('client/layout/footer');
@@ -62,29 +100,14 @@ class Study extends BaseController
 
     public function questions($subcategoryId)
     {
+        if ($redirect = $this->requireProductAccess('nclex', 'Study Questions')) {
+            return $redirect;
+        }
+
         $subcategory = $this->subcategories->find((int)$subcategoryId);
         if (!$subcategory) return redirect()->to(base_url('client/study'));
         $category = $this->categories->find((int)$subcategory['category_id']);
 
-        // Allow free access to the first subcategory of this category; others require subscription
-        $firstSub = $this->subcategories
-            ->where('category_id', (int)$subcategory['category_id'])
-            ->orderBy('name')
-            ->first();
-        $freeSubId = $firstSub['id'] ?? null;
-        if ((int)$subcategoryId !== (int)$freeSubId) {
-            $userId = session()->get('user_id');
-            if (!$userId) {
-                return redirect()->to(base_url('subscriptions'))
-                    ->with('error', 'Subscribe to access this subcategory. The first one is free.');
-            }
-            $active = $this->subs->getActiveForUser((int)$userId);
-            if (!$active) {
-                // Send logged-in users to their portal subscription page
-                return redirect()->to(base_url('client/subscription'))
-                    ->with('error', 'Your subscription is inactive or missing. Subscribe to continue.');
-            }
-        }
         $data['title'] = $subcategory['name'] . ' Questions';
         $data['category'] = $category;
         $data['subcategory'] = $subcategory;
@@ -115,21 +138,9 @@ class Study extends BaseController
             return $this->response->setStatusCode(404);
         }
 
-        // Same access rules as `questions()`
-        $firstSub = $this->subcategories
-            ->where('category_id', (int)$subcategory['category_id'])
-            ->orderBy('name')
-            ->first();
-        $freeSubId = (int)($firstSub['id'] ?? 0);
-        if ($subcategoryId !== $freeSubId) {
-            $userId = (int)(session()->get('user_id') ?? 0);
-            if (!$userId) {
-                return $this->response->setStatusCode(403);
-            }
-            $active = $this->subs->getActiveForUser($userId);
-            if (!$active) {
-                return $this->response->setStatusCode(403);
-            }
+        $userId = (int)(session()->get('user_id') ?? 0);
+        if (!$userId || !$this->hasActiveProductAccess($userId, 'nclex')) {
+            return $this->response->setStatusCode(403);
         }
 
         $existing = (string)$q['image_path'];
@@ -156,4 +167,3 @@ class Study extends BaseController
             ->setBody((string) file_get_contents($path));
     }
 }
-

@@ -27,9 +27,7 @@
                  
 
                 <div class="btn_block">
-                  <a href="<?php echo base_url('free/test/5'); ?>" class="educate-btn sec"><span class="educate-btn__curve"></span>Free Questions Today </a>&nbsp; &nbsp;  
-
-                  <a href="<?php echo base_url('register'); ?>" class="btn btn-primary"><span class="educate-btn__curve"></span>Get Started</a>
+                  <a href="<?php echo base_url('register'); ?>" class="educate-btn educate-btn--accent"><span class="educate-btn__curve"></span>Get Started</a>&nbsp; &nbsp;  
 
                   <img src="<?= base_url('assets/media/shapes/arrow.png'); ?>" alt="" class="arrow">
                 </div>
@@ -50,157 +48,325 @@
 
 
         <!-- Course Detail Area Start -->
+    <style>
+      .course_testbank #testbankTabs {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 0 !important;
+        border-bottom: 0;
+      }
+
+      .course_testbank .testbank-category-area {
+        position: relative;
+        padding: 18px;
+        border: 1px solid #bfdbfe;
+        border-bottom: 0;
+        border-radius: 8px 8px 0 0;
+        background:
+          linear-gradient(135deg, rgba(10, 166, 215, .08), rgba(10, 166, 215, .04)),
+          #ffffff;
+        box-shadow: none;
+      }
+
+      .course_testbank #testbankTabs .nav-item {
+        width: 100%;
+      }
+
+      .course_testbank #testbankTabs .nav-link {
+        width: 100%;
+        min-height: 64px;
+        padding: 13px 14px 13px 18px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background:
+          linear-gradient(90deg, #0aa6d7 0, #0aa6d7 5px, #ffffff 5px, #ffffff 100%);
+        color: #111827;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, .06);
+        font-size: 15px;
+        font-weight: 800;
+        line-height: 1.25;
+        text-align: left;
+        white-space: normal;
+        transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+      }
+
+      .course_testbank #testbankTabs .nav-link:hover,
+      .course_testbank #testbankTabs .nav-link.active {
+        border: 1px solid #f59e0b !important;
+        border-color: #f59e0b !important;
+        background: #fff7ed !important;
+        color: #f59e0b !important;
+        box-shadow: 0 14px 28px rgba(245, 158, 11, .18);
+        transform: translateY(-2px);
+      }
+
+      .course_testbank .testbank-content-panel {
+        position: relative;
+        margin-top: 0;
+        padding: 28px;
+        border: 1px solid #bfdbfe;
+        border-top: 0;
+        border-radius: 0 0 8px 8px;
+        background:
+          linear-gradient(180deg, #f8fafc 0%, #eef6ff 100%);
+        box-shadow: 0 16px 36px rgba(15, 23, 42, .08);
+      }
+
+      .course_testbank #testbankTabContent .row {
+        row-gap: 10px;
+      }
+
+      .course_testbank #testbankTabContent .row > [class*="col-"] {
+        margin-bottom: 10px;
+      }
+
+      .course_testbank #testbankTabContent .card {
+        position: relative;
+        height: 100%;
+        margin-bottom: 0 !important;
+        overflow: hidden;
+        border: 1px solid #dbeafe;
+        border-radius: 8px;
+        background: #ffffff;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, .07) !important;
+        transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+      }
+
+      .course_testbank #testbankTabContent .card:before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 6px;
+        background: #f59e0b;
+      }
+
+      .course_testbank #testbankTabContent .card:hover {
+        border-color: #f59e0b;
+        box-shadow: 0 18px 38px rgba(15, 23, 42, .12) !important;
+        transform: translateY(-3px);
+      }
+
+      .course_testbank #testbankTabContent .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        min-height: 126px;
+        gap: 16px;
+        padding: 22px 18px 22px 24px;
+      }
+
+      .course_testbank #testbankTabContent .card-title {
+        color: #1f2937;
+        font-size: 18px !important;
+        line-height: 1.35;
+      }
+
+      .course_testbank #testbankTabContent .btn {
+        flex: 0 0 auto;
+        border-radius: 8px;
+        font-weight: 800;
+      }
+
+      .course_testbank .subcategory-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        align-self: flex-end;
+        margin-top: auto;
+        padding: 10px 13px;
+        border: 1px solid #0aa6d7;
+        background: #0aa6d7;
+        color: #ffffff;
+      }
+
+      .course_testbank .subcategory-action:hover,
+      .course_testbank .subcategory-action:focus {
+        border-color: #088fb8;
+        background: #088fb8;
+        color: #ffffff;
+      }
+
+      @media (max-width: 1199.98px) {
+        .course_testbank #testbankTabs {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 991.98px) {
+        .course_testbank #testbankTabs {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 767.98px) {
+        .course_testbank #testbankTabs {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .course_testbank .testbank-content-panel {
+          padding: 18px;
+        }
+
+        .course_testbank .subcategory-action {
+          width: 100%;
+          justify-content: center;
+          align-self: stretch;
+        }
+      }
+
+      @media (max-width: 479.98px) {
+        .course_testbank #testbankTabs {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
     <section class="course_testbank pt-60 pb-60" style="min-height:450px;">
-  <div class="container">
-    <?php if (!empty($studyCategories)) : ?>
-    <ul class="nav nav-tabs justify-content-center mb-4" id="testbankTabs" role="tablist">
-      <?php $isFirst = true; foreach ($studyCategories as $cat) : $tabId = !empty($cat['slug']) ? $cat['slug'] : ('cat' . $cat['id']); ?>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link <?= ($isFirst ? 'active' : '') ?>" data-bs-toggle="tab" data-bs-target="#<?= esc($tabId) ?>" type="button" role="tab"><?= esc($cat['name']) ?></button>
-      </li>
-      <?php $isFirst = false; endforeach; ?>
-    </ul>
-
-    <div class="tab-content" id="testbankTabContent">
-      <?php $isFirstPane = true; foreach ($studyCategories as $cat) : $tabId = !empty($cat['slug']) ? $cat['slug'] : ('cat' . $cat['id']); $subs = $studySubcategoriesByCategoryId[$cat['id']] ?? []; ?>
-      <div class="tab-pane fade <?= ($isFirstPane ? 'show active' : '') ?>" id="<?= esc($tabId) ?>" role="tabpanel">
-        <div class="row g-4">
-          <?php if (!empty($subs)) : foreach ($subs as $sub) : ?>
-          <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-              <div class="card-body d-flex align-items-center justify-content-between">
-                <h5 class="card-title mb-0"><?= esc($sub['name']) ?></h5>
-                <a href="<?= base_url('client/study/' . $cat['id'] . '/subcategories') ?>" class="btn btn-sm btn-primary">View</a>
-              </div>
-            </div>
+      <div class="container">
+        <?php if (!empty($studyCategories)) : ?>
+          <div class="testbank-category-area">
+            <ul class="nav nav-tabs mb-4" id="testbankTabs" role="tablist">
+              <?php $isFirst = true; foreach ($studyCategories as $cat) : $tabId = !empty($cat['slug']) ? $cat['slug'] : ('cat' . $cat['id']); ?>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link <?= ($isFirst ? 'active' : '') ?>" data-bs-toggle="tab" data-bs-target="#<?= esc($tabId) ?>" type="button" role="tab"><?= esc($cat['name']) ?></button>
+                </li>
+              <?php $isFirst = false; endforeach; ?>
+            </ul>
           </div>
-          <?php endforeach; else : ?>
-          <div class="col-12"><p class="text-muted mb-0">No subcategories available.</p></div>
-          <?php endif; ?>
-        </div>
-      </div>
-      <?php $isFirstPane = false; endforeach; ?>
+
+          <div class="tab-content testbank-content-panel" id="testbankTabContent">
+            <?php $isFirstPane = true; foreach ($studyCategories as $cat) : $tabId = !empty($cat['slug']) ? $cat['slug'] : ('cat' . $cat['id']); $subs = $studySubcategoriesByCategoryId[$cat['id']] ?? []; ?>
+              <div class="tab-pane fade <?= ($isFirstPane ? 'show active' : '') ?>" id="<?= esc($tabId) ?>" role="tabpanel">
+                <div class="row g-4">
+                  <?php if (!empty($subs)) : foreach ($subs as $sub) : ?>
+                    <div class="col-md-4">
+                      <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                          <h5 class="card-title mb-0"><?= esc($sub['name']) ?></h5>
+                          <a href="<?= base_url('client/study/' . $cat['id'] . '/subcategories') ?>" class="btn btn-sm subcategory-action">View <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  <?php endforeach; else : ?>
+                    <div class="col-12"><p class="text-muted mb-0">No subcategories available.</p></div>
+                  <?php endif; ?>
+                </div>
               </div>
-    <?php endif; ?>
-
-    <?php if (empty($studyCategories)) : ?>
-      <div class="text-center text-muted">No categories found yet.</div>
-    <?php endif; ?>
-
-          <!-- Add more cards -->
-        </div>
+            <?php $isFirstPane = false; endforeach; ?>
+          </div>
+        <?php else : ?>
+          <div class="text-center text-muted">No categories found yet.</div>
+        <?php endif; ?>
       </div>
-
-
-
-
-
-
-
-
-    </div>
-  </div>
-</section>
-
+    </section>
         <!-- Course Detail Area End -->
 
-        <section class="py-60" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);">
+        <section class="free-practice-section py-60">
             <style>
-                .free-section-title {font-size: 2.75rem; font-weight: 900; line-height: 1.2; background: linear-gradient(135deg, #1e40af 0%, #6366f1 50%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem;}
-                .free-section-subtitle {font-size: 1.15rem; color: #64748b; line-height: 1.6; margin-bottom: 2rem;}
-                .free-benefit-item {display: flex; align-items: flex-start; margin-bottom: 1rem; padding: 1rem; background: #ffffff; border-radius: 12px; border-left: 4px solid #2563eb; box-shadow: 0 2px 8px rgba(0,0,0,.04); transition: all .25s ease;}
-                .free-benefit-item:hover {box-shadow: 0 4px 16px rgba(0,0,0,.08); transform: translateX(4px);}
-                .free-benefit-icon {width: 48px; height: 48px; background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.25rem; flex-shrink: 0; margin-right: 1rem; box-shadow: 0 4px 12px rgba(37,99,235,.3);}
-                .free-benefit-text {flex: 1;}
-                .free-benefit-text h6 {font-weight: 700; margin-bottom: .25rem; color: #1e293b;}
-                .free-benefit-text p {margin: 0; font-size: .9rem; color: #64748b;}
-                .free-test-card {position: relative; background: #ffffff; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,.08); transition: all .3s ease; overflow: hidden; border: 2px solid transparent;}
-                .free-test-card:before {content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);}
-                .free-test-card:hover {transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,.12); border-color: #2563eb;}
-                .free-test-card-header {display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;}
-                .free-test-badge {display: inline-block; padding: .5rem 1rem; background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); color: #fff; border-radius: 50px; font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .5px; box-shadow: 0 4px 12px rgba(37,99,235,.3);}
-                .free-test-title {font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-bottom: 1rem; line-height: 1.3;}
-                .free-test-meta {display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.5rem;}
-                .free-meta-item {display: flex; align-items: center; padding: .5rem 1rem; background: #f1f5f9; border-radius: 12px; font-size: .9rem; color: #475569; font-weight: 600;}
-                .free-meta-item i {margin-right: .5rem; color: #6366f1;}
-                .free-test-desc {color: #64748b; font-size: .95rem; line-height: 1.6; margin-bottom: 1.5rem;}
-                .free-test-cta {display: block; width: 100%; padding: 1rem 2rem; background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); color: #fff; border: none; border-radius: 12px; font-weight: 800; font-size: 1.1rem; text-align: center; text-decoration: none; transition: all .3s ease; box-shadow: 0 6px 20px rgba(37,99,235,.3);}
-                .free-test-cta:hover {background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,99,235,.4); color: #fff;}
-                .free-test-cta i {margin-right: .5rem; animation: pulse 2s ease-in-out infinite;}
-                @keyframes pulse { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);}}
-                .no-test-message {text-align: center; padding: 3rem; background: #f8fafc; border-radius: 16px; border: 2px dashed #cbd5e1;}
+                .free-practice-section {background: linear-gradient(180deg, #ffffff 0%, #f3fbfe 100%); border-top: 1px solid #e0f2fe; border-bottom: 1px solid #e0f2fe;}
+                .free-practice-shell {display: grid; gap: 24px;}
+                .free-practice-head {display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 420px); gap: 24px; align-items: end;}
+                .free-section-kicker {display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; color: #f59e0b; font-size: .8rem; font-weight: 900; text-transform: uppercase;}
+                .free-section-title {max-width: 760px; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; line-height: 1.08; color: #0f172a; margin-bottom: .85rem;}
+                .free-section-subtitle {max-width: 690px; font-size: 1.05rem; color: #64748b; line-height: 1.65; margin-bottom: 0;}
+                .free-benefit-list {display: grid; gap: 10px;}
+                .free-benefit-item {display: flex; align-items: center; gap: 10px; padding: 11px 12px; background: #ffffff; border: 1px solid #d7edf6; border-radius: 8px; box-shadow: 0 8px 22px rgba(15, 23, 42, .04);}
+                .free-benefit-icon {width: 34px; height: 34px; background: #0aa6d7; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .9rem; flex-shrink: 0;}
+                .free-benefit-text h6 {font-size: .95rem; font-weight: 900; margin-bottom: 0; color: #1e293b;}
+                .free-benefit-text p {display: none;}
+                .free-test-list {display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;}
+                .free-test-card {position: relative; display: flex; flex-direction: column; min-height: 330px; background: #ffffff; border-radius: 8px; padding: 20px; box-shadow: 0 16px 36px rgba(15, 23, 42, .08); transition: all .25s ease; overflow: hidden; border: 1px solid #d7edf6;}
+                .free-test-card:before {content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: #0aa6d7;}
+                .free-test-card:hover {transform: translateY(-4px); box-shadow: 0 24px 48px rgba(15, 23, 42, .13); border-color: #f59e0b;}
+                .free-test-card-header {display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 1.1rem;}
+                .free-test-number {display: inline-flex; align-items: center; justify-content: center; min-width: 38px; height: 32px; padding: 0 10px; border-radius: 999px; background: #fff7ed; color: #f59e0b; border: 1px solid #fed7aa; font-size: .82rem; font-weight: 900;}
+                .free-test-badge {display: inline-flex; align-items: center; gap: 6px; padding: .42rem .68rem; background: #0aa6d7; color: #fff; border-radius: 999px; font-weight: 900; font-size: .74rem; text-transform: uppercase; white-space: nowrap;}
+                .free-test-title {font-size: 1.14rem; font-weight: 900; color: #1e293b; margin-bottom: 1rem; line-height: 1.32;}
+                .free-test-meta {display: grid; grid-template-columns: 1fr; gap: .55rem; margin-bottom: 1rem;}
+                .free-meta-item {display: flex; align-items: center; gap: .55rem; padding: .55rem .7rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; font-size: .88rem; color: #475569; font-weight: 800;}
+                .free-meta-item i {color: #0aa6d7;}
+                .free-test-desc {color: #64748b; font-size: .9rem; line-height: 1.5; margin-bottom: 1.1rem;}
+                .free-test-cta {display: inline-flex; align-items: center; justify-content: center; gap: .5rem; width: 100%; margin-top: auto; padding: .85rem 1rem; background: #0aa6d7; color: #fff; border: none; border-radius: 8px; font-weight: 900; font-size: .95rem; text-align: center; text-decoration: none; transition: all .22s ease; box-shadow: 0 10px 22px rgba(10, 166, 215, .24);}
+                .free-test-cta:hover {background: #088fb8; transform: translateY(-2px); box-shadow: 0 14px 28px rgba(10, 166, 215, .32); color: #fff;}
+                .no-test-message {text-align: center; padding: 3rem; background: #ffffff; border-radius: 8px; border: 2px dashed #bae6fd; box-shadow: 0 16px 38px rgba(15, 23, 42, .06);}
                 .no-test-message i {font-size: 3rem; color: #94a3b8; margin-bottom: 1rem;}
                 .no-test-message h5 {color: #475569; font-weight: 700;}
                 .no-test-message p {color: #64748b; margin: 0;}
+                @media (max-width: 1199.98px) {.free-test-list {grid-template-columns: repeat(2, minmax(0, 1fr));}}
+                @media (max-width: 991.98px) {.free-practice-head {grid-template-columns: 1fr;} .free-benefit-list {grid-template-columns: repeat(3, minmax(0, 1fr));} .free-test-list {grid-template-columns: repeat(2, minmax(0, 1fr));}}
+                @media (max-width: 575.98px) {.free-benefit-list {grid-template-columns: 1fr;}}
+                @media (max-width: 767.98px) {.free-practice-intro, .free-test-card {padding: 20px;} .free-test-list {grid-template-columns: 1fr;}}
             </style>
             <div class="container">
-                <div class="text-center mb-5">
-                    <h3>Take Our Free NCLEX Practice Test</h3>
-                    <p class="free-section-subtitle">Experience adaptive testing with detailed rationales — no subscription required</p>
-                </div>
-                
-                <div class="row g-4 align-items-center">
-                    <div class="col-lg-6">
-                        <div class="free-benefit-item">
-                            <div class="free-benefit-icon">
-                                <i class="fas fa-graduation-cap"></i>
-                            </div>
-                            <div class="free-benefit-text">
-                                <h6>NCLEX-Aligned Questions</h6>
-                                <p>Curated by nursing experts to match the latest exam standards</p>
-                            </div>
+                <div class="free-practice-shell">
+                    <div class="free-practice-head">
+                        <div>
+                            <span class="free-section-kicker"><i class="fas fa-bolt"></i>Free starter practice</span>
+                            <h3 class="free-section-title">Take Our Free NCLEX Practice Test</h3>
+                            <p class="free-section-subtitle">Pick a free test and start practicing with timed questions, adaptive flow, and detailed rationales.</p>
                         </div>
-                        <div class="free-benefit-item">
-                            <div class="free-benefit-icon">
-                                <i class="fas fa-sliders-h"></i>
+                        <div class="free-benefit-list">
+                            <div class="free-benefit-item">
+                                <div class="free-benefit-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="free-benefit-text">
+                                    <h6>NCLEX-Aligned Questions</h6>
+                                    <p>Practice with nursing-focused questions built for exam readiness.</p>
+                                </div>
                             </div>
-                            <div class="free-benefit-text">
-                                <h6>Adaptive Testing</h6>
-                                <p>Questions adjust to your performance in real-time</p>
+                            <div class="free-benefit-item">
+                                <div class="free-benefit-icon">
+                                    <i class="fas fa-sliders-h"></i>
+                                </div>
+                                <div class="free-benefit-text">
+                                    <h6>Adaptive Testing</h6>
+                                    <p>Question flow responds to your performance as you work.</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="free-benefit-item">
-                            <div class="free-benefit-icon">
-                                <i class="fas fa-book-open"></i>
-                            </div>
-                            <div class="free-benefit-text">
-                                <h6>Detailed Explanations</h6>
-                                <p>Learn from comprehensive rationales for every answer</p>
+                            <div class="free-benefit-item">
+                                <div class="free-benefit-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="free-benefit-text">
+                                    <h6>Detailed Explanations</h6>
+                                    <p>Review rationales after answering so every miss becomes useful.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="free-practice-grid-wrap">
                         <?php if (!empty($freeTests)) : ?>
-                            <div class="row g-4">
-                                <?php foreach ($freeTests as $ft): ?>
-                                    <div class="col-12">
-                                        <div class="free-test-card">
-                                            <div class="free-test-card-header">
-                                                <span class="free-test-badge"><i class="fas fa-gift me-2"></i>100% Free</span>
-                                            </div>
-                                            <h3 class="free-test-title"><?= esc($ft['title']) ?></h3>
-                                            <div class="free-test-meta">
-                                                <div class="free-meta-item">
-                                                    <i class="fas fa-tasks"></i>
-                                                    <span><?= (int)($ft['question_count'] ?? 0) ?> Questions</span>
-                                                </div>
-                                                <div class="free-meta-item">
-                                                    <i class="far fa-clock"></i>
-                                                    <span><?= (int)($ft['time_limit_minutes'] ?? 0) ?> Minutes</span>
-                                                </div>
-                                                <div class="free-meta-item">
-                                                    <i class="fas fa-brain"></i>
-                                                    <span>Adaptive</span>
-                                                </div>
-                                            </div>
-                                            <p class="free-test-desc">
-                                                Challenge yourself with adaptive questions that adjust to your skill level. Get instant feedback with detailed rationales to strengthen your understanding.
-                                            </p>
-                                            <a href="<?= base_url('free/test/' . $ft['id']) ?>" class="free-test-cta">
-                                                <i class="fas fa-rocket"></i>Start Free Test Now
-                                            </a>
+                            <div class="free-test-list">
+                                <?php foreach ($freeTests as $index => $ft): ?>
+                                    <div class="free-test-card">
+                                        <div class="free-test-card-header">
+                                            <span class="free-test-number"><?= str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT) ?></span>
+                                            <span class="free-test-badge"><i class="fas fa-gift"></i>100% Free</span>
                                         </div>
+                                        <h4 class="free-test-title"><?= esc($ft['title']) ?></h4>
+                                        <div class="free-test-meta">
+                                            <div class="free-meta-item">
+                                                <i class="fas fa-tasks"></i>
+                                                <span><?= (int)($ft['question_count'] ?? 0) ?> Questions</span>
+                                            </div>
+                                            <div class="free-meta-item">
+                                                <i class="far fa-clock"></i>
+                                                <span><?= (int)($ft['time_limit_minutes'] ?? 0) ?> Minutes</span>
+                                            </div>
+                                            <div class="free-meta-item">
+                                                <i class="fas fa-brain"></i>
+                                                <span>Adaptive</span>
+                                            </div>
+                                        </div>
+                                        <p class="free-test-desc">
+                                            Get instant feedback and rationales while you measure exam readiness.
+                                        </p>
+                                        <a href="<?= base_url('free/test/' . $ft['id']) ?>" class="free-test-cta">
+                                            <i class="fas fa-rocket"></i>Start Free Test
+                                        </a>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
@@ -305,7 +471,7 @@ Realistic NCLEX-RN Simulations: Our practice tests replicate the computer-adapti
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="btn btn-primary">Read More</a>
+    <a href="<?= base_url('hesi'); ?>" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
                        
@@ -357,7 +523,7 @@ Tailored PN Practice Tests: Content is customized to the PN scope of practice—
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="btn btn-primary">Read More</a>
+    <a href="<?= base_url('hesi'); ?>" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
                       
@@ -395,7 +561,7 @@ Comprehensive Review Tests: Simulated exit exams that assess knowledge across al
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="btn btn-primary">Read More</a>
+    <a href="<?= base_url('hesi'); ?>" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
                       
@@ -448,7 +614,7 @@ Subject-Focused Review: Covers core subjects such as reading comprehension, gram
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="btn btn-primary">Read More</a>
+    <a href="<?= base_url('hesi'); ?>" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
                     
@@ -493,7 +659,7 @@ Subject-Focused Review: Covers core subjects such as reading comprehension, gram
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="#" class="btn btn-primary">Read More</a>
+    <a href="<?= base_url('ati-teas-7'); ?>" class="btn btn-primary">Read More</a>
   </div>
 </div><br>
                        

@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
         <h5 class="mb-0"><?= esc($category['name']) ?> - Cheat Sheets</h5>
-        <div class="small text-muted">Documents across all subcategories</div>
+        <div class="small text-muted">Documents in this category</div>
     </div>
     <div class="d-flex gap-2">
         <a href="<?= base_url('admin/cheat-sheets') ?>" class="btn btn-secondary btn-sm">Back</a>
@@ -23,7 +23,6 @@
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Subcategory</th>
                         <th>File</th>
                         <th class="text-end">Actions</th>
                     </tr>
@@ -32,7 +31,6 @@
                 <?php foreach ($cheatSheets as $doc): ?>
                     <tr>
                         <td class="fw-semibold"><?= esc($doc['title']) ?></td>
-                        <td><?= esc($subcategoryMap[(int)$doc['subcategory_id']] ?? 'General') ?></td>
                         <td class="text-muted small"><?= esc($doc['file_name']) ?></td>
                         <td class="text-end">
                             <a href="<?= base_url('admin/cheat-sheets/doc/' . (int)$doc['id'] . '/view') ?>" class="btn btn-outline-primary btn-sm">View</a>
@@ -55,4 +53,3 @@
         </div>
     </div>
 <?php endif; ?>
-

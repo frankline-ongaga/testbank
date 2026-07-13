@@ -7,6 +7,7 @@ use App\Models\QuestionModel;
 use App\Models\ChoiceModel;
 use App\Models\TaxonomyModel;
 use App\Models\SubscriptionModel;
+use App\Models\ExamProductModel;
 
 class Tests extends BaseController
 {
@@ -15,6 +16,7 @@ class Tests extends BaseController
     protected $choiceModel;
     protected $taxonomyModel;
     protected $subs;
+    protected $productModel;
     
 
     public function __construct()
@@ -25,6 +27,7 @@ class Tests extends BaseController
         $this->choiceModel = new ChoiceModel();
         $this->taxonomyModel = new TaxonomyModel();
         $this->subs = new SubscriptionModel();
+        $this->productModel = new ExamProductModel();
     }
 
     public function index()
@@ -34,14 +37,16 @@ class Tests extends BaseController
         // Clients: show free tests regardless of subscription; paid tests require active subscription
         if ($currentRole === 'client') {
             $userId = (int) (session()->get('user_id') ?? 0);
-            $activeSub = $this->subs->getActiveForUser($userId);
+            $activeProductIds = $this->activeProductIdsForUser($userId);
             $freeTests = $this->testModel->getActiveFreeTests();
-            $paidTests = $this->testModel->getActivePaidTests();
+            $paidTests = $this->testModel->getActivePaidTests($activeProductIds);
             $data = [
                 'title' => 'Available Tests',
                 'freeTests' => $freeTests,
                 'paidTests' => $paidTests,
-                'hasSubscription' => (bool)$activeSub,
+                'hasSubscription' => !empty($activeProductIds),
+                'activeProductIds' => $activeProductIds,
+                'products' => $this->productModel->getActiveProducts(),
             ];
             return view('client/layout/header', $data)
                 . view('client/tests/index', $data)
@@ -53,7 +58,8 @@ class Tests extends BaseController
             $tests = $this->testModel->getTestsWithCounts();
             $data = [
                 'title' => 'Manage Tests',
-                'tests' => $tests
+                'tests' => $tests,
+                'products' => $this->productModel->getActiveProducts(),
             ];
             return view('admin/layout/header', $data)
                 . view('admin/tests/index', $data)
@@ -104,6 +110,8 @@ class Tests extends BaseController
         $data = [
             'title' => $isFree ? 'Create Free Test' : 'Create Test',
             'is_free' => $isFree,
+            'products' => $this->productModel->getActiveProducts(),
+            'defaultProductIds' => $this->defaultProductIds(),
         ];
         
         if ($currentRole === 'admin') {
@@ -127,7 +135,12 @@ class Tests extends BaseController
         if (!$test) {
             return redirect()->to('/admin/tests')->with('error', 'Test not found');
         }
-        $data = ['title' => 'Edit Test', 'test' => $test];
+        $data = [
+            'title' => 'Edit Test',
+            'test' => $test,
+            'products' => $this->productModel->getActiveProducts(),
+            'selectedProductIds' => $this->testModel->getProductIds((int) $id),
+        ];
         return view('admin/layout/header', $data)
             . view('admin/tests/edit', $data)
             . view('admin/layout/footer');
@@ -154,6 +167,7 @@ class Tests extends BaseController
             'is_adaptive' => $this->request->getPost('is_adaptive') ? 1 : 0,
             'status' => $this->request->getPost('status')
         ]);
+        $this->testModel->syncProducts((int) $id, $this->selectedProductIds());
         return redirect()->to('/admin/tests')->with('message', 'Test updated');
     }
 
@@ -185,6 +199,8 @@ class Tests extends BaseController
             'is_free' => $isFree,
             'status' => $currentRole === 'admin' ? 'active' : 'pending'
         ], true);
+
+        $this->testModel->syncProducts((int) $testId, $this->selectedProductIds());
 
         $message = 'Test created. Add questions to this test.';
         // After creating a test, go directly to manage its questions (admin or instructor path)
@@ -239,10 +255,25 @@ class Tests extends BaseController
         $db = \Config\Database::connect();
         $db->table('test_questions')->where('test_id', $id)->delete();
         $db->table('attempts')->where('test_id', $id)->delete();
+        $db->table('test_products')->where('test_id', $id)->delete();
 
         // Delete the test
         $this->testModel->delete($id);
         return redirect()->to('/admin/tests')->with('message', 'Test deleted');
+    }
+
+    protected function selectedProductIds(): array
+    {
+        $ids = (array) $this->request->getPost('product_ids');
+        $ids = array_values(array_unique(array_filter(array_map('intval', $ids))));
+
+        return $ids ?: $this->defaultProductIds();
+    }
+
+    protected function defaultProductIds(): array
+    {
+        $nclex = $this->productModel->findBySlug('nclex');
+        return $nclex ? [(int) $nclex['id']] : [];
     }
 
     // --- Admin: Manage Questions within a Test ---

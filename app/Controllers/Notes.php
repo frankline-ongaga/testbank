@@ -31,6 +31,13 @@ class Notes extends BaseController
     {
         $currentRole = $this->session->get('current_role');
         $subcategoryId = (int)($this->request->getGet('subcategory_id') ?? 0);
+        $isClientContext = $currentRole === 'client' || str_starts_with(trim(service('uri')->getPath(), '/'), 'client/');
+
+        if ($isClientContext) {
+            if ($redirect = $this->requireProductAccess('nclex', 'Study Notes')) {
+                return $redirect;
+            }
+        }
 
         if ($currentRole === 'admin' || $currentRole === 'instructor') {
             $notes = $this->noteModel->getNotesWithCategory(null, $subcategoryId ?: null);
@@ -202,6 +209,13 @@ class Notes extends BaseController
     public function view($id)
     {
         $currentRole = $this->session->get('current_role');
+        $isClientContext = $currentRole === 'client' || str_starts_with(trim(service('uri')->getPath(), '/'), 'client/');
+        if ($isClientContext) {
+            if ($redirect = $this->requireProductAccess('nclex', 'Study Notes')) {
+                return $redirect;
+            }
+        }
+
         $builder = $this->noteModel->select('notes.*, note_categories.name as category_name, users.username as author_name')
             ->join('note_categories', 'note_categories.id = notes.category_id')
             ->join('users', 'users.id = notes.author_id')

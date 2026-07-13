@@ -8,6 +8,9 @@
   <meta name="description" content="<?php if(isset($description)){ echo $description; } ?>">
 
   <title><?php if(isset($title)){ echo $title; } ?></title>
+  <?php if (!empty($canonicalUrl)): ?>
+  <link rel="canonical" href="<?= esc($canonicalUrl) ?>">
+  <?php endif; ?>
 
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="assets/media/favicon.png">
@@ -30,6 +33,11 @@
 
 
   <style>
+    :root {
+      --site-accent: #f59e0b;
+      --site-accent-dark: #d97706;
+    }
+
     /* Hide sticky header placeholder to remove gap above hero */
     .stricky-header { display: none !important; }
 
@@ -50,6 +58,20 @@
     /* Force-remove any top padding set via CSS vars */
     .main-wrapper { padding-top: 0 !important; }
     .main-menu { box-shadow: none !important; margin: 0 !important; }
+
+    .educate-btn.educate-btn--accent,
+    .educate-btn.educate-btn--accent:hover,
+    .educate-btn.educate-btn--accent:focus {
+      background-color: var(--site-accent) !important;
+      border: 2px solid var(--site-accent) !important;
+      color: #ffffff !important;
+    }
+
+    .educate-btn.educate-btn--accent:hover,
+    .educate-btn.educate-btn--accent:focus {
+      background-color: var(--site-accent-dark) !important;
+      border-color: var(--site-accent-dark) !important;
+    }
   </style>
 
   <script>
@@ -127,6 +149,7 @@
   <!-- Main Wrapper Start -->
   <div id="main-wrapper" class="main-wrapper">
     <!-- Header Area start -->
+    <?php $examKey = $exam['key'] ?? ''; ?>
     <header>
       <nav class="main-menu">
         <div class="container">
@@ -183,11 +206,13 @@
                   $takeTestUrl = $freeId ? base_url('free/test/' . $freeId) : base_url('client/tests');
                 ?>
                 <ul class="main-menu__list">
-                     <li><a href="<?php echo base_url('how_it_works'); ?>">How It Works</a></li>
+                     <li><a href="<?= base_url('register'); ?>">NCLEX</a></li>
+
+                     <li><a href="<?= base_url('ati-teas-7'); ?>" class="<?= $examKey === 'teas' || in_array($path, ['ati-teas-7', 'teas'], true) ? 'active' : '' ?>">ATI TEAS 7</a></li>
+
+                     <li><a href="<?= base_url('hesi'); ?>" class="<?= $examKey === 'hesi' || in_array($path, ['hesi', 'hesi-a2'], true) ? 'active' : '' ?>">HESI</a></li>
 
                      <li> <a href="<?php echo base_url('pricing'); ?>">Pricing</a> </li>
-
-                     <li> <a href="<?php echo base_url('reviews'); ?>">Reviews</a> </li>
 
                      <li><a href="<?php echo base_url('tutoring'); ?>" class="btn btn-primary btn-sm" style="font-weight:700; color:#fff;">Tutoring</a></li>
 
@@ -202,7 +227,7 @@
             <div class="main-menu__right">
               
               <a href="<?php echo base_url('login/student'); ?>" class="educate-btn sec"><span class="educate-btn__curve"></span>Account </a>
-              <a href="<?php echo base_url('register'); ?>" class="educate-btn d-xl-flex d-none"><span
+              <a href="<?php echo base_url('register'); ?>" class="educate-btn educate-btn--accent d-xl-flex d-none"><span
                   class="educate-btn__curve"></span>Get Started</a>
               <a href="#" class="main-menu__toggler mobile-nav__toggler">
                 <i class="fa fa-bars"></i>
