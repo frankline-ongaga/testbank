@@ -1,3 +1,8 @@
+<?php
+    $posts = $posts ?? [];
+    $categoryGroups = $categoryGroups ?? [];
+?>
+
 <div class="nursing-resource-page">
     <style>
         .nursing-resource-page {
@@ -5,20 +10,11 @@
             gap: 22px;
         }
 
-        .resource-hero,
-        .resource-card,
-        .resource-empty {
-            background: rgba(255, 255, 255, .94);
-            border: 1px solid rgba(10, 166, 215, .14);
-            border-radius: 18px;
-            box-shadow: 0 18px 38px rgba(15, 23, 42, .07);
-        }
-
-        .resource-hero {
+        .resource-header {
             display: grid;
-            gap: 16px;
+            gap: 18px;
             grid-template-columns: minmax(0, 1fr) auto;
-            padding: 24px;
+            align-items: end;
         }
 
         .resource-kicker {
@@ -31,77 +27,153 @@
             text-transform: uppercase;
         }
 
-        .resource-title {
-            color: #142033;
-            font-size: clamp(1.55rem, 2.4vw, 2.2rem);
-            font-weight: 950;
-            line-height: 1.16;
-            margin: 0;
-        }
-
         .resource-copy {
             color: #516074;
             line-height: 1.65;
-            margin: 10px 0 0;
-            max-width: 820px;
+            margin: 0;
+            max-width: 780px;
         }
 
         .resource-count {
             align-items: center;
             background: rgba(245, 158, 11, .14);
-            border: 1px solid rgba(245, 158, 11, .25);
-            border-radius: 16px;
+            border: 1px solid rgba(245, 158, 11, .28);
+            border-radius: 999px;
             color: #b45309;
             display: inline-flex;
-            font-weight: 900;
-            gap: 10px;
-            min-height: 54px;
-            padding: 0 18px;
+            font-size: 13px;
+            font-weight: 950;
+            gap: 8px;
+            min-height: 42px;
+            padding: 0 14px;
             white-space: nowrap;
         }
 
-        .resource-grid {
+        .resource-layout {
+            align-items: start;
             display: grid;
             gap: 18px;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 300px minmax(0, 1fr);
         }
 
-        .resource-sections {
-            display: grid;
-            gap: 20px;
-        }
-
-        .resource-section,
-        .resource-subsection {
-            background: rgba(255, 255, 255, .82);
-            border: 1px solid rgba(10, 166, 215, .13);
+        .resource-rail,
+        .resource-workspace,
+        .resource-card,
+        .resource-empty {
+            background: rgba(255, 255, 255, .94);
+            border: 1px solid rgba(8, 126, 163, .12);
             border-radius: 18px;
-            box-shadow: 0 18px 34px rgba(15, 23, 42, .055);
+            box-shadow: 0 18px 38px rgba(15, 23, 42, .07);
+        }
+
+        .resource-rail {
+            overflow: hidden;
+            position: sticky;
+            top: 24px;
+        }
+
+        .resource-rail-head {
+            background: linear-gradient(135deg, rgba(10, 166, 215, .1), rgba(255, 255, 255, .94));
+            border-bottom: 1px solid rgba(8, 126, 163, .1);
+            padding: 18px 18px 14px;
+        }
+
+        .resource-rail-head strong {
+            color: #142033;
+            display: block;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .resource-rail-head span {
+            color: #64748b;
+            display: block;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .resource-rail-list {
+            display: grid;
+            gap: 6px;
+            max-height: calc(100vh - 220px);
+            overflow: auto;
+            padding: 10px;
+        }
+
+        .resource-rail-link {
+            align-items: center;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            color: #516074 !important;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: 32px minmax(0, 1fr) auto;
+            min-height: 50px;
+            padding: 9px 10px;
+            text-decoration: none;
+            transition: background .18s ease, border-color .18s ease, color .18s ease;
+        }
+
+        .resource-rail-link.is-child {
+            margin-left: 18px;
+        }
+
+        .resource-rail-link i:first-child {
+            align-items: center;
+            background: rgba(10, 166, 215, .1);
+            border-radius: 10px;
+            color: #087ea3;
+            display: inline-flex;
+            height: 32px;
+            justify-content: center;
+            width: 32px;
+        }
+
+        .resource-rail-link span {
+            font-size: 14px;
+            font-weight: 850;
+            overflow-wrap: anywhere;
+        }
+
+        .resource-rail-link small {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .resource-rail-link:hover,
+        .resource-rail-link.active {
+            background: rgba(10, 166, 215, .08);
+            border-color: rgba(10, 166, 215, .18);
+            color: #087ea3 !important;
+        }
+
+        .resource-rail-link.active i:first-child {
+            background: #0aa6d7;
+            color: #fff;
+        }
+
+        .resource-workspace {
             display: grid;
             gap: 18px;
-            padding: clamp(16px, 2vw, 22px);
+            padding: 18px;
         }
 
-        .resource-subsection {
-            background: rgba(248, 251, 253, .9);
-            border-color: rgba(245, 158, 11, .18);
-            box-shadow: none;
+        .resource-section {
+            scroll-margin-top: 24px;
         }
 
-        .resource-section-header {
+        .resource-section + .resource-section {
+            border-top: 1px solid rgba(8, 126, 163, .1);
+            padding-top: 18px;
+        }
+
+        .resource-section-head {
             align-items: start;
             display: flex;
-            gap: 14px;
+            gap: 12px;
             justify-content: space-between;
-        }
-
-        .resource-section-title {
-            color: #142033;
-            font-size: clamp(1.15rem, 1.8vw, 1.55rem);
-            font-weight: 950;
-            line-height: 1.2;
-            margin: 0;
-            overflow-wrap: anywhere;
+            margin-bottom: 14px;
         }
 
         .resource-section-label {
@@ -112,6 +184,15 @@
             letter-spacing: .08em;
             margin-bottom: 6px;
             text-transform: uppercase;
+        }
+
+        .resource-section-title {
+            color: #142033;
+            font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+            font-weight: 950;
+            line-height: 1.2;
+            margin: 0;
+            overflow-wrap: anywhere;
         }
 
         .resource-section-count {
@@ -129,17 +210,18 @@
             white-space: nowrap;
         }
 
-        .resource-subsections {
+        .resource-grid {
             display: grid;
-            gap: 16px;
+            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         }
 
         .resource-card {
             display: grid;
             gap: 18px;
             grid-template-rows: 1fr auto;
-            min-height: 240px;
-            padding: 20px;
+            min-height: 220px;
+            padding: 18px;
             position: relative;
             transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
         }
@@ -148,10 +230,10 @@
             background: #f59e0b;
             border-radius: 999px;
             content: "";
-            height: calc(100% - 40px);
+            height: calc(100% - 36px);
             left: 0;
             position: absolute;
-            top: 20px;
+            top: 18px;
             width: 4px;
         }
 
@@ -159,25 +241,6 @@
             border-color: rgba(245, 158, 11, .38);
             box-shadow: 0 22px 44px rgba(15, 23, 42, .1);
             transform: translateY(-2px);
-        }
-
-        .resource-subsection .resource-card {
-            min-height: 210px;
-        }
-
-        .resource-card h2 {
-            color: #142033;
-            font-size: 1.1rem;
-            font-weight: 900;
-            line-height: 1.35;
-            margin: 0 0 10px;
-            overflow-wrap: anywhere;
-        }
-
-        .resource-card p {
-            color: #64748b;
-            line-height: 1.55;
-            margin: 0;
         }
 
         .resource-date {
@@ -190,6 +253,21 @@
             text-transform: uppercase;
         }
 
+        .resource-card h3 {
+            color: #142033;
+            font-size: 1.05rem;
+            font-weight: 900;
+            line-height: 1.35;
+            margin: 0 0 10px;
+            overflow-wrap: anywhere;
+        }
+
+        .resource-card p {
+            color: #64748b;
+            line-height: 1.55;
+            margin: 0;
+        }
+
         .resource-action {
             align-items: center;
             background: linear-gradient(135deg, #0aa6d7 0%, #087ea3 100%);
@@ -200,9 +278,10 @@
             font-weight: 900;
             gap: 8px;
             justify-content: center;
-            min-height: 46px;
+            min-height: 44px;
             padding: 0 16px;
             text-decoration: none;
+            width: fit-content;
         }
 
         .resource-empty {
@@ -210,7 +289,7 @@
             text-align: center;
         }
 
-        .resource-empty h3 {
+        .resource-empty h2 {
             color: #142033;
             font-size: 1.15rem;
             font-weight: 900;
@@ -222,28 +301,47 @@
             margin: 0;
         }
 
-        @media (max-width: 767.98px) {
-            .resource-hero {
+        @media (max-width: 991.98px) {
+            .resource-layout {
                 grid-template-columns: 1fr;
             }
 
-            .resource-count {
-                justify-content: center;
-                white-space: normal;
+            .resource-rail {
+                position: static;
             }
 
-            .resource-section-header {
+            .resource-rail-list {
+                display: flex;
+                max-height: none;
+                overflow-x: auto;
+            }
+
+            .resource-rail-link {
+                min-width: 240px;
+            }
+
+            .resource-rail-link.is-child {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .resource-header,
+            .resource-section-head {
                 display: grid;
+                grid-template-columns: 1fr;
             }
 
+            .resource-count,
             .resource-section-count {
                 width: fit-content;
             }
         }
     </style>
 
-    <section class="resource-hero">
+    <section class="resource-header">
         <div>
+            <span class="resource-kicker">NCLEX Study Library</span>
             <p class="resource-copy"><?= esc($resource['intro']) ?></p>
         </div>
         <div class="resource-count">
@@ -269,7 +367,7 @@
                         <?php if (!empty($post['post_date'])): ?>
                             <span class="resource-date"><?= esc(date('M j, Y', strtotime($post['post_date']))) ?></span>
                         <?php endif; ?>
-                        <h2><?= esc($post['post_title']) ?></h2>
+                        <h3><?= esc($post['post_title']) ?></h3>
                         <?php if (!empty($post['excerpt'])): ?>
                             <p><?= esc($post['excerpt']) ?></p>
                         <?php endif; ?>
@@ -284,13 +382,14 @@
         <?php
     };
 
-    $renderResourceGroup = static function (array $group, int $level = 0) use (&$renderResourceGroup, $renderResourceCards): void {
-        $isSubcategory = $level > 0;
+    $renderResourceSection = static function (array $group, int $level = 0) use (&$renderResourceSection, $renderResourceCards): void {
+        $termId = (int) ($group['term_id'] ?? 0);
+        $sectionId = 'resource-section-' . ($termId ?: md5((string) ($group['name'] ?? 'resources')));
         ?>
-        <section class="<?= $isSubcategory ? 'resource-subsection' : 'resource-section' ?>">
-            <header class="resource-section-header">
+        <section class="resource-section" id="<?= esc($sectionId) ?>">
+            <header class="resource-section-head">
                 <div>
-                    <span class="resource-section-label"><?= $isSubcategory ? 'Subcategory' : 'Category' ?></span>
+                    <span class="resource-section-label"><?= $level > 0 ? 'Nested subcategory' : 'Subcategory' ?></span>
                     <h2 class="resource-section-title"><?= esc($group['name'] ?? 'Resources') ?></h2>
                 </div>
                 <span class="resource-section-count"><?= esc((string) ($group['total'] ?? count($group['posts'] ?? []))) ?> resources</span>
@@ -299,28 +398,60 @@
             <?php $renderResourceCards($group['posts'] ?? []); ?>
 
             <?php if (!empty($group['children'])): ?>
-                <div class="resource-subsections">
-                    <?php foreach ($group['children'] as $childGroup): ?>
-                        <?php $renderResourceGroup($childGroup, $level + 1); ?>
-                    <?php endforeach; ?>
-                </div>
+                <?php foreach ($group['children'] as $childGroup): ?>
+                    <?php $renderResourceSection($childGroup, $level + 1); ?>
+                <?php endforeach; ?>
             <?php endif; ?>
         </section>
         <?php
     };
+
+    $firstRailItem = true;
+    $renderResourceRail = static function (array $groups, int $level = 0) use (&$renderResourceRail, &$firstRailItem): void {
+        foreach ($groups as $group) {
+            $termId = (int) ($group['term_id'] ?? 0);
+            $sectionId = 'resource-section-' . ($termId ?: md5((string) ($group['name'] ?? 'resources')));
+            $isActive = $firstRailItem;
+            $firstRailItem = false;
+            ?>
+            <a class="resource-rail-link <?= $level > 0 ? 'is-child' : '' ?> <?= $isActive ? 'active' : '' ?>" href="#<?= esc($sectionId) ?>" style="<?= $level > 1 ? 'margin-left:' . min($level, 3) * 18 . 'px;' : '' ?>">
+                <i class="<?= $level > 0 ? 'fas fa-angle-right' : 'fas fa-folder' ?>"></i>
+                <span><?= esc($group['name'] ?? 'Resources') ?></span>
+                <small><?= esc((string) ($group['total'] ?? 0)) ?></small>
+            </a>
+            <?php
+            if (!empty($group['children'])) {
+                $renderResourceRail($group['children'], $level + 1);
+            }
+        }
+    };
     ?>
 
     <?php if (!empty($categoryGroups)): ?>
-        <div class="resource-sections">
-            <?php foreach ($categoryGroups as $group): ?>
-                <?php $renderResourceGroup($group); ?>
-            <?php endforeach; ?>
+        <div class="resource-layout">
+            <aside class="resource-rail">
+                <div class="resource-rail-head">
+                    <strong>Subcategories</strong>
+                    <span>Jump to a resource group</span>
+                </div>
+                <nav class="resource-rail-list" aria-label="<?= esc($resource['title']) ?> subcategories">
+                    <?php $renderResourceRail($categoryGroups); ?>
+                </nav>
+            </aside>
+
+            <main class="resource-workspace">
+                <?php foreach ($categoryGroups as $group): ?>
+                    <?php $renderResourceSection($group); ?>
+                <?php endforeach; ?>
+            </main>
         </div>
     <?php elseif (!empty($posts)): ?>
-        <?php $renderResourceCards($posts); ?>
+        <main class="resource-workspace">
+            <?php $renderResourceCards($posts); ?>
+        </main>
     <?php elseif (empty($loadError)): ?>
         <div class="resource-empty">
-            <h3>No resources found.</h3>
+            <h2>No resources found.</h2>
             <p>Published WordPress posts from this category will appear here.</p>
         </div>
     <?php endif; ?>
