@@ -19,6 +19,7 @@
                 <thead>
                     <tr>
                         <th>Title</th>
+                        <th>Meta Description</th>
                         <th>File Name</th>
                         <th>Size</th>
                         <th>Uploaded</th>
@@ -30,9 +31,9 @@
                     <tr>
                         <td>
                             <strong><?= esc($pdf['title']) ?></strong>
-                            <?php if (!empty($pdf['description'])): ?>
-                            <br><small class="text-muted"><?= esc(substr($pdf['description'], 0, 80)) ?><?= strlen($pdf['description']) > 80 ? '...' : '' ?></small>
-                            <?php endif; ?>
+                        </td>
+                        <td class="text-muted">
+                            <?= !empty($pdf['description']) ? esc(substr($pdf['description'], 0, 100)) . (strlen($pdf['description']) > 100 ? '...' : '') : '—' ?>
                         </td>
                         <td><?= esc($pdf['file_name']) ?></td>
                         <td><?= number_format($pdf['file_size'] / 1024, 2) ?> KB</td>
@@ -65,4 +66,3 @@
         <?php endif; ?>
     </div>
 </div>
-

@@ -66,6 +66,74 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         }
 
+        .resource-sections {
+            display: grid;
+            gap: 20px;
+        }
+
+        .resource-section,
+        .resource-subsection {
+            background: rgba(255, 255, 255, .82);
+            border: 1px solid rgba(10, 166, 215, .13);
+            border-radius: 18px;
+            box-shadow: 0 18px 34px rgba(15, 23, 42, .055);
+            display: grid;
+            gap: 18px;
+            padding: clamp(16px, 2vw, 22px);
+        }
+
+        .resource-subsection {
+            background: rgba(248, 251, 253, .9);
+            border-color: rgba(245, 158, 11, .18);
+            box-shadow: none;
+        }
+
+        .resource-section-header {
+            align-items: start;
+            display: flex;
+            gap: 14px;
+            justify-content: space-between;
+        }
+
+        .resource-section-title {
+            color: #142033;
+            font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+            font-weight: 950;
+            line-height: 1.2;
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .resource-section-label {
+            color: #087ea3;
+            display: inline-flex;
+            font-size: 11px;
+            font-weight: 950;
+            letter-spacing: .08em;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .resource-section-count {
+            align-items: center;
+            background: #fff7ed;
+            border: 1px solid rgba(245, 158, 11, .24);
+            border-radius: 999px;
+            color: #b45309;
+            display: inline-flex;
+            flex: 0 0 auto;
+            font-size: 12px;
+            font-weight: 950;
+            min-height: 34px;
+            padding: 0 12px;
+            white-space: nowrap;
+        }
+
+        .resource-subsections {
+            display: grid;
+            gap: 16px;
+        }
+
         .resource-card {
             display: grid;
             gap: 18px;
@@ -91,6 +159,10 @@
             border-color: rgba(245, 158, 11, .38);
             box-shadow: 0 22px 44px rgba(15, 23, 42, .1);
             transform: translateY(-2px);
+        }
+
+        .resource-subsection .resource-card {
+            min-height: 210px;
         }
 
         .resource-card h2 {
@@ -159,6 +231,14 @@
                 justify-content: center;
                 white-space: normal;
             }
+
+            .resource-section-header {
+                display: grid;
+            }
+
+            .resource-section-count {
+                width: fit-content;
+            }
         }
     </style>
 
@@ -176,9 +256,14 @@
         <div class="ielts-alert ielts-alert-error"><?= esc($loadError) ?></div>
     <?php endif; ?>
 
-    <?php if (!empty($posts)): ?>
+    <?php
+    $renderResourceCards = static function (array $items): void {
+        if (empty($items)) {
+            return;
+        }
+        ?>
         <div class="resource-grid">
-            <?php foreach ($posts as $post): ?>
+            <?php foreach ($items as $post): ?>
                 <article class="resource-card">
                     <div>
                         <?php if (!empty($post['post_date'])): ?>
@@ -196,6 +281,43 @@
                 </article>
             <?php endforeach; ?>
         </div>
+        <?php
+    };
+
+    $renderResourceGroup = static function (array $group, int $level = 0) use (&$renderResourceGroup, $renderResourceCards): void {
+        $isSubcategory = $level > 0;
+        ?>
+        <section class="<?= $isSubcategory ? 'resource-subsection' : 'resource-section' ?>">
+            <header class="resource-section-header">
+                <div>
+                    <span class="resource-section-label"><?= $isSubcategory ? 'Subcategory' : 'Category' ?></span>
+                    <h2 class="resource-section-title"><?= esc($group['name'] ?? 'Resources') ?></h2>
+                </div>
+                <span class="resource-section-count"><?= esc((string) ($group['total'] ?? count($group['posts'] ?? []))) ?> resources</span>
+            </header>
+
+            <?php $renderResourceCards($group['posts'] ?? []); ?>
+
+            <?php if (!empty($group['children'])): ?>
+                <div class="resource-subsections">
+                    <?php foreach ($group['children'] as $childGroup): ?>
+                        <?php $renderResourceGroup($childGroup, $level + 1); ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </section>
+        <?php
+    };
+    ?>
+
+    <?php if (!empty($categoryGroups)): ?>
+        <div class="resource-sections">
+            <?php foreach ($categoryGroups as $group): ?>
+                <?php $renderResourceGroup($group); ?>
+            <?php endforeach; ?>
+        </div>
+    <?php elseif (!empty($posts)): ?>
+        <?php $renderResourceCards($posts); ?>
     <?php elseif (empty($loadError)): ?>
         <div class="resource-empty">
             <h3>No resources found.</h3>

@@ -14,8 +14,9 @@
                 <input type="text" class="form-control" id="title" name="title" required>
             </div>
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
+                <label for="description" class="form-label">Meta Description</label>
                 <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                <small class="form-text text-muted">Internal/search summary for this document. This is not shown on the student download list.</small>
             </div>
             <div class="mb-3">
                 <label for="pdf_file" class="form-label">Document File <span class="text-danger">*</span></label>
@@ -29,5 +30,4 @@
         </form>
     </div>
 </div>
-
 

@@ -19,9 +19,9 @@
             </div>
 
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
+                <label for="description" class="form-label">Meta Description</label>
                 <textarea class="form-control" id="description" name="description" rows="3"><?= esc($pdf['description'] ?? '') ?></textarea>
-                <small class="form-text text-muted">Optional: Add a description or summary of the PDF content</small>
+                <small class="form-text text-muted">Internal/search summary for this document. This is not shown on the student download list.</small>
             </div>
 
             <div class="mb-3">
@@ -51,4 +51,3 @@
         </form>
     </div>
 </div>
-

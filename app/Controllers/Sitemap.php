@@ -80,6 +80,29 @@ class Sitemap extends Controller
             // ignore
         }
 
+        // Mock question pages are organized by study subcategory.
+        try {
+            $db = \Config\Database::connect();
+            $mockQuestionPages = $db->table('mock_questions mq')
+                ->select('mq.subcategory_id, MAX(COALESCE(mq.updated_at, mq.created_at)) AS lastmod')
+                ->join('study_subcategories s', 's.id = mq.subcategory_id', 'inner')
+                ->groupBy('mq.subcategory_id')
+                ->orderBy('mq.subcategory_id', 'DESC')
+                ->get()
+                ->getResultArray();
+
+            foreach ($mockQuestionPages as $page) {
+                $addUrl([
+                    'loc' => base_url('client/mock-questions/subcategory/' . (int)$page['subcategory_id'] . '/questions'),
+                    'lastmod' => !empty($page['lastmod']) ? date('c', strtotime($page['lastmod'])) : $nowIso,
+                    'changefreq' => 'monthly',
+                    'priority' => '0.55',
+                ]);
+            }
+        } catch (\Throwable $e) {
+            // ignore
+        }
+
         // Blog posts (from WordPress DB)
         try {
             $blogDB = \Config\Database::connect('blog');

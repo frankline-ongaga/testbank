@@ -36,9 +36,6 @@
                         </div>
                         <div class="col-md-8">
                             <h5 class="card-title mb-1"><?= esc($pdf['title']) ?></h5>
-                            <?php if (!empty($pdf['description'])): ?>
-                            <p class="card-text text-muted mb-2"><?= esc($pdf['description']) ?></p>
-                            <?php endif; ?>
                             <small class="text-muted">
                                 <i class="fas fa-file"></i> <?= esc($pdf['file_name']) ?> 
                                 <span class="mx-2">|</span>
@@ -69,4 +66,3 @@
     </div>
     <?php endif; ?>
 </div>
-
