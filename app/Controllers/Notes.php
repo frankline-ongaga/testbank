@@ -34,9 +34,7 @@ class Notes extends BaseController
         $isClientContext = $currentRole === 'client' || str_starts_with(trim(service('uri')->getPath(), '/'), 'client/');
 
         if ($isClientContext) {
-            if ($redirect = $this->requireProductAccess('nclex', 'Study Notes')) {
-                return $redirect;
-            }
+            return redirect()->to(base_url('client/mock-questions'));
         }
 
         if ($currentRole === 'admin' || $currentRole === 'instructor') {
@@ -211,9 +209,7 @@ class Notes extends BaseController
         $currentRole = $this->session->get('current_role');
         $isClientContext = $currentRole === 'client' || str_starts_with(trim(service('uri')->getPath(), '/'), 'client/');
         if ($isClientContext) {
-            if ($redirect = $this->requireProductAccess('nclex', 'Study Notes')) {
-                return $redirect;
-            }
+            return redirect()->to(base_url('client/mock-questions'));
         }
 
         $builder = $this->noteModel->select('notes.*, note_categories.name as category_name, users.username as author_name')

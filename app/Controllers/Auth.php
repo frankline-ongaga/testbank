@@ -62,6 +62,7 @@ class Auth extends BaseController
     {
         $data['title'] = 'Create Account';
         $data['description'] = 'Create your account with nclexprepcourse';
+        $data['productIntent'] = $this->productIntentFromRequest();
 
         return view('auth/register_design', $data);
     }
@@ -168,8 +169,14 @@ class Auth extends BaseController
             log_message('error', 'Failed to send signup email: {message}', ['message' => $e->getMessage()]);
         }
 
+        $productIntent = $this->productIntentFromRequest();
+        $redirectUrl = '/client/subscription';
+        if ($productIntent !== '') {
+            $redirectUrl .= '?product=' . rawurlencode($productIntent);
+        }
+
         // Auto-login already set above. Redirect to client subscriptions to complete payment
-        return redirect()->to('/client/subscription')->with('message', 'Account created. Choose a plan to complete signup.');
+        return redirect()->to($redirectUrl)->with('message', 'Account created. Choose a plan to complete signup.');
     }
 
     public function logout()
@@ -427,7 +434,35 @@ class Auth extends BaseController
             'user_email' => $user['email'],
             'username' => $user['first_name'] ?? ($user['username'] ?? null),
         ]);
-        return $this->response->setJSON(['ok' => true, 'redirect' => base_url('client/subscription')]);
+        $redirectUrl = base_url('client/subscription');
+        $productIntent = $this->productIntentFromRequest();
+        if ($productIntent !== '') {
+            $redirectUrl .= '?product=' . rawurlencode($productIntent);
+        }
+
+        return $this->response->setJSON(['ok' => true, 'redirect' => $redirectUrl]);
+    }
+
+    private function productIntentFromRequest(): string
+    {
+        $slug = strtolower(trim((string) ($this->request->getPost('product') ?: $this->request->getGet('product'))));
+        if ($slug === '' || !preg_match('/^[a-z0-9-]+$/', $slug)) {
+            return '';
+        }
+
+        try {
+            $product = \Config\Database::connect()
+                ->table('products')
+                ->select('slug')
+                ->where('slug', $slug)
+                ->where('status', 'active')
+                ->get()
+                ->getRowArray();
+        } catch (\Throwable $e) {
+            return '';
+        }
+
+        return $product ? $slug : '';
     }
 
     private function authenticateAndRedirect(string $requiredRole)

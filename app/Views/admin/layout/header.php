@@ -64,6 +64,7 @@
             'title' => 'Study',
             'items' => [
                 ['path' => 'admin/study', 'label' => 'Study Questions', 'icon' => 'grid', 'active' => ['admin/study', 'admin/study/*']],
+                ['path' => 'admin/mock-questions', 'label' => 'Mock Questions', 'icon' => 'chat', 'active' => ['admin/mock-questions', 'admin/mock-questions/*']],
                 ['path' => 'admin/study-bank-pdfs', 'label' => 'Study Bank Docs', 'icon' => 'book', 'active' => ['admin/study-bank-pdfs', 'admin/study-bank-pdfs/*']],
                 ['path' => 'admin/cheat-sheets', 'label' => 'Cheat Sheets', 'icon' => 'card', 'active' => ['admin/cheat-sheets', 'admin/cheat-sheets/*']],
             ],

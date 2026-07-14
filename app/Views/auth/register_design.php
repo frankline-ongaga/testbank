@@ -288,8 +288,12 @@
                                 <div class="g_id_signin mb-3" data-type="standard" data-shape="pill" data-theme="outline" data-text="signup_with" data-size="large" data-logo_alignment="left"></div>
                                 <div class="text-center my-3 text-muted">or</div>
 
+                                <?php $productIntent = (string) ($productIntent ?? old('product') ?? ''); ?>
                                 <form method="post" action="<?= base_url('register') ?>" class="form-validator">
                                     <?= csrf_field() ?>
+                                    <?php if ($productIntent !== ''): ?>
+                                        <input type="hidden" name="product" value="<?= esc($productIntent) ?>">
+                                    <?php endif; ?>
                                     <div class="mb-24">
                                         <input type="text" class="form-control p_lg" name="first_name" value="<?= esc(old('first_name')) ?>" required placeholder="First name">
                                     </div>
@@ -371,8 +375,15 @@
     <script src="<?= base_url('assets/js/app.js') ?>"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
+        const productIntent = <?= json_encode($productIntent) ?>;
+
         function onGoogleCredential(response) {
-            $.post('<?= base_url('oauth/google') ?>', { credential: response.credential })
+            const payload = { credential: response.credential };
+            if (productIntent) {
+                payload.product = productIntent;
+            }
+
+            $.post('<?= base_url('oauth/google') ?>', payload)
                 .done(function(res) {
                     if (res && res.redirect) {
                         window.location = res.redirect;

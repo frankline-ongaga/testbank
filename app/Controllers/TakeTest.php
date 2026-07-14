@@ -39,7 +39,8 @@ class TakeTest extends BaseController
         }
 
         $productRows = $this->db->table('test_products')
-            ->select('product_id')
+            ->select('test_products.product_id, products.slug')
+            ->join('products', 'products.id = test_products.product_id', 'left')
             ->where('test_id', $testId)
             ->get()
             ->getResultArray();
@@ -54,7 +55,9 @@ class TakeTest extends BaseController
         }
 
         if (!$active) {
-            return redirect()->to('/client/subscription')->with('error', 'Subscribe to access practice tests.');
+            $productSlug = trim((string) ($productRows[0]['slug'] ?? ''));
+            $subscriptionUrl = '/client/subscription' . ($productSlug !== '' ? '?product=' . rawurlencode($productSlug) : '');
+            return redirect()->to($subscriptionUrl)->with('error', 'Subscribe to access practice tests.');
         }
 
         $attemptId = $this->attemptModel->insert([

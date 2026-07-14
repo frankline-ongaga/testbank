@@ -2,6 +2,7 @@
     $freeTests = $freeTests ?? [];
     $paidTests = $paidTests ?? [];
     $products = $products ?? [];
+    $activeProductSlugs = array_values(array_filter(array_map('strval', $activeProductSlugs ?? [])));
     $freeCount = count($freeTests);
     $paidCount = count($paidTests);
     $allCount = $freeCount + $paidCount;
@@ -10,21 +11,38 @@
         return array_values(array_filter(array_map('trim', explode(',', (string) ($test['product_names'] ?? '')))));
     };
 
+    $productSlugs = static function (array $test): array {
+        return array_values(array_filter(array_map('trim', explode(',', (string) ($test['product_slugs'] ?? '')))));
+    };
+
     $productKey = static function (string $name): string {
         return strtolower(preg_replace('/[^a-z0-9]+/i', '-', trim($name)));
     };
 
-    $testCard = static function (array $test, bool $isFree, bool $hasSubscription) use ($productNames, $productKey): void {
+    $testCard = static function (array $test, bool $isFree, array $activeProductSlugs) use ($productNames, $productSlugs, $productKey): void {
         $productsForTest = $productNames($test);
+        $productSlugsForTest = $productSlugs($test);
         $productKeys = array_map($productKey, $productsForTest);
         $mode = (string) ($test['mode'] ?? 'practice');
         $questions = (int) ($test['question_count'] ?? 0);
         $minutes = (int) ($test['time_limit_minutes'] ?? 0);
+        $hasTestAccess = $isFree || !empty(array_intersect($productSlugsForTest, $activeProductSlugs));
+        $accessProductSlug = '';
+        foreach ($productSlugsForTest as $slug) {
+            if (!in_array($slug, $activeProductSlugs, true)) {
+                $accessProductSlug = $slug;
+                break;
+            }
+        }
+        if ($accessProductSlug === '' && !empty($productSlugsForTest)) {
+            $accessProductSlug = $productSlugsForTest[0];
+        }
+        $accessUrl = base_url('client/subscription') . ($accessProductSlug !== '' ? '?product=' . rawurlencode($accessProductSlug) : '');
         $startUrl = $isFree
             ? base_url('client/tests/start-free/' . $test['id'])
             : base_url('client/tests/start/' . $test['id']);
         ?>
-        <article class="test-library-card" data-test-card data-access="<?= $isFree ? 'free' : 'paid' ?>" data-products="<?= esc(implode(' ', $productKeys)) ?>">
+        <article class="test-library-card <?= !$hasTestAccess ? 'is-locked' : '' ?>" data-test-card data-access="<?= $isFree ? 'free' : 'paid' ?>" data-products="<?= esc(implode(' ', $productKeys)) ?>">
             <div class="test-card-main">
                 <div class="test-card-icon">
                     <i class="far fa-file-lines"></i>
@@ -55,13 +73,13 @@
                 </div>
             </div>
             <div class="test-card-action">
-                <?php if ($isFree || $hasSubscription): ?>
+                <?php if ($hasTestAccess): ?>
                     <a href="<?= esc($startUrl) ?>" class="btn test-start-btn">
                         <i class="fas fa-play"></i>
                         <?= $isFree ? 'Start Free Test' : 'Start Test' ?>
                     </a>
                 <?php else: ?>
-                    <a href="<?= base_url('client/subscription') ?>" class="btn test-lock-btn">
+                    <a href="<?= esc($accessUrl) ?>" class="btn test-lock-btn">
                         <i class="fas fa-lock"></i>
                         Get Access
                     </a>
@@ -518,7 +536,7 @@
 
     <div class="test-library-toolbar">
         <div>
-            <p class="test-library-copy">Start a free set, continue with premium tests for your subscribed products, and keep the library filtered to the exam you are studying for.</p>
+            <p class="test-library-copy">Browse every exam library, start tests covered by your active access, and unlock the products you still need from the same page.</p>
         </div>
         <a class="test-library-cta" href="<?= base_url('client/subscription') ?>">
             <i class="fas fa-key"></i>
@@ -540,7 +558,7 @@
         </div>
         <div class="test-stat-card">
             <div class="test-stat-value"><?= esc((string) $paidCount) ?></div>
-            <div class="test-stat-label"><?= !empty($hasSubscription) ? 'Unlocked Premium' : 'Premium Available' ?></div>
+            <div class="test-stat-label">Premium Available</div>
         </div>
     </div>
 
@@ -570,7 +588,7 @@
             </div>
             <div class="test-library-grid">
                 <?php foreach ($freeTests as $test): ?>
-                    <?php $testCard($test, true, (bool) $hasSubscription); ?>
+                    <?php $testCard($test, true, $activeProductSlugs); ?>
                 <?php endforeach; ?>
             </div>
         </section>
@@ -580,7 +598,7 @@
         <div class="test-section-head">
             <div>
                 <h2 class="test-section-title">Premium Tests</h2>
-                <p class="test-section-note"><?= !empty($hasSubscription) ? 'Tests unlocked by your active product access.' : 'Choose a product plan to unlock premium tests.' ?></p>
+                <p class="test-section-note">Unlocked tests can be started immediately. Locked tests show a product checkout shortcut.</p>
             </div>
             <span class="test-count-pill"><?= esc((string) $paidCount) ?> tests</span>
         </div>
@@ -588,14 +606,14 @@
         <?php if (!empty($paidTests)): ?>
             <div class="test-library-grid">
                 <?php foreach ($paidTests as $test): ?>
-                    <?php $testCard($test, false, (bool) $hasSubscription); ?>
+                    <?php $testCard($test, false, $activeProductSlugs); ?>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
             <div class="empty-tests-card">
                 <?php if (empty($hasSubscription)): ?>
                     <h3>Premium tests unlock by product.</h3>
-                    <p>NCLEX, ATI TEAS 7, and HESI each have their own access. Choose a product plan to view matching paid tests in your library.</p>
+                    <p>NCLEX, ATI TEAS 7, and HESI each have their own access. Choose a product plan to start matching paid tests.</p>
                     <a href="<?= base_url('client/subscription') ?>" class="btn btn-primary">View Plans</a>
                 <?php else: ?>
                     <h3>No premium tests are available for your active products yet.</h3>

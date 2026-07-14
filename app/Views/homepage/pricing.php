@@ -48,6 +48,7 @@
 
         <div class="exam-pricing-grid">
             <?php foreach (($products ?? []) as $product): ?>
+                <?php $registerUrl = base_url('register') . '?product=' . rawurlencode((string) $product['slug']); ?>
                 <div class="exam-pricing-card">
                     <div class="exam-pricing-head">
                         <h3><?= esc($product['name']) ?></h3>
@@ -71,7 +72,7 @@
                         <div class="pricing-feature"><i class="fas fa-check-circle"></i><span>Mobile-friendly learner dashboard</span></div>
                     </div>
                     <div class="pricing-cta">
-                        <a href="<?= base_url('register'); ?>" class="btn btn-primary btn-lg w-100" style="padding: 12px; font-size: 1.05rem; font-weight: 700;">
+                        <a href="<?= esc($registerUrl); ?>" class="btn btn-primary btn-lg w-100" style="padding: 12px; font-size: 1.05rem; font-weight: 700;">
                             Get <?= esc($product['short_name'] ?: $product['name']) ?> Access
                         </a>
                     </div>

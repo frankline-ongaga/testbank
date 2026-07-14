@@ -6,6 +6,7 @@
         }
     }
 
+    $selectedProductSlug = (string) ($selectedProductSlug ?? '');
     $planPayload = [];
     foreach (($products ?? []) as $product) {
         $productId = (int) $product['id'];
@@ -480,6 +481,7 @@
         <script src="https://www.paypal.com/sdk/js?client-id=<?= esc($paypalClientId) ?>&currency=<?= esc($paypalCurrency) ?>&intent=<?= esc($paypalIntent) ?>&enable-funding=card"></script>
         <script>
             const productPlans = <?= json_encode($planPayload) ?>;
+            const selectedProductSlug = <?= json_encode($selectedProductSlug) ?>;
             const checkout = {
                 product: document.getElementById('checkout-product'),
                 duration: document.getElementById('checkout-duration'),
@@ -488,7 +490,9 @@
                 paypal: document.getElementById('paypal-checkout')
             };
 
-            let selectedProduct = productPlans[0] || null;
+            let selectedProduct = productPlans.find(function(product) {
+                return product.slug === selectedProductSlug;
+            }) || productPlans[0] || null;
             let selectedPlan = 'monthly';
 
             function planAmount(product, plan) {

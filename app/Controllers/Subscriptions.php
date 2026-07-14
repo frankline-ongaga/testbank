@@ -44,6 +44,9 @@ class Subscriptions extends BaseController
         $currentPortal = $this->session->get('current_role');
         $userId = (int) ($this->session->get('user_id') ?? 0);
         $data['products'] = $this->products->getActiveProducts();
+        $requestedProduct = strtolower(trim((string) $this->request->getGet('product')));
+        $activeProductSlugs = array_map('strval', array_column($data['products'], 'slug'));
+        $data['selectedProductSlug'] = in_array($requestedProduct, $activeProductSlugs, true) ? $requestedProduct : '';
         $currentSubscription = $userId ? $this->activeSubscriptionForUser($userId) : null;
         $currentSubscriptions = $userId ? $this->subs->getActiveProductsForUser($userId) : [];
         if (empty($currentSubscriptions) && $currentSubscription && !empty($currentSubscription['product_id'])) {

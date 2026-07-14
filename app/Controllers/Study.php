@@ -5,6 +5,8 @@ use App\Models\StudyCategoryModel;
 use App\Models\StudySubcategoryModel;
 use App\Models\StudyQuestionModel;
 use App\Models\StudyChoiceModel;
+use App\Models\MockQuestionModel;
+use App\Models\MockChoiceModel;
 use App\Models\NoteModel;
 use App\Models\SubscriptionModel;
 use CodeIgniter\Files\File;
@@ -15,6 +17,8 @@ class Study extends BaseController
     protected $subcategories;
     protected $questions;
     protected $choices;
+    protected $mockQuestions;
+    protected $mockChoices;
     protected $notes;
     protected $subs;
 
@@ -25,6 +29,8 @@ class Study extends BaseController
         $this->subcategories = new StudySubcategoryModel();
         $this->questions = new StudyQuestionModel();
         $this->choices = new StudyChoiceModel();
+        $this->mockQuestions = new MockQuestionModel();
+        $this->mockChoices = new MockChoiceModel();
         $this->notes = new NoteModel();
         $this->subs = new SubscriptionModel();
     }
@@ -37,6 +43,11 @@ class Study extends BaseController
 
         $data['title'] = 'Study Library';
         $data['categories'] = $this->categories->orderBy('name')->findAll();
+        if (!empty($data['categories'])) {
+            $firstCategory = reset($data['categories']);
+            return redirect()->to(base_url('client/study/' . (int) $firstCategory['id'] . '/subcategories'));
+        }
+
         return view('client/layout/header', $data)
             . view('client/study/categories', $data)
             . view('client/layout/footer');
@@ -61,7 +72,7 @@ class Study extends BaseController
 
         $subcategoryIds = array_map(static fn ($sub) => (int) $sub['id'], $subcategories);
         $data['questionCounts'] = [];
-        $data['noteCounts'] = [];
+        $data['mockCounts'] = [];
 
         if (!empty($subcategoryIds)) {
             $db = \Config\Database::connect();
@@ -77,16 +88,15 @@ class Study extends BaseController
                 $data['questionCounts'][(int) $row['subcategory_id']] = (int) $row['total'];
             }
 
-            $noteRows = $db->table('notes')
+            $mockRows = $db->table('mock_questions')
                 ->select('subcategory_id, COUNT(*) AS total')
                 ->whereIn('subcategory_id', $subcategoryIds)
-                ->where('status', 'published')
                 ->groupBy('subcategory_id')
                 ->get()
                 ->getResultArray();
 
-            foreach ($noteRows as $row) {
-                $data['noteCounts'][(int) $row['subcategory_id']] = (int) $row['total'];
+            foreach ($mockRows as $row) {
+                $data['mockCounts'][(int) $row['subcategory_id']] = (int) $row['total'];
             }
         }
 
@@ -118,8 +128,15 @@ class Study extends BaseController
         $choicesByQ = [];
         foreach ($choices as $c) { $choicesByQ[$c['question_id']][] = $c; }
         $data['choicesByQ'] = $choicesByQ;
-        // published notes for this subcategory
-        $data['notes'] = $this->notes->getNotesWithCategory('published', (int)$subcategoryId);
+        $mockQuestions = $this->mockQuestions->where('subcategory_id', (int)$subcategoryId)->orderBy('id', 'DESC')->findAll();
+        $data['mockQuestions'] = $mockQuestions;
+        $mockChoices = $this->mockChoices->whereIn('question_id', array_column($mockQuestions, 'id') ?: [0])->orderBy('label')->findAll();
+        $mockChoicesByQ = [];
+        foreach ($mockChoices as $choice) {
+            $mockChoicesByQ[(int) $choice['question_id']][] = $choice;
+        }
+        $data['mockChoicesByQ'] = $mockChoicesByQ;
+
         return view('client/layout/header', $data)
             . view('client/study/questions', $data)
             . view('client/layout/footer');

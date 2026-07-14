@@ -27,7 +27,7 @@
                  
 
                 <div class="btn_block">
-                  <a href="<?php echo base_url('register'); ?>" class="educate-btn educate-btn--accent"><span class="educate-btn__curve"></span>Get Started</a>&nbsp; &nbsp;  
+                  <a href="<?php echo base_url('register'); ?>?product=nclex" class="educate-btn educate-btn--accent"><span class="educate-btn__curve"></span>Get Started</a>&nbsp; &nbsp;  
 
                   <img src="<?= base_url('assets/media/shapes/arrow.png'); ?>" alt="" class="arrow">
                 </div>
@@ -244,7 +244,7 @@
                       <div class="card shadow-sm h-100">
                         <div class="card-body">
                           <h5 class="card-title mb-0"><?= esc($sub['name']) ?></h5>
-                          <a href="<?= base_url('client/study/' . $cat['id'] . '/subcategories') ?>" class="btn btn-sm subcategory-action">View <i class="fas fa-arrow-right"></i></a>
+                          <a href="<?= base_url('register') ?>?product=nclex" class="btn btn-sm subcategory-action">View <i class="fas fa-arrow-right"></i></a>
                         </div>
                       </div>
                     </div>
@@ -471,7 +471,7 @@ Realistic NCLEX-RN Simulations: Our practice tests replicate the computer-adapti
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="<?= base_url('hesi'); ?>" class="btn btn-primary">Read More</a>
+    <a href="<?= base_url('register'); ?>?product=nclex" class="btn btn-primary">Get Started</a>
   </div>
 </div><br>
                        
@@ -523,7 +523,7 @@ Tailored PN Practice Tests: Content is customized to the PN scope of practice—
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="<?= base_url('hesi'); ?>" class="btn btn-primary">Read More</a>
+    <a href="<?= base_url('register'); ?>?product=nclex" class="btn btn-primary">Get Started</a>
   </div>
 </div><br>
                       
@@ -561,7 +561,7 @@ Comprehensive Review Tests: Simulated exit exams that assess knowledge across al
                         </div>
                          <div class="categories-section">
   <div class="category-pills">
-    <a href="<?= base_url('hesi'); ?>" class="btn btn-primary">Read More</a>
+    <a href="<?= base_url('register'); ?>?product=nclex" class="btn btn-primary">Get Started</a>
   </div>
 </div><br>
                       

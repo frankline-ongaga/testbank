@@ -135,6 +135,14 @@ $routes->group('admin', function($routes) {
     $routes->get('study/question/(:num)/edit', 'StudyAdmin::editQuestion/$1');
     $routes->post('study/question/(:num)/update', 'StudyAdmin::updateQuestion/$1');
     $routes->get('study/question/(:num)/delete', 'StudyAdmin::deleteQuestion/$1');
+    $routes->get('mock-questions', 'MockQuestions::adminIndex');
+    $routes->get('mock-questions/subcategory/(:num)/questions', 'MockQuestions::adminQuestions/$1');
+    $routes->get('mock-questions/subcategory/(:num)/create', 'MockQuestions::adminCreate/$1');
+    $routes->post('mock-questions/subcategory/(:num)/store', 'MockQuestions::adminStore/$1');
+    $routes->get('mock-questions/(:num)/edit', 'MockQuestions::adminEdit/$1');
+    $routes->post('mock-questions/(:num)/update', 'MockQuestions::adminUpdate/$1');
+    $routes->get('mock-questions/(:num)/delete', 'MockQuestions::adminDelete/$1');
+    $routes->get('mock-questions/image/(:num)', 'MockQuestions::adminImage/$1');
     // Manage custom question categories under a subcategory
     $routes->get('study/subcategory/(:num)/qcategories', 'StudyAdmin::listQuestionCategories/$1');
     $routes->get('study/subcategory/(:num)/qcategories/create', 'StudyAdmin::createQuestionCategory/$1');
@@ -257,6 +265,10 @@ $routes->group('client', function($routes) {
     $routes->get('study/(:num)/subcategories', 'Study::subcategories/$1');
     $routes->get('study/subcategory/(:num)/questions', 'Study::questions/$1');
     $routes->get('study/question-image/(:num)', 'Study::questionImage/$1');
+    $routes->get('mock-questions', 'MockQuestions::clientIndex');
+    $routes->get('mock-questions/(:num)/subcategories', 'MockQuestions::clientSubcategories/$1');
+    $routes->get('mock-questions/subcategory/(:num)/questions', 'MockQuestions::clientQuestions/$1');
+    $routes->get('mock-questions/image/(:num)', 'MockQuestions::clientImage/$1');
     
     // Study Bank PDFs (Paid Students Only)
     $routes->get('study-bank-pdfs', 'StudyBankPdfs::clientIndex');

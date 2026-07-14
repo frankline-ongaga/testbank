@@ -97,13 +97,15 @@ abstract class BaseController extends Controller
     {
         $userId = (int) (session()->get('user_id') ?? 0);
         if (!$userId) {
-            return redirect()->to(base_url('subscriptions'))
-                ->with('error', 'Please login and subscribe to access ' . $label . '.');
+            $registerUrl = base_url('register') . '?product=' . rawurlencode($slug);
+            return redirect()->to($registerUrl)
+                ->with('error', 'Create a learner account to access ' . $label . '.');
         }
 
         if (!$this->hasActiveProductAccess($userId, $slug)) {
-            return redirect()->to(base_url('client/subscription'))
-                ->with('error', 'Your subscription does not include ' . $label . '. Please activate NCLEX access to continue.');
+            $subscriptionUrl = base_url('client/subscription') . '?product=' . rawurlencode($slug);
+            return redirect()->to($subscriptionUrl)
+                ->with('error', 'Your subscription does not include ' . $label . '. Please activate the right access plan to continue.');
         }
 
         return null;

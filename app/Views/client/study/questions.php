@@ -21,7 +21,7 @@
             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-questions" type="button" role="tab">Questions</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-notes" type="button" role="tab">Study Notes</button>
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-mock" type="button" role="tab">Mock Questions</button>
         </li>
     </ul>
     <div class="tab-content">
@@ -68,26 +68,51 @@
                 <?php endforeach; ?>
             </div>
         </div>
-        <div class="tab-pane fade" id="tab-notes" role="tabpanel">
-            <?php if (!empty($notes)): ?>
-            <div class="row row-cols-1 row-cols-md-2 g-3">
-                <?php foreach ($notes as $note): ?>
-                <div class="col">
+        <div class="tab-pane fade" id="tab-mock" role="tabpanel">
+            <?php if (!empty($mockQuestions)): ?>
+            <div class="row g-3">
+                <?php foreach ($mockQuestions as $mock): ?>
+                    <?php $mockChoices = $mockChoicesByQ[(int) $mock['id']] ?? []; ?>
+                <div class="col-md-12">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h6 class="mb-1"><?= esc($note['title']) ?></h6>
-                            <div class="text-muted small mb-2">By <?= esc($note['author_name']) ?> • <?= date('M j, Y', strtotime($note['created_at'])) ?></div>
-                            <div class="text-muted small"><?= character_limiter(strip_tags($note['content']), 160) ?></div>
-                        </div>
-                        <div class="card-footer bg-transparent">
-                            <a href="<?= base_url('client/notes/' . $note['id']) ?>" class="btn btn-sm btn-outline-primary">View</a>
+                            <div class="mb-2"><?= $mock['stem'] ?></div>
+                            <?php if (!empty($mock['image_path'])): ?>
+                                <div class="mb-3">
+                                    <img src="<?= base_url('client/mock-questions/image/' . (int)$mock['id']) ?>" alt="Mock question image" class="img-fluid border rounded" style="max-height: 420px;">
+                                </div>
+                            <?php endif; ?>
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+                                    <?php foreach ($mockChoices as $choice): ?>
+                                        <div class="p-2 border rounded mb-2 <?= $choice['is_correct'] ? 'bg-success-subtle border-success' : '' ?>">
+                                            <div class="fw-semibold">(<?= esc($choice['label']) ?>) <?= esc($choice['content']) ?></div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="small fw-bold mb-2">Explanations</div>
+                                    <?php foreach ($mockChoices as $choice): ?>
+                                        <div class="mb-2">
+                                            <div class="fw-semibold <?= $choice['is_correct'] ? 'text-success' : 'text-danger' ?>">(<?= esc($choice['label']) ?>) <?= $choice['is_correct'] ? 'Correct' : 'Incorrect' ?></div>
+                                            <div class="text-muted small"><?= esc($choice['explanation'] ?? '') ?></div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                            <?php if (!empty($mock['rationale'])): ?>
+                                <div class="mt-3 p-3 bg-light border rounded" style="font-size: 1.05rem;">
+                                    <div class="fw-bold mb-1">Rationale</div>
+                                    <div><?= nl2br(esc($mock['rationale'])) ?></div>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
                 <?php endforeach; ?>
             </div>
             <?php else: ?>
-                <div class="text-muted">No study notes for this subcategory.</div>
+                <div class="text-muted">No mock questions for this subcategory.</div>
             <?php endif; ?>
         </div>
     </div>

@@ -214,7 +214,7 @@
   <div class="search-popup">
     <div class="search-popup__overlay search-toggler"></div>
     <div class="search-popup__content">
-      <form role="search" method="get" class="search-popup__form" action="index.html">
+      <form role="search" method="get" class="search-popup__form" action="<?= base_url('register') ?>">
         <input type="text" id="search" placeholder="Search Here...">
         <button type="submit"><i class="fal fa-search"></i></button>
       </form>

@@ -1,7 +1,7 @@
 <div class="admin-page-header">
     <div class="admin-page-title">
         <h1><?= esc($title ?? 'My Dashboard') ?></h1>
-        <p>Welcome back. Access your tests, analytics, and notes.</p>
+        <p>Welcome back. Access your tests, analytics, and mock questions.</p>
     </div>
 </div>
 <div class="admin-content">
@@ -20,8 +20,8 @@
         </div>
         <div class="col-md-4">
             <div class="admin-card">
-                <div class="admin-card-title">Study Notes</div>
-                <a href="/notes" class="btn btn-outline-primary mt-2">Browse Notes</a>
+                <div class="admin-card-title">Mock Questions</div>
+                <a href="<?= base_url('client/mock-questions') ?>" class="btn btn-outline-primary mt-2">Browse Mock Questions</a>
             </div>
         </div>
     </div>

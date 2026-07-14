@@ -34,19 +34,28 @@ class Tests extends BaseController
     {
         $currentRole = session()->get('current_role') ?: 'client';
         
-        // Clients: show free tests regardless of subscription; paid tests require active subscription
+        // Clients: show the full catalog; paid tests unlock only when the matching product is active.
         if ($currentRole === 'client') {
             $userId = (int) (session()->get('user_id') ?? 0);
             $activeProductIds = $this->activeProductIdsForUser($userId);
+            $products = $this->productModel->getActiveProducts();
+            $activeProductSlugs = [];
+            foreach ($products as $product) {
+                if (in_array((int) $product['id'], $activeProductIds, true)) {
+                    $activeProductSlugs[] = (string) $product['slug'];
+                }
+            }
+
             $freeTests = $this->testModel->getActiveFreeTests();
-            $paidTests = $this->testModel->getActivePaidTests($activeProductIds);
+            $paidTests = $this->testModel->getActivePaidTests();
             $data = [
                 'title' => 'Available Tests',
                 'freeTests' => $freeTests,
                 'paidTests' => $paidTests,
                 'hasSubscription' => !empty($activeProductIds),
                 'activeProductIds' => $activeProductIds,
-                'products' => $this->productModel->getActiveProducts(),
+                'activeProductSlugs' => $activeProductSlugs,
+                'products' => $products,
             ];
             return view('client/layout/header', $data)
                 . view('client/tests/index', $data)

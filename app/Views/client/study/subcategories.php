@@ -2,10 +2,10 @@
     $subcategories = $subcategories ?? [];
     $categories = $categories ?? [];
     $questionCounts = $questionCounts ?? [];
-    $noteCounts = $noteCounts ?? [];
+    $mockCounts = $mockCounts ?? [];
     $hasStudyAccess = !empty($hasStudyAccess);
     $totalQuestions = array_sum(array_map('intval', $questionCounts));
-    $totalNotes = array_sum(array_map('intval', $noteCounts));
+    $totalMockQuestions = array_sum(array_map('intval', $mockCounts));
 ?>
 
 <div class="admin-content study-subcategory-page">
@@ -43,7 +43,7 @@
         .study-copy {
             color: #516074;
             line-height: 1.65;
-            margin: 8px 0 0;
+            margin: 0;
             max-width: 740px;
         }
 
@@ -467,8 +467,6 @@
 
     <div class="study-header">
         <div>
-            <span class="study-kicker">Study Questions</span>
-            <h1 class="study-title"><?= esc($category['name']) ?></h1>
             <p class="study-copy">Choose a topic to practice focused questions and review supporting notes included with your NCLEX access.</p>
         </div>
         <a class="study-header-action" href="<?= base_url('client/study') ?>">
@@ -506,8 +504,8 @@
                     <div class="study-stat-label">Questions</div>
                 </div>
                 <div class="study-stat">
-                    <div class="study-stat-value"><?= esc((string) $totalNotes) ?></div>
-                    <div class="study-stat-label">Notes</div>
+                    <div class="study-stat-value"><?= esc((string) $totalMockQuestions) ?></div>
+                    <div class="study-stat-label">Mock Questions</div>
                 </div>
             </div>
 
@@ -527,7 +525,7 @@
                     <?php foreach ($subcategories as $sub): ?>
                         <?php
                             $questionCount = (int) ($questionCounts[(int) $sub['id']] ?? 0);
-                            $noteCount = (int) ($noteCounts[(int) $sub['id']] ?? 0);
+                            $mockCount = (int) ($mockCounts[(int) $sub['id']] ?? 0);
                             $href = base_url('client/study/subcategory/'.$sub['id'].'/questions');
                             $searchText = strtolower(trim(($sub['name'] ?? '') . ' ' . ($sub['description'] ?? '')));
                         ?>
@@ -543,14 +541,14 @@
                                     </div>
                                     <h2 class="study-topic-title"><?= esc($sub['name']) ?></h2>
                                     <p class="study-topic-description">
-                                        <?= esc($sub['description'] ?: 'Focused practice questions and study notes for this topic.') ?>
+                                        <?= esc($sub['description'] ?: 'Focused practice questions and mock questions for this topic.') ?>
                                     </p>
                                 </div>
                             </div>
 
                             <div class="study-topic-meta">
                                 <span><i class="far fa-circle-question"></i><?= esc((string) $questionCount) ?> questions</span>
-                                <span><i class="far fa-note-sticky"></i><?= esc((string) $noteCount) ?> notes</span>
+                                <span><i class="far fa-clipboard"></i><?= esc((string) $mockCount) ?> mock questions</span>
                             </div>
 
                             <a class="study-topic-action primary" href="<?= $href ?>">
