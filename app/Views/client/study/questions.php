@@ -21,7 +21,7 @@
             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-questions" type="button" role="tab">Questions</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-mock" type="button" role="tab">Mock Questions</button>
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-mock" type="button" role="tab">Mock Tests</button>
         </li>
     </ul>
     <div class="tab-content">
@@ -70,49 +70,21 @@
         </div>
         <div class="tab-pane fade" id="tab-mock" role="tabpanel">
             <?php if (!empty($mockQuestions)): ?>
-            <div class="row g-3">
-                <?php foreach ($mockQuestions as $mock): ?>
-                    <?php $mockChoices = $mockChoicesByQ[(int) $mock['id']] ?? []; ?>
-                <div class="col-md-12">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="mb-2"><?= $mock['stem'] ?></div>
-                            <?php if (!empty($mock['image_path'])): ?>
-                                <div class="mb-3">
-                                    <img src="<?= base_url('client/mock-questions/image/' . (int)$mock['id']) ?>" alt="Mock question image" class="img-fluid border rounded" style="max-height: 420px;">
-                                </div>
-                            <?php endif; ?>
-                            <div class="row">
-                                <div class="col-12 col-lg-6">
-                                    <?php foreach ($mockChoices as $choice): ?>
-                                        <div class="p-2 border rounded mb-2 <?= $choice['is_correct'] ? 'bg-success-subtle border-success' : '' ?>">
-                                            <div class="fw-semibold">(<?= esc($choice['label']) ?>) <?= esc($choice['content']) ?></div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <div class="col-12 col-lg-6">
-                                    <div class="small fw-bold mb-2">Explanations</div>
-                                    <?php foreach ($mockChoices as $choice): ?>
-                                        <div class="mb-2">
-                                            <div class="fw-semibold <?= $choice['is_correct'] ? 'text-success' : 'text-danger' ?>">(<?= esc($choice['label']) ?>) <?= $choice['is_correct'] ? 'Correct' : 'Incorrect' ?></div>
-                                            <div class="text-muted small"><?= esc($choice['explanation'] ?? '') ?></div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                            <?php if (!empty($mock['rationale'])): ?>
-                                <div class="mt-3 p-3 bg-light border rounded" style="font-size: 1.05rem;">
-                                    <div class="fw-bold mb-1">Rationale</div>
-                                    <div><?= nl2br(esc($mock['rationale'])) ?></div>
-                                </div>
-                            <?php endif; ?>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-wrap gap-3 align-items-center justify-content-between">
+                        <div>
+                            <h3 class="h5 fw-bold mb-2"><?= esc($subcategory['name'] ?? 'Mock Tests') ?> Mock Test</h3>
+                            <p class="text-muted mb-0">Take these <?= esc((string) count($mockQuestions)) ?> mock questions in test format, then check each answer as you go.</p>
                         </div>
+                        <a class="btn btn-primary" href="<?= base_url('client/mock-questions/subcategory/' . (int) ($subcategory['id'] ?? 0) . '/questions') ?>">
+                            Start Mock Test
+                        </a>
                     </div>
                 </div>
-                <?php endforeach; ?>
             </div>
             <?php else: ?>
-                <div class="text-muted">No mock questions for this subcategory.</div>
+                <div class="text-muted">No mock tests for this subcategory.</div>
             <?php endif; ?>
         </div>
     </div>

@@ -133,6 +133,7 @@ body.ielts-panel-body {
 }
 
 .ielts-panel-nav a[data-icon="grid"]::before { content: "D"; }
+.ielts-panel-nav a[data-icon="practice"]::before { content: "P"; }
 .ielts-panel-nav a[data-icon="audio"]::before { content: "L"; }
 .ielts-panel-nav a[data-icon="book"]::before { content: "R"; }
 .ielts-panel-nav a[data-icon="folder"]::before { content: "C"; }

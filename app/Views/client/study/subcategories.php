@@ -505,7 +505,7 @@
                 </div>
                 <div class="study-stat">
                     <div class="study-stat-value"><?= esc((string) $totalMockQuestions) ?></div>
-                    <div class="study-stat-label">Mock Questions</div>
+                    <div class="study-stat-label">Mock Tests</div>
                 </div>
             </div>
 
@@ -541,14 +541,14 @@
                                     </div>
                                     <h2 class="study-topic-title"><?= esc($sub['name']) ?></h2>
                                     <p class="study-topic-description">
-                                        <?= esc($sub['description'] ?: 'Focused practice questions and mock questions for this topic.') ?>
+                                        <?= esc($sub['description'] ?: 'Focused practice questions and mock tests for this topic.') ?>
                                     </p>
                                 </div>
                             </div>
 
                             <div class="study-topic-meta">
                                 <span><i class="far fa-circle-question"></i><?= esc((string) $questionCount) ?> questions</span>
-                                <span><i class="far fa-clipboard"></i><?= esc((string) $mockCount) ?> mock questions</span>
+                                <span><i class="far fa-clipboard"></i><?= esc((string) $mockCount) ?> mock tests</span>
                             </div>
 
                             <a class="study-topic-action primary" href="<?= $href ?>">

@@ -1,10 +1,10 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
-            <h5 class="mb-0">Mock Questions - <?= esc($subcategory['name']) ?></h5>
+            <h5 class="mb-0">Mock Tests - <?= esc($subcategory['name']) ?></h5>
             <div class="small text-muted">Category: <?= esc($category['name'] ?? 'Study Library') ?></div>
         </div>
-        <a href="<?= base_url('admin/mock-questions/subcategory/' . (int) $subcategory['id'] . '/create') ?>" class="btn btn-primary btn-sm">Add Mock Question</a>
+        <a href="<?= base_url('admin/mock-questions/subcategory/' . (int) $subcategory['id'] . '/create') ?>" class="btn btn-primary btn-sm">Add Mock Test</a>
     </div>
     <div class="card-body">
         <?php if (session()->getFlashdata('success')): ?>
@@ -15,7 +15,7 @@
         <?php endif; ?>
 
         <?php if (empty($questions)): ?>
-            <div class="text-muted">No mock questions have been added for this subcategory yet.</div>
+            <div class="text-muted">No mock tests have been added for this subcategory yet.</div>
         <?php else: ?>
             <div class="list-group">
                 <?php foreach ($questions as $question): ?>
@@ -29,7 +29,7 @@
                             </div>
                             <div class="d-flex gap-2">
                                 <a class="btn btn-outline-primary btn-sm" href="<?= base_url('admin/mock-questions/' . (int) $question['id'] . '/edit') ?>">Edit</a>
-                                <a class="btn btn-outline-danger btn-sm" href="<?= base_url('admin/mock-questions/' . (int) $question['id'] . '/delete') ?>" onclick="return confirm('Delete this mock question?');">Delete</a>
+                                <a class="btn btn-outline-danger btn-sm" href="<?= base_url('admin/mock-questions/' . (int) $question['id'] . '/delete') ?>" onclick="return confirm('Delete this mock test?');">Delete</a>
                             </div>
                         </div>
                     </div>

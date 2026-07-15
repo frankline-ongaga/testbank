@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0">Add Mock Question - <?= esc($subcategory['name']) ?></h5>
+        <h5 class="mb-0">Add Mock Test - <?= esc($subcategory['name']) ?></h5>
     </div>
     <div class="card-body">
         <?php if (session()->getFlashdata('error')): ?>
@@ -31,7 +31,7 @@
             <?= view('admin/mock_questions/partials/choices', ['choices' => []]) ?>
 
             <div class="d-flex gap-2">
-                <button class="btn btn-primary">Save Mock Question</button>
+                <button class="btn btn-primary">Save Mock Test</button>
                 <a href="<?= base_url('admin/mock-questions/subcategory/' . (int) $subcategory['id'] . '/questions') ?>" class="btn btn-secondary">Cancel</a>
             </div>
         </form>

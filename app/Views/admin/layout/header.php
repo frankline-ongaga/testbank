@@ -6,8 +6,8 @@
     <title><?= isset($title) ? esc($title) : 'Admin' ?> - NCLEX Prep Course</title>
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="<?= base_url('panel_assets/css/praxis-panel.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('panel_assets/css/nclex-panel-bridge.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('panel_assets/css/praxis-panel.css') . '?v=' . filemtime(FCPATH . 'panel_assets/css/praxis-panel.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('panel_assets/css/nclex-panel-bridge.css') . '?v=' . filemtime(FCPATH . 'panel_assets/css/nclex-panel-bridge.css'); ?>">
 </head>
 <body class="ielts-panel-body ielts-panel-body--admin">
 <?php
@@ -64,7 +64,7 @@
             'title' => 'Study',
             'items' => [
                 ['path' => 'admin/study', 'label' => 'Study Questions', 'icon' => 'grid', 'active' => ['admin/study', 'admin/study/*']],
-                ['path' => 'admin/mock-questions', 'label' => 'Mock Questions', 'icon' => 'chat', 'active' => ['admin/mock-questions', 'admin/mock-questions/*']],
+                ['path' => 'admin/mock-questions', 'label' => 'Mock Tests', 'icon' => 'chat', 'active' => ['admin/mock-questions', 'admin/mock-questions/*']],
                 ['path' => 'admin/study-bank-pdfs', 'label' => 'Study Bank Docs', 'icon' => 'book', 'active' => ['admin/study-bank-pdfs', 'admin/study-bank-pdfs/*']],
                 ['path' => 'admin/cheat-sheets', 'label' => 'Cheat Sheets', 'icon' => 'card', 'active' => ['admin/cheat-sheets', 'admin/cheat-sheets/*']],
             ],

@@ -251,7 +251,7 @@
     </style>
 
     <div class="mock-header">
-        <p class="mock-copy">Choose a subcategory and work through mock questions with answer choices, correct answers, explanations, and rationales.</p>
+        <p class="mock-copy">Choose a subcategory and work through mock tests with answer choices, correct answers, explanations, and rationales.</p>
         <a class="mock-header-action" href="<?= base_url('client') ?>">
             <i class="fas fa-arrow-left"></i>
             Dashboard
@@ -284,7 +284,7 @@
                 </div>
                 <div class="mock-stat">
                     <div class="mock-stat-value"><?= esc((string) $totalMockQuestions) ?></div>
-                    <div class="mock-stat-label">Mock Questions</div>
+                    <div class="mock-stat-label">Mock Tests</div>
                 </div>
             </div>
 
@@ -298,11 +298,11 @@
                                 <p class="mock-topic-description"><?= esc($sub['description'] ?: 'Mock question practice for this topic.') ?></p>
                             </div>
                             <div class="mock-topic-meta">
-                                <span><i class="far fa-circle-question"></i><?= esc((string) $mockCount) ?> mock questions</span>
+                                <span><i class="far fa-circle-question"></i><?= esc((string) $mockCount) ?> mock tests</span>
                             </div>
                             <a class="mock-topic-action" href="<?= base_url('client/mock-questions/subcategory/' . (int) $sub['id'] . '/questions') ?>">
                                 <i class="fas fa-arrow-right"></i>
-                                Practice Mock Questions
+                                Start Mock Test
                             </a>
                         </article>
                     <?php endforeach; ?>
@@ -310,7 +310,7 @@
             <?php else: ?>
                 <div class="mock-empty-card">
                     <h3>No subcategories yet.</h3>
-                    <p class="text-muted mb-0">Mock questions will appear here after subcategories are added.</p>
+                    <p class="text-muted mb-0">Mock tests will appear here after subcategories are added.</p>
                 </div>
             <?php endif; ?>
         </main>

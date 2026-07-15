@@ -6,6 +6,17 @@
     $freeCount = count($freeTests);
     $paidCount = count($paidTests);
     $allCount = $freeCount + $paidCount;
+    $practiceTests = [];
+    foreach ($freeTests as $test) {
+        $test['_is_free_catalog_item'] = true;
+        $practiceTests[] = $test;
+    }
+    foreach ($paidTests as $test) {
+        $test['_is_free_catalog_item'] = false;
+        $practiceTests[] = $test;
+    }
+    $activeProductCount = count($activeProductSlugs);
+    $productCount = count($products);
 
     $productNames = static function (array $test): array {
         return array_values(array_filter(array_map('trim', explode(',', (string) ($test['product_names'] ?? '')))));
@@ -42,16 +53,13 @@
             ? base_url('client/tests/start-free/' . $test['id'])
             : base_url('client/tests/start/' . $test['id']);
         ?>
-        <article class="test-library-card <?= !$hasTestAccess ? 'is-locked' : '' ?>" data-test-card data-access="<?= $isFree ? 'free' : 'paid' ?>" data-products="<?= esc(implode(' ', $productKeys)) ?>">
+        <article class="test-library-card <?= !$hasTestAccess ? 'is-locked' : '' ?>" data-test-card data-products="<?= esc(implode(' ', $productKeys)) ?>">
             <div class="test-card-main">
                 <div class="test-card-icon">
                     <i class="far fa-file-lines"></i>
                 </div>
                 <div class="test-card-copy">
                     <div class="test-card-topline">
-                        <span class="test-type-pill <?= $isFree ? 'test-type-pill-free' : 'test-type-pill-paid' ?>">
-                            <?= $isFree ? 'Free' : 'Premium' ?>
-                        </span>
                         <span class="test-mode-pill"><?= esc(ucfirst($mode)) ?></span>
                     </div>
                     <h2 class="test-card-title"><?= esc($test['title']) ?></h2>
@@ -76,7 +84,7 @@
                 <?php if ($hasTestAccess): ?>
                     <a href="<?= esc($startUrl) ?>" class="btn test-start-btn">
                         <i class="fas fa-play"></i>
-                        <?= $isFree ? 'Start Free Test' : 'Start Test' ?>
+                        Start Test
                     </a>
                 <?php else: ?>
                     <a href="<?= esc($accessUrl) ?>" class="btn test-lock-btn">
@@ -349,7 +357,6 @@
             margin-bottom: 10px;
         }
 
-        .test-type-pill,
         .test-mode-pill,
         .product-pill {
             align-items: center;
@@ -360,16 +367,6 @@
             line-height: 1;
             min-height: 26px;
             padding: 0 9px;
-        }
-
-        .test-type-pill-free {
-            background: rgba(34, 197, 94, .12);
-            color: #15803d;
-        }
-
-        .test-type-pill-paid {
-            background: rgba(245, 158, 11, .14);
-            color: #b45309;
         }
 
         .test-mode-pill {
@@ -536,12 +533,12 @@
 
     <div class="test-library-toolbar">
         <div>
-            <p class="test-library-copy">Browse every exam library, start tests covered by your active access, and unlock the products you still need from the same page.</p>
+            <p class="test-library-copy">Browse practice tests by product, start tests covered by your active access, and unlock the products you still need from the same page.</p>
         </div>
         <a class="test-library-cta" href="<?= base_url('client/subscription') ?>">
             <i class="fas fa-key"></i>
             <span>
-                <strong><?= !empty($hasSubscription) ? 'Manage Access' : 'Unlock Premium Tests' ?></strong>
+                <strong><?= !empty($hasSubscription) ? 'Manage Access' : 'Get Access' ?></strong>
                 <span><?= !empty($hasSubscription) ? 'View your current product plans' : 'Choose NCLEX, ATI TEAS 7, or HESI' ?></span>
             </span>
         </a>
@@ -553,71 +550,51 @@
             <div class="test-stat-label">Visible Tests</div>
         </div>
         <div class="test-stat-card">
-            <div class="test-stat-value"><?= esc((string) $freeCount) ?></div>
-            <div class="test-stat-label">Free Tests</div>
+            <div class="test-stat-value"><?= esc((string) $productCount) ?></div>
+            <div class="test-stat-label">Products</div>
         </div>
         <div class="test-stat-card">
-            <div class="test-stat-value"><?= esc((string) $paidCount) ?></div>
-            <div class="test-stat-label">Premium Available</div>
+            <div class="test-stat-value"><?= esc((string) $activeProductCount) ?></div>
+            <div class="test-stat-label">Active Access</div>
         </div>
     </div>
 
     <div class="test-filter-panel">
         <div class="test-filter-row" data-test-filters>
             <span class="test-filter-label">Filter</span>
-            <button type="button" class="test-filter-btn is-active" data-filter="all">All</button>
-            <button type="button" class="test-filter-btn" data-filter="free">Free</button>
-            <button type="button" class="test-filter-btn" data-filter="paid">Premium</button>
-            <?php foreach ($products as $product): ?>
+            <?php foreach ($products as $index => $product): ?>
                 <?php $key = $productKey((string) ($product['name'] ?? '')); ?>
                 <?php if ($key !== ''): ?>
-                    <button type="button" class="test-filter-btn" data-filter-product="<?= esc($key) ?>"><?= esc($product['name']) ?></button>
+                    <button type="button" class="test-filter-btn <?= $index === 0 ? 'is-active' : '' ?>" data-filter-product="<?= esc($key) ?>"><?= esc($product['name']) ?></button>
                 <?php endif; ?>
             <?php endforeach; ?>
         </div>
     </div>
 
-    <?php if (!empty($freeTests)): ?>
-        <section class="test-section" data-test-section>
-            <div class="test-section-head">
-                <div>
-                    <h2 class="test-section-title">Free Tests</h2>
-                    <p class="test-section-note">Quick-start practice available without a paid plan.</p>
-                </div>
-                <span class="test-count-pill"><?= esc((string) $freeCount) ?> tests</span>
-            </div>
-            <div class="test-library-grid">
-                <?php foreach ($freeTests as $test): ?>
-                    <?php $testCard($test, true, $activeProductSlugs); ?>
-                <?php endforeach; ?>
-            </div>
-        </section>
-    <?php endif; ?>
-
     <section class="test-section" data-test-section>
         <div class="test-section-head">
             <div>
-                <h2 class="test-section-title">Premium Tests</h2>
-                <p class="test-section-note">Unlocked tests can be started immediately. Locked tests show a product checkout shortcut.</p>
+                <h2 class="test-section-title">Practice Tests</h2>
+                <p class="test-section-note">Use the product filters above to browse the tests available for each exam.</p>
             </div>
-            <span class="test-count-pill"><?= esc((string) $paidCount) ?> tests</span>
+            <span class="test-count-pill"><?= esc((string) $allCount) ?> tests</span>
         </div>
 
-        <?php if (!empty($paidTests)): ?>
+        <?php if (!empty($practiceTests)): ?>
             <div class="test-library-grid">
-                <?php foreach ($paidTests as $test): ?>
-                    <?php $testCard($test, false, $activeProductSlugs); ?>
+                <?php foreach ($practiceTests as $test): ?>
+                    <?php $testCard($test, !empty($test['_is_free_catalog_item']), $activeProductSlugs); ?>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
             <div class="empty-tests-card">
                 <?php if (empty($hasSubscription)): ?>
-                    <h3>Premium tests unlock by product.</h3>
-                    <p>NCLEX, ATI TEAS 7, and HESI each have their own access. Choose a product plan to start matching paid tests.</p>
+                    <h3>Practice tests unlock by product.</h3>
+                    <p>NCLEX, ATI TEAS 7, and HESI each have their own access. Choose a product plan to start matching tests.</p>
                     <a href="<?= base_url('client/subscription') ?>" class="btn btn-primary">View Plans</a>
                 <?php else: ?>
-                    <h3>No premium tests are available for your active products yet.</h3>
-                    <p>Free tests are still available above while premium product tests are being added.</p>
+                    <h3>No practice tests are available for your active products yet.</h3>
+                    <p>New product tests will appear here once they are added.</p>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
@@ -625,7 +602,7 @@
 
     <div class="empty-tests-card d-none" data-empty-filter>
         <h3>No tests match this filter.</h3>
-        <p>Try another product or access type.</p>
+        <p>Try another product.</p>
     </div>
 
     <script>
@@ -636,7 +613,6 @@
             const emptyFilter = document.querySelector('[data-empty-filter]');
 
             function applyFilter(button) {
-                const accessFilter = button.dataset.filter || '';
                 const productFilter = button.dataset.filterProduct || '';
                 let visibleCards = 0;
 
@@ -645,9 +621,8 @@
                 });
 
                 cards.forEach(function (card) {
-                    const matchesAccess = !accessFilter || accessFilter === 'all' || card.dataset.access === accessFilter;
                     const matchesProduct = !productFilter || (card.dataset.products || '').split(' ').includes(productFilter);
-                    const visible = matchesAccess && matchesProduct;
+                    const visible = matchesProduct;
                     card.classList.toggle('is-hidden', !visible);
                     if (visible) {
                         visibleCards += 1;
@@ -671,6 +646,11 @@
                     applyFilter(button);
                 });
             });
+
+            const activeFilter = document.querySelector('.test-filter-btn.is-active');
+            if (activeFilter) {
+                applyFilter(activeFilter);
+            }
         })();
     </script>
 </div>

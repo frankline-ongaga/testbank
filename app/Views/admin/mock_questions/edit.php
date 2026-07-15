@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0">Edit Mock Question - <?= esc($subcategory['name'] ?? 'Mock Questions') ?></h5>
+        <h5 class="mb-0">Edit Mock Test - <?= esc($subcategory['name'] ?? 'Mock Tests') ?></h5>
     </div>
     <div class="card-body">
         <?php if (session()->getFlashdata('error')): ?>
@@ -18,7 +18,7 @@
                 <div class="mb-3">
                     <label class="form-label">Current image</label>
                     <div>
-                        <img src="<?= base_url('admin/mock-questions/image/' . (int) $question['id']) ?>" alt="Current mock question image" class="img-fluid border rounded" style="max-height: 320px;">
+                        <img src="<?= base_url('admin/mock-questions/image/' . (int) $question['id']) ?>" alt="Current mock test image" class="img-fluid border rounded" style="max-height: 320px;">
                     </div>
                     <label class="form-check mt-2">
                         <input class="form-check-input" type="checkbox" name="remove_image" value="1">
@@ -44,7 +44,7 @@
             <?= view('admin/mock_questions/partials/choices', ['choices' => $choices ?? []]) ?>
 
             <div class="d-flex gap-2">
-                <button class="btn btn-primary">Update Mock Question</button>
+                <button class="btn btn-primary">Update Mock Test</button>
                 <a href="<?= base_url('admin/mock-questions/subcategory/' . (int) ($subcategory['id'] ?? $question['subcategory_id']) . '/questions') ?>" class="btn btn-secondary">Cancel</a>
             </div>
         </form>

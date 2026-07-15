@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0">Mock Question Categories</h5>
-        <div class="small text-muted">Choose a category, then manage mock questions inside each subcategory.</div>
+        <h5 class="mb-0">Mock Test Categories</h5>
+        <div class="small text-muted">Choose a category, then manage mock tests inside each subcategory.</div>
     </div>
     <div class="card-body">
         <?php if (empty($categories)): ?>

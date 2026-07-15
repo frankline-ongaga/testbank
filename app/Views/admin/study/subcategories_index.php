@@ -239,7 +239,7 @@
                             </a>
                             <a href="<?= base_url('admin/mock-questions/subcategory/' . (int) $sub['id'] . '/questions') ?>" class="study-admin-action">
                                 <i class="fas fa-comments"></i>
-                                Mock Questions
+                                Mock Tests
                             </a>
                             <a href="<?= base_url('admin/study/subcategory/' . (int) $sub['id'] . '/qcategories') ?>" class="study-admin-action">
                                 <i class="fas fa-tags"></i>

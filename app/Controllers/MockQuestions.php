@@ -24,7 +24,7 @@ class MockQuestions extends BaseController
 
     public function clientIndex()
     {
-        if ($redirect = $this->requireProductAccess('nclex', 'Mock Questions')) {
+        if ($redirect = $this->requireProductAccess('nclex', 'Mock Tests')) {
             return $redirect;
         }
 
@@ -35,7 +35,7 @@ class MockQuestions extends BaseController
         }
 
         $data = [
-            'title' => 'Mock Questions',
+            'title' => 'Mock Tests',
             'categories' => [],
             'subcategories' => [],
             'category' => null,
@@ -50,7 +50,7 @@ class MockQuestions extends BaseController
     public function adminIndex()
     {
         $data = [
-            'title' => 'Mock Questions',
+            'title' => 'Mock Tests',
             'categories' => $this->categories->orderBy('name')->findAll(),
         ];
 
@@ -61,7 +61,7 @@ class MockQuestions extends BaseController
 
     public function clientSubcategories($categoryId)
     {
-        if ($redirect = $this->requireProductAccess('nclex', 'Mock Questions')) {
+        if ($redirect = $this->requireProductAccess('nclex', 'Mock Tests')) {
             return $redirect;
         }
 
@@ -106,7 +106,7 @@ class MockQuestions extends BaseController
 
     public function clientQuestions($subcategoryId)
     {
-        if ($redirect = $this->requireProductAccess('nclex', 'Mock Questions')) {
+        if ($redirect = $this->requireProductAccess('nclex', 'Mock Tests')) {
             return $redirect;
         }
 
@@ -135,7 +135,7 @@ class MockQuestions extends BaseController
         }
 
         $data = [
-            'title' => $subcategory['name'] . ' Mock Questions',
+            'title' => $subcategory['name'] . ' Mock Tests',
             'category' => $category,
             'subcategory' => $subcategory,
             'questions' => $questions,
@@ -149,7 +149,7 @@ class MockQuestions extends BaseController
 
     public function clientImage($questionId)
     {
-        if ($redirect = $this->requireProductAccess('nclex', 'Mock Questions')) {
+        if ($redirect = $this->requireProductAccess('nclex', 'Mock Tests')) {
             return $redirect;
         }
 
@@ -165,7 +165,7 @@ class MockQuestions extends BaseController
 
         $category = $this->categories->find((int) $subcategory['category_id']);
         $data = [
-            'title' => 'Mock Questions - ' . $subcategory['name'],
+            'title' => 'Mock Tests - ' . $subcategory['name'],
             'category' => $category,
             'subcategory' => $subcategory,
             'questions' => $this->questions->where('subcategory_id', (int) $subcategoryId)->orderBy('id', 'DESC')->findAll(),
@@ -184,7 +184,7 @@ class MockQuestions extends BaseController
         }
 
         $data = [
-            'title' => 'Add Mock Question - ' . $subcategory['name'],
+            'title' => 'Add Mock Test - ' . $subcategory['name'],
             'subcategory' => $subcategory,
         ];
 
@@ -228,7 +228,7 @@ class MockQuestions extends BaseController
 
         $subcategory = $this->subcategories->find((int) $question['subcategory_id']);
         $data = [
-            'title' => 'Edit Mock Question - ' . ($subcategory['name'] ?? 'Mock Questions'),
+            'title' => 'Edit Mock Test - ' . ($subcategory['name'] ?? 'Mock Tests'),
             'subcategory' => $subcategory,
             'question' => $question,
             'choices' => $this->choices->where('question_id', (int) $questionId)->orderBy('label')->findAll(),

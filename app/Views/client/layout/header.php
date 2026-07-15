@@ -6,8 +6,8 @@
     <title><?= isset($title) ? esc($title) : 'Learner Dashboard' ?> - NCLEX Prep Course</title>
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="<?= base_url('panel_assets/css/praxis-panel.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('panel_assets/css/nclex-panel-bridge.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('panel_assets/css/praxis-panel.css') . '?v=' . filemtime(FCPATH . 'panel_assets/css/praxis-panel.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('panel_assets/css/nclex-panel-bridge.css') . '?v=' . filemtime(FCPATH . 'panel_assets/css/nclex-panel-bridge.css'); ?>">
 </head>
 <body class="ielts-panel-body ielts-panel-body--client">
 <?php
@@ -42,7 +42,7 @@
         [
             'title' => 'Practice',
             'items' => [
-                ['path' => 'client/tests', 'label' => 'Practice Tests', 'icon' => 'book', 'active' => ['client/tests', 'client/tests/*']],
+                ['path' => 'client/tests', 'label' => 'Practice Tests', 'icon' => 'practice', 'class' => 'ielts-nav-featured', 'active' => ['client/tests', 'client/tests/*']],
                 ['path' => 'client/subscription', 'label' => 'My Access', 'icon' => 'card', 'active' => ['client/subscription', 'subscriptions']],
             ],
         ],
@@ -55,7 +55,7 @@
                 ['path' => 'client/study', 'label' => 'Study Questions', 'icon' => 'grid', 'active' => ['client/study', 'client/study/*']],
                 ['path' => 'client/study-bank-pdfs', 'label' => 'Study Bank Docs', 'icon' => 'book', 'active' => ['client/study-bank-pdfs', 'client/study-bank-pdfs/*']],
                 ['path' => 'client/cheat-sheets', 'label' => 'Cheat Sheets', 'icon' => 'audio', 'active' => ['client/cheat-sheets', 'client/cheat-sheets/*']],
-                ['path' => 'client/mock-questions', 'label' => 'Mock Questions', 'icon' => 'pen', 'active' => ['client/mock-questions', 'client/mock-questions/*']],
+                ['path' => 'client/mock-questions', 'label' => 'Mock Tests', 'icon' => 'pen', 'active' => ['client/mock-questions', 'client/mock-questions/*']],
                 ['path' => 'client/nursing-care-plans', 'label' => 'Nursing Care Plans', 'icon' => 'folder', 'active' => ['client/nursing-care-plans', 'client/nursing-care-plans/*']],
                 ['path' => 'client/nursing-nclex-reviews', 'label' => 'Nursing NCLEX Reviews', 'icon' => 'book', 'active' => ['client/nursing-nclex-reviews', 'client/nursing-nclex-reviews/*']],
             ],
@@ -89,7 +89,7 @@
                 <span class="ielts-panel-section"><?= esc($section['title']) ?></span>
                 <?php foreach ($section['items'] as $item): ?>
                     <?php $active = $isActive($item['active']); ?>
-                    <a class="<?= $active ? 'active' : '' ?>" data-icon="<?= esc($item['icon']) ?>" href="<?= base_url($item['path']) ?>">
+                    <a class="<?= trim(($active ? 'active ' : '') . ($item['class'] ?? '')) ?>" data-icon="<?= esc($item['icon']) ?>" href="<?= base_url($item['path']) ?>">
                         <span><?= esc($item['label']) ?></span>
                     </a>
                 <?php endforeach; ?>
