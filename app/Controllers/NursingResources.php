@@ -50,6 +50,9 @@ class NursingResources extends BaseController
         $resource = self::RESOURCES[$key];
         $posts = [];
         $categoryGroups = [];
+        $selectedPosts = [];
+        $selectedGroup = null;
+        $pagination = null;
         $loadError = null;
 
         try {
@@ -70,11 +73,35 @@ class NursingResources extends BaseController
             $categoryGroups = $this->categoryGroups($categoryContext, $posts);
         }
 
+        $flatGroups = $this->flattenCategoryGroups($categoryGroups);
+        $selectedTermId = max(0, (int) ($this->request->getGet('category') ?? 0));
+        if ($selectedTermId <= 0 || !$this->findCategoryGroup($categoryGroups, $selectedTermId)) {
+            $selectedTermId = !empty($flatGroups) ? (int) ($flatGroups[0]['term_id'] ?? 0) : 0;
+        }
+
+        if ($selectedTermId > 0) {
+            $selectedGroup = $this->findCategoryGroup($categoryGroups, $selectedTermId);
+            $selectedPosts = $selectedGroup ? $this->postsForGroup($selectedGroup) : [];
+        }
+
+        $page = max(1, (int) ($this->request->getGet('page') ?? 1));
+        $perPage = 20;
+        $totalSelectedPosts = count($selectedPosts);
+        $totalPages = max(1, (int) ceil($totalSelectedPosts / $perPage));
+        $page = min($page, $totalPages);
+        $selectedPosts = array_slice($selectedPosts, ($page - 1) * $perPage, $perPage);
+        $pagination = $this->paginationData($resource['path'], $selectedTermId, $page, $perPage, $totalSelectedPosts);
+
         $data = [
             'title' => $resource['title'],
             'resource' => $resource,
             'posts' => $posts,
             'categoryGroups' => $categoryGroups,
+            'selectedPosts' => $selectedPosts,
+            'selectedGroup' => $selectedGroup,
+            'selectedTermId' => $selectedTermId,
+            'displayedResourceTotal' => count($this->postsForGroupList($categoryGroups)),
+            'pagination' => $pagination,
             'loadError' => $loadError,
         ];
 
@@ -332,17 +359,6 @@ class NursingResources extends BaseController
         $rootTermId = (int) $root['term_id'];
         $groups = [];
 
-        if (!empty($postsByTerm[$rootTermId])) {
-            $groups[] = [
-                'term_id' => $rootTermId,
-                'name' => 'General',
-                'slug' => (string) ($root['slug'] ?? ''),
-                'posts' => $postsByTerm[$rootTermId],
-                'children' => [],
-                'total' => count($postsByTerm[$rootTermId]),
-            ];
-        }
-
         foreach ($children[$rootTermId] ?? [] as $child) {
             $node = $buildNode($child);
             if ($node['total'] > 0) {
@@ -351,11 +367,117 @@ class NursingResources extends BaseController
         }
 
         if (empty($groups)) {
-            $rootNode = $buildNode($root);
-            return $rootNode['total'] > 0 ? [$rootNode] : [];
+            return [];
         }
 
         return $groups;
+    }
+
+    private function flattenCategoryGroups(array $groups): array
+    {
+        $flat = [];
+
+        foreach ($groups as $group) {
+            $flat[] = $group;
+            if (!empty($group['children'])) {
+                foreach ($this->flattenCategoryGroups($group['children']) as $child) {
+                    $flat[] = $child;
+                }
+            }
+        }
+
+        return $flat;
+    }
+
+    private function findCategoryGroup(array $groups, int $termId): ?array
+    {
+        foreach ($groups as $group) {
+            if ((int) ($group['term_id'] ?? 0) === $termId) {
+                return $group;
+            }
+
+            if (!empty($group['children'])) {
+                $found = $this->findCategoryGroup($group['children'], $termId);
+                if ($found) {
+                    return $found;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function postsForGroup(array $group): array
+    {
+        $posts = [];
+        foreach ($group['posts'] ?? [] as $post) {
+            $posts[(int) $post['ID']] = $post;
+        }
+
+        foreach ($group['children'] ?? [] as $child) {
+            foreach ($this->postsForGroup($child) as $post) {
+                $posts[(int) $post['ID']] = $post;
+            }
+        }
+
+        $posts = array_values($posts);
+        usort($posts, static function (array $a, array $b): int {
+            $dateCompare = strtotime((string) ($b['post_date'] ?? '')) <=> strtotime((string) ($a['post_date'] ?? ''));
+            if ($dateCompare !== 0) {
+                return $dateCompare;
+            }
+
+            return (int) ($b['ID'] ?? 0) <=> (int) ($a['ID'] ?? 0);
+        });
+
+        return $posts;
+    }
+
+    private function postsForGroupList(array $groups): array
+    {
+        $posts = [];
+        foreach ($groups as $group) {
+            foreach ($this->postsForGroup($group) as $post) {
+                $posts[(int) $post['ID']] = $post;
+            }
+        }
+
+        return array_values($posts);
+    }
+
+    private function paginationData(string $path, int $categoryId, int $page, int $perPage, int $total): array
+    {
+        $totalPages = max(1, (int) ceil($total / $perPage));
+        $baseUrl = base_url('client/' . $path);
+        $makeUrl = static function (int $targetPage) use ($baseUrl, $categoryId): string {
+            return $baseUrl . '?' . http_build_query([
+                'category' => $categoryId,
+                'page' => $targetPage,
+            ]);
+        };
+
+        $pages = [];
+        $start = max(1, $page - 2);
+        $end = min($totalPages, $page + 2);
+        for ($i = $start; $i <= $end; $i++) {
+            $pages[] = [
+                'number' => $i,
+                'url' => $makeUrl($i),
+                'active' => $i === $page,
+            ];
+        }
+
+        return [
+            'page' => $page,
+            'perPage' => $perPage,
+            'total' => $total,
+            'totalPages' => $totalPages,
+            'from' => $total > 0 ? (($page - 1) * $perPage) + 1 : 0,
+            'to' => min($total, $page * $perPage),
+            'previousUrl' => $page > 1 ? $makeUrl($page - 1) : null,
+            'nextUrl' => $page < $totalPages ? $makeUrl($page + 1) : null,
+            'pages' => $pages,
+        ];
     }
 
     private function findPostInCategory(array $categoryContext, string $identifier): ?array

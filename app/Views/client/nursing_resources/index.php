@@ -1,6 +1,10 @@
 <?php
-    $posts = $posts ?? [];
     $categoryGroups = $categoryGroups ?? [];
+    $selectedPosts = $selectedPosts ?? [];
+    $selectedGroup = $selectedGroup ?? null;
+    $selectedTermId = (int) ($selectedTermId ?? 0);
+    $pagination = $pagination ?? ['total' => 0, 'from' => 0, 'to' => 0, 'totalPages' => 1, 'pages' => []];
+    $displayedResourceTotal = (int) ($displayedResourceTotal ?? 0);
 ?>
 
 <div class="nursing-resource-page">
@@ -11,10 +15,10 @@
         }
 
         .resource-header {
+            align-items: end;
             display: grid;
             gap: 18px;
             grid-template-columns: minmax(0, 1fr) auto;
-            align-items: end;
         }
 
         .resource-kicker {
@@ -34,7 +38,8 @@
             max-width: 780px;
         }
 
-        .resource-count {
+        .resource-count,
+        .resource-section-count {
             align-items: center;
             background: rgba(245, 158, 11, .14);
             border: 1px solid rgba(245, 158, 11, .28);
@@ -159,21 +164,11 @@
             padding: 18px;
         }
 
-        .resource-section {
-            scroll-margin-top: 24px;
-        }
-
-        .resource-section + .resource-section {
-            border-top: 1px solid rgba(8, 126, 163, .1);
-            padding-top: 18px;
-        }
-
         .resource-section-head {
             align-items: start;
             display: flex;
             gap: 12px;
             justify-content: space-between;
-            margin-bottom: 14px;
         }
 
         .resource-section-label {
@@ -188,26 +183,11 @@
 
         .resource-section-title {
             color: #142033;
-            font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+            font-size: clamp(1.2rem, 1.9vw, 1.65rem);
             font-weight: 950;
             line-height: 1.2;
             margin: 0;
             overflow-wrap: anywhere;
-        }
-
-        .resource-section-count {
-            align-items: center;
-            background: #fff7ed;
-            border: 1px solid rgba(245, 158, 11, .24);
-            border-radius: 999px;
-            color: #b45309;
-            display: inline-flex;
-            flex: 0 0 auto;
-            font-size: 12px;
-            font-weight: 950;
-            min-height: 34px;
-            padding: 0 12px;
-            white-space: nowrap;
         }
 
         .resource-grid {
@@ -220,7 +200,7 @@
             display: grid;
             gap: 18px;
             grid-template-rows: 1fr auto;
-            min-height: 220px;
+            min-height: 200px;
             padding: 18px;
             position: relative;
             transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
@@ -241,16 +221,6 @@
             border-color: rgba(245, 158, 11, .38);
             box-shadow: 0 22px 44px rgba(15, 23, 42, .1);
             transform: translateY(-2px);
-        }
-
-        .resource-date {
-            color: #087ea3;
-            display: inline-flex;
-            font-size: 12px;
-            font-weight: 900;
-            letter-spacing: .05em;
-            margin-bottom: 10px;
-            text-transform: uppercase;
         }
 
         .resource-card h3 {
@@ -282,6 +252,55 @@
             padding: 0 16px;
             text-decoration: none;
             width: fit-content;
+        }
+
+        .resource-pagination {
+            align-items: center;
+            border-top: 1px solid rgba(8, 126, 163, .1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+            padding-top: 16px;
+        }
+
+        .resource-pagination-summary {
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .resource-page-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .resource-page-link {
+            align-items: center;
+            background: #fff;
+            border: 1px solid rgba(10, 166, 215, .18);
+            border-radius: 999px;
+            color: #087ea3 !important;
+            display: inline-flex;
+            font-size: 13px;
+            font-weight: 900;
+            justify-content: center;
+            min-height: 36px;
+            min-width: 36px;
+            padding: 0 12px;
+            text-decoration: none;
+        }
+
+        .resource-page-link.active {
+            background: #0aa6d7;
+            border-color: #0aa6d7;
+            color: #fff !important;
+        }
+
+        .resource-page-link.disabled {
+            color: #94a3b8 !important;
+            pointer-events: none;
         }
 
         .resource-empty {
@@ -327,7 +346,8 @@
 
         @media (max-width: 767.98px) {
             .resource-header,
-            .resource-section-head {
+            .resource-section-head,
+            .resource-pagination {
                 display: grid;
                 grid-template-columns: 1fr;
             }
@@ -346,7 +366,7 @@
         </div>
         <div class="resource-count">
             <i class="fas fa-file-lines"></i>
-            <?= esc((string) count($posts)) ?> resources
+            <?= esc((string) $displayedResourceTotal) ?> resources
         </div>
     </section>
 
@@ -355,66 +375,13 @@
     <?php endif; ?>
 
     <?php
-    $renderResourceCards = static function (array $items): void {
-        if (empty($items)) {
-            return;
-        }
-        ?>
-        <div class="resource-grid">
-            <?php foreach ($items as $post): ?>
-                <article class="resource-card">
-                    <div>
-                        <?php if (!empty($post['post_date'])): ?>
-                            <span class="resource-date"><?= esc(date('M j, Y', strtotime($post['post_date']))) ?></span>
-                        <?php endif; ?>
-                        <h3><?= esc($post['post_title']) ?></h3>
-                        <?php if (!empty($post['excerpt'])): ?>
-                            <p><?= esc($post['excerpt']) ?></p>
-                        <?php endif; ?>
-                    </div>
-                    <a class="resource-action" href="<?= esc($post['url']) ?>">
-                        Read Resource
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                </article>
-            <?php endforeach; ?>
-        </div>
-        <?php
-    };
-
-    $renderResourceSection = static function (array $group, int $level = 0) use (&$renderResourceSection, $renderResourceCards): void {
-        $termId = (int) ($group['term_id'] ?? 0);
-        $sectionId = 'resource-section-' . ($termId ?: md5((string) ($group['name'] ?? 'resources')));
-        ?>
-        <section class="resource-section" id="<?= esc($sectionId) ?>">
-            <header class="resource-section-head">
-                <div>
-                    <span class="resource-section-label"><?= $level > 0 ? 'Nested subcategory' : 'Subcategory' ?></span>
-                    <h2 class="resource-section-title"><?= esc($group['name'] ?? 'Resources') ?></h2>
-                </div>
-                <span class="resource-section-count"><?= esc((string) ($group['total'] ?? count($group['posts'] ?? []))) ?> resources</span>
-            </header>
-
-            <?php $renderResourceCards($group['posts'] ?? []); ?>
-
-            <?php if (!empty($group['children'])): ?>
-                <?php foreach ($group['children'] as $childGroup): ?>
-                    <?php $renderResourceSection($childGroup, $level + 1); ?>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </section>
-        <?php
-    };
-
-    $firstRailItem = true;
-    $renderResourceRail = static function (array $groups, int $level = 0) use (&$renderResourceRail, &$firstRailItem): void {
+    $renderResourceRail = static function (array $groups, int $level = 0) use (&$renderResourceRail, $selectedTermId, $resource): void {
         foreach ($groups as $group) {
             $termId = (int) ($group['term_id'] ?? 0);
-            $sectionId = 'resource-section-' . ($termId ?: md5((string) ($group['name'] ?? 'resources')));
-            $isActive = $firstRailItem;
-            $firstRailItem = false;
+            $isActive = $termId === $selectedTermId;
+            $href = base_url('client/' . $resource['path']) . '?' . http_build_query(['category' => $termId]);
             ?>
-            <a class="resource-rail-link <?= $level > 0 ? 'is-child' : '' ?> <?= $isActive ? 'active' : '' ?>" href="#<?= esc($sectionId) ?>" style="<?= $level > 1 ? 'margin-left:' . min($level, 3) * 18 . 'px;' : '' ?>">
+            <a class="resource-rail-link <?= $level > 0 ? 'is-child' : '' ?> <?= $isActive ? 'active' : '' ?>" href="<?= esc($href) ?>" style="<?= $level > 1 ? 'margin-left:' . min($level, 3) * 18 . 'px;' : '' ?>">
                 <i class="<?= $level > 0 ? 'fas fa-angle-right' : 'fas fa-folder' ?>"></i>
                 <span><?= esc($group['name'] ?? 'Resources') ?></span>
                 <small><?= esc((string) ($group['total'] ?? 0)) ?></small>
@@ -432,7 +399,7 @@
             <aside class="resource-rail">
                 <div class="resource-rail-head">
                     <strong>Subcategories</strong>
-                    <span>Jump to a resource group</span>
+                    <span>Select a group to view posts</span>
                 </div>
                 <nav class="resource-rail-list" aria-label="<?= esc($resource['title']) ?> subcategories">
                     <?php $renderResourceRail($categoryGroups); ?>
@@ -440,19 +407,61 @@
             </aside>
 
             <main class="resource-workspace">
-                <?php foreach ($categoryGroups as $group): ?>
-                    <?php $renderResourceSection($group); ?>
-                <?php endforeach; ?>
+                <header class="resource-section-head">
+                    <div>
+                        <span class="resource-section-label">Selected subcategory</span>
+                        <h2 class="resource-section-title"><?= esc($selectedGroup['name'] ?? 'Resources') ?></h2>
+                    </div>
+                    <span class="resource-section-count"><?= esc((string) ($pagination['total'] ?? 0)) ?> resources</span>
+                </header>
+
+                <?php if (!empty($selectedPosts)): ?>
+                    <div class="resource-grid">
+                        <?php foreach ($selectedPosts as $post): ?>
+                            <article class="resource-card">
+                                <div>
+                                    <h3><?= esc($post['post_title']) ?></h3>
+                                    <?php if (!empty($post['excerpt'])): ?>
+                                        <p><?= esc($post['excerpt']) ?></p>
+                                    <?php endif; ?>
+                                </div>
+                                <a class="resource-action" href="<?= esc($post['url']) ?>">
+                                    Read Resource
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <div class="resource-empty">
+                        <h2>No resources found.</h2>
+                        <p>This subcategory does not have published resources yet.</p>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (($pagination['totalPages'] ?? 1) > 1): ?>
+                    <nav class="resource-pagination" aria-label="Resource pagination">
+                        <div class="resource-pagination-summary">
+                            Showing <?= esc((string) ($pagination['from'] ?? 0)) ?>-<?= esc((string) ($pagination['to'] ?? 0)) ?>
+                            of <?= esc((string) ($pagination['total'] ?? 0)) ?>
+                        </div>
+                        <div class="resource-page-links">
+                            <a class="resource-page-link <?= empty($pagination['previousUrl']) ? 'disabled' : '' ?>" href="<?= esc($pagination['previousUrl'] ?? '#') ?>">Prev</a>
+                            <?php foreach (($pagination['pages'] ?? []) as $page): ?>
+                                <a class="resource-page-link <?= !empty($page['active']) ? 'active' : '' ?>" href="<?= esc($page['url']) ?>">
+                                    <?= esc((string) $page['number']) ?>
+                                </a>
+                            <?php endforeach; ?>
+                            <a class="resource-page-link <?= empty($pagination['nextUrl']) ? 'disabled' : '' ?>" href="<?= esc($pagination['nextUrl'] ?? '#') ?>">Next</a>
+                        </div>
+                    </nav>
+                <?php endif; ?>
             </main>
         </div>
-    <?php elseif (!empty($posts)): ?>
-        <main class="resource-workspace">
-            <?php $renderResourceCards($posts); ?>
-        </main>
     <?php elseif (empty($loadError)): ?>
         <div class="resource-empty">
-            <h2>No resources found.</h2>
-            <p>Published WordPress posts from this category will appear here.</p>
+            <h2>No subcategories found.</h2>
+            <p>Published WordPress posts assigned to subcategories will appear here.</p>
         </div>
     <?php endif; ?>
 </div>
