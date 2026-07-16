@@ -328,11 +328,11 @@ class Auth extends BaseController
             return redirect()->to(base_url('client/subscription') . '?product=' . rawurlencode($productIntent));
         }
 
-        if ($oauthContext === 'register') {
+        if ($oauthContext === 'register' && empty($this->activeProductIdsForUser((int) $user['id']))) {
             return redirect()->to(base_url('client/subscription'));
         }
 
-        return redirect()->to('/client');
+        return redirect()->to($this->learnerLandingUrl((int) $user['id']));
     }
 
     public function showForgotPassword()
@@ -532,6 +532,13 @@ class Auth extends BaseController
         if ($requiredRole === 'instructor') {
             return redirect()->to('/instructor');
         }
-        return redirect()->to('/client');
+        return redirect()->to($this->learnerLandingUrl((int) $user['id']));
+    }
+
+    private function learnerLandingUrl(int $userId): string
+    {
+        return !empty($this->activeProductIdsForUser($userId))
+            ? '/client/tests'
+            : '/client/subscription';
     }
 }

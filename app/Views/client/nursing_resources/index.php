@@ -100,8 +100,6 @@
         .resource-rail-list {
             display: grid;
             gap: 6px;
-            max-height: calc(100vh - 220px);
-            overflow: auto;
             padding: 10px;
         }
 
@@ -120,7 +118,7 @@
         }
 
         .resource-rail-link.is-child {
-            margin-left: 18px;
+            margin-left: 12px;
         }
 
         .resource-rail-link i:first-child {
@@ -140,10 +138,9 @@
             overflow-wrap: anywhere;
         }
 
-        .resource-rail-link small {
+        .resource-rail-link i:last-child {
             color: #94a3b8;
             font-size: 12px;
-            font-weight: 900;
         }
 
         .resource-rail-link:hover,
@@ -329,16 +326,6 @@
                 position: static;
             }
 
-            .resource-rail-list {
-                display: flex;
-                max-height: none;
-                overflow-x: auto;
-            }
-
-            .resource-rail-link {
-                min-width: 240px;
-            }
-
             .resource-rail-link.is-child {
                 margin-left: 0;
             }
@@ -381,10 +368,10 @@
             $isActive = $termId === $selectedTermId;
             $href = base_url('client/' . $resource['path']) . '?' . http_build_query(['category' => $termId]);
             ?>
-            <a class="resource-rail-link <?= $level > 0 ? 'is-child' : '' ?> <?= $isActive ? 'active' : '' ?>" href="<?= esc($href) ?>" style="<?= $level > 1 ? 'margin-left:' . min($level, 3) * 18 . 'px;' : '' ?>">
-                <i class="<?= $level > 0 ? 'fas fa-angle-right' : 'fas fa-folder' ?>"></i>
+            <a class="resource-rail-link <?= $level > 0 ? 'is-child' : '' ?> <?= $isActive ? 'active' : '' ?>" href="<?= esc($href) ?>" style="<?= $level > 1 ? 'margin-left:' . min($level, 3) * 14 . 'px;' : '' ?>">
+                <i class="far fa-folder"></i>
                 <span><?= esc($group['name'] ?? 'Resources') ?></span>
-                <small><?= esc((string) ($group['total'] ?? 0)) ?></small>
+                <i class="fas fa-chevron-right"></i>
             </a>
             <?php
             if (!empty($group['children'])) {
@@ -398,8 +385,8 @@
         <div class="resource-layout">
             <aside class="resource-rail">
                 <div class="resource-rail-head">
-                    <strong>Subcategories</strong>
-                    <span>Select a group to view posts</span>
+                    <strong><?= esc($resource['title']) ?></strong>
+                    <span>Browse by subcategory</span>
                 </div>
                 <nav class="resource-rail-list" aria-label="<?= esc($resource['title']) ?> subcategories">
                     <?php $renderResourceRail($categoryGroups); ?>
