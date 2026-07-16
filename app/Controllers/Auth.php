@@ -205,6 +205,20 @@ class Auth extends BaseController
         $state = bin2hex(random_bytes(16));
         session()->set('oauth_state', $state);
 
+        $productIntent = $this->productIntentFromRequest();
+        if ($productIntent !== '') {
+            session()->set('oauth_product_intent', $productIntent);
+        } else {
+            session()->remove('oauth_product_intent');
+        }
+
+        $context = strtolower(trim((string) $this->request->getGet('context')));
+        if ($context === 'register') {
+            session()->set('oauth_context', 'register');
+        } else {
+            session()->remove('oauth_context');
+        }
+
         $params = http_build_query([
             'client_id' => $clientId,
             'redirect_uri' => $redirectUri,
@@ -305,6 +319,18 @@ class Auth extends BaseController
             'user_email' => $user['email'],
             'username' => $user['first_name'] ?: 'Student',
         ]);
+
+        $productIntent = (string) (session()->get('oauth_product_intent') ?? '');
+        $oauthContext = (string) (session()->get('oauth_context') ?? '');
+        session()->remove(['oauth_state', 'oauth_product_intent', 'oauth_context']);
+
+        if ($productIntent !== '') {
+            return redirect()->to(base_url('client/subscription') . '?product=' . rawurlencode($productIntent));
+        }
+
+        if ($oauthContext === 'register') {
+            return redirect()->to(base_url('client/subscription'));
+        }
 
         return redirect()->to('/client');
     }

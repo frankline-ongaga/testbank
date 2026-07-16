@@ -39,13 +39,6 @@
             overflow-wrap: anywhere;
         }
 
-        .reader-meta {
-            color: #64748b;
-            font-size: 13px;
-            font-weight: 800;
-            margin-top: 10px;
-        }
-
         .reader-back {
             align-items: center;
             border: 1px solid rgba(10, 166, 215, .24);
@@ -110,9 +103,6 @@
         <div>
             <span class="reader-kicker"><?= esc($resource['title']) ?></span>
             <h1 class="reader-title"><?= esc($post['post_title']) ?></h1>
-            <?php if (!empty($post['post_date'])): ?>
-                <div class="reader-meta"><?= esc(date('M j, Y', strtotime($post['post_date']))) ?></div>
-            <?php endif; ?>
         </div>
         <a class="reader-back" href="<?= base_url('client/' . $resource['path']) ?>">
             <i class="fas fa-arrow-left"></i>

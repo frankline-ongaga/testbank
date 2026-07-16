@@ -85,10 +85,6 @@
         .register-card .shapes {
             display: none !important;
         }
-        .register-card .g_id_signin {
-            display: flex;
-            justify-content: center;
-        }
         .register-card .text-muted.my-3 {
             position: relative;
             margin: 18px 0 !important;
@@ -278,17 +274,19 @@
                                     </div>
                                 <?php endif; ?>
 
-                                <div id="g_id_onload"
-                                     data-client_id="<?= esc(getenv('GOOGLE_CLIENT_ID')) ?>"
-                                     data-context="signup"
-                                     data-ux_mode="popup"
-                                     data-callback="onGoogleCredential"
-                                     data-auto_prompt="false">
-                                </div>
-                                <div class="g_id_signin mb-3" data-type="standard" data-shape="pill" data-theme="outline" data-text="signup_with" data-size="large" data-logo_alignment="left"></div>
+                                <?php
+                                    $productIntent = (string) ($productIntent ?? old('product') ?? '');
+                                    $googleSignupUrl = base_url('oauth/google') . '?context=register';
+                                    if ($productIntent !== '') {
+                                        $googleSignupUrl .= '&product=' . rawurlencode($productIntent);
+                                    }
+                                ?>
+                                <a href="<?= esc($googleSignupUrl) ?>" class="link-btn h6 mb-24">
+                                    <img src="<?= base_url('assets/media/icons/brands/google.png') ?>" alt="">
+                                    Sign up with Google
+                                </a>
                                 <div class="text-center my-3 text-muted">or</div>
 
-                                <?php $productIntent = (string) ($productIntent ?? old('product') ?? ''); ?>
                                 <form method="post" action="<?= base_url('register') ?>" class="form-validator">
                                     <?= csrf_field() ?>
                                     <?php if ($productIntent !== ''): ?>
@@ -373,29 +371,6 @@
     <script src="<?= base_url('assets/vendor/nice-select/jquery.nice-select.min.js') ?>"></script>
     <script src="<?= base_url('assets/vendor/wow/wow.js') ?>"></script>
     <script src="<?= base_url('assets/js/app.js') ?>"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script>
-        const productIntent = <?= json_encode($productIntent) ?>;
-
-        function onGoogleCredential(response) {
-            const payload = { credential: response.credential };
-            if (productIntent) {
-                payload.product = productIntent;
-            }
-
-            $.post('<?= base_url('oauth/google') ?>', payload)
-                .done(function(res) {
-                    if (res && res.redirect) {
-                        window.location = res.redirect;
-                    } else {
-                        window.location = '<?= base_url('client/subscription') ?>';
-                    }
-                })
-                .fail(function() {
-                    alert('Google sign-in failed. Please try again.');
-                });
-        }
-    </script>
 </body>
 
 </html>
