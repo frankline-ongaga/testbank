@@ -48,19 +48,17 @@
         ],
     ];
 
-    if ($clientHasNclexAccess) {
-        $navSections[] = [
-            'title' => 'Study',
-            'items' => [
-                ['path' => 'client/study', 'label' => 'Study Questions', 'icon' => 'grid', 'active' => ['client/study', 'client/study/*']],
-                ['path' => 'client/study-bank-pdfs', 'label' => 'Study Bank Docs', 'icon' => 'book', 'active' => ['client/study-bank-pdfs', 'client/study-bank-pdfs/*']],
-                ['path' => 'client/cheat-sheets', 'label' => 'Cheat Sheets', 'icon' => 'audio', 'active' => ['client/cheat-sheets', 'client/cheat-sheets/*']],
-                ['path' => 'client/mock-questions', 'label' => 'Mock Tests', 'icon' => 'pen', 'active' => ['client/mock-questions', 'client/mock-questions/*']],
-                ['path' => 'client/nursing-care-plans', 'label' => 'Nursing Care Plans', 'icon' => 'folder', 'active' => ['client/nursing-care-plans', 'client/nursing-care-plans/*']],
-                ['path' => 'client/nursing-nclex-reviews', 'label' => 'Nursing NCLEX Reviews', 'icon' => 'book', 'active' => ['client/nursing-nclex-reviews', 'client/nursing-nclex-reviews/*']],
-            ],
-        ];
-    }
+    $navSections[] = [
+        'title' => 'Study',
+        'items' => [
+            ['path' => 'client/study', 'label' => 'Study Questions', 'icon' => 'grid', 'active' => ['client/study', 'client/study/*']],
+            ['path' => 'client/study-bank-pdfs', 'label' => 'Study Bank Docs', 'icon' => 'book', 'active' => ['client/study-bank-pdfs', 'client/study-bank-pdfs/*']],
+            ['path' => 'client/cheat-sheets', 'label' => 'Cheat Sheets', 'icon' => 'audio', 'active' => ['client/cheat-sheets', 'client/cheat-sheets/*']],
+            ['path' => 'client/mock-questions', 'label' => 'Mock Tests', 'icon' => 'pen', 'active' => ['client/mock-questions', 'client/mock-questions/*']],
+            ['path' => 'client/nursing-care-plans', 'label' => 'Nursing Care Plans', 'icon' => 'folder', 'active' => ['client/nursing-care-plans', 'client/nursing-care-plans/*']],
+            ['path' => 'client/nursing-nclex-reviews', 'label' => 'Nursing NCLEX Reviews', 'icon' => 'book', 'active' => ['client/nursing-nclex-reviews', 'client/nursing-nclex-reviews/*']],
+        ],
+    ];
 
     $navSections[] = [
         'title' => 'Account',

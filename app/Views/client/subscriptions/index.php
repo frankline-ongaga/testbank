@@ -101,6 +101,11 @@
             overflow: hidden;
         }
 
+        .access-product.is-targeted {
+            border-color: #f59e0b;
+            box-shadow: 0 18px 38px rgba(245, 158, 11, .16);
+        }
+
         .access-product-head {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto;
@@ -403,7 +408,7 @@
                         $active = $activeByProduct[$productId] ?? null;
                         $shortName = trim((string) ($product['short_name'] ?: $product['name']));
                     ?>
-                    <article class="access-product" data-product-card="<?= esc($slug) ?>">
+                    <article class="access-product" id="product-<?= esc($slug) ?>" data-product-card="<?= esc($slug) ?>">
                         <div class="access-product-head">
                             <div>
                                 <h2 class="access-product-name"><?= esc($product['name']) ?></h2>
@@ -557,6 +562,26 @@
                 }).render('#paypal-checkout');
             }
 
+            function focusRequestedProduct() {
+                if (!selectedProductSlug || !selectedProduct) {
+                    return;
+                }
+
+                const productCard = document.querySelector('[data-product-card="' + selectedProduct.slug + '"]');
+                if (!productCard) {
+                    return;
+                }
+
+                document.querySelectorAll('[data-product-card]').forEach(function(card) {
+                    card.classList.remove('is-targeted');
+                });
+                productCard.classList.add('is-targeted');
+
+                window.setTimeout(function() {
+                    productCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 120);
+            }
+
             document.querySelectorAll('[data-select-plan]').forEach(function(button) {
                 button.addEventListener('click', function() {
                     const product = productPlans.find(function(item) {
@@ -574,6 +599,7 @@
             });
 
             renderCheckout();
+            focusRequestedProduct();
         </script>
     <?php elseif (empty($paypalClientId)): ?>
         <div class="alert alert-warning mt-3">PayPal is not configured yet. Add a PayPal client ID to enable checkout.</div>
