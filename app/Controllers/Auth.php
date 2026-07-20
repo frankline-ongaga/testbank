@@ -148,26 +148,10 @@ class Auth extends BaseController
             'username' => $this->request->getPost('first_name'),
         ]);
 
-        // Send welcome email (non-blocking)
-        try {
-            $firstName = $this->request->getPost('first_name');
-            $emailAddr = $this->request->getPost('email');
-
-            $subject = 'Welcome to NCLEX Prep Course';
-            $loginUrl = base_url('login/student');
-            $message = "Hi {$firstName},<br><br>"
-                . "Thank you for creating your NCLEX Prep Course account. "
-                . "You can now choose an access plan and start practicing with our NCLEX tests and study materials.<br><br>"
-                . "Login anytime at: <a href=\"{$loginUrl}\">{$loginUrl}</a><br><br>"
-                . "If you did not create this account, please ignore this email.<br><br>"
-                . "WhatsApp: +1 (206) 350-4565<br>"
-                . "Email: support@nclexprepcourse.org<br><br>"
-                . "NCLEX Prep Course Team";
-
-            Mailer::send($emailAddr, $subject, $message);
-        } catch (\Throwable $e) {
-            log_message('error', 'Failed to send signup email: {message}', ['message' => $e->getMessage()]);
-        }
+        $this->sendWelcomeEmail(
+            (string) $this->request->getPost('email'),
+            (string) $this->request->getPost('first_name')
+        );
 
         $productIntent = $this->productIntentFromRequest();
         $redirectUrl = '/client/subscription';
@@ -304,6 +288,7 @@ class Auth extends BaseController
                 'status' => 'active',
             ], true);
             $this->userModel->assignRole($userId, 'student');
+            $this->sendWelcomeEmail((string) $email, (string) $name);
             $user = $this->userModel->find($userId);
         } else {
             // Ensure google_id is stored
@@ -446,6 +431,7 @@ class Auth extends BaseController
                 'status' => 'active',
             ], true);
             $this->userModel->assignRole($userId, 'student');
+            $this->sendWelcomeEmail((string) $email, (string) ($firstName ?: 'Student'));
             $user = $this->userModel->find($userId);
         } else {
             if (empty($user['google_id'])) {
@@ -540,5 +526,31 @@ class Auth extends BaseController
         return !empty($this->activeProductIdsForUser($userId))
             ? '/client/tests'
             : '/client/subscription';
+    }
+
+    private function sendWelcomeEmail(string $email, string $firstName = 'Student'): void
+    {
+        $email = trim($email);
+        if ($email === '') {
+            return;
+        }
+
+        try {
+            $name = trim($firstName) !== '' ? trim($firstName) : 'Student';
+            $subject = 'Welcome to NCLEX Prep Course';
+            $loginUrl = base_url('login/student');
+            $message = "Hi {$name},<br><br>"
+                . "Thank you for creating your NCLEX Prep Course account. "
+                . "You can now choose an access plan and start practicing with our NCLEX tests and study materials.<br><br>"
+                . "Login anytime at: <a href=\"{$loginUrl}\">{$loginUrl}</a><br><br>"
+                . "If you did not create this account, please ignore this email.<br><br>"
+                . "WhatsApp: +1 (206) 350-4565<br>"
+                . "Email: support@nclexprepcourse.org<br><br>"
+                . "NCLEX Prep Course Team";
+
+            Mailer::send($email, $subject, $message);
+        } catch (\Throwable $e) {
+            log_message('error', 'Failed to send signup welcome email: {message}', ['message' => $e->getMessage()]);
+        }
     }
 }

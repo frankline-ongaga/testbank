@@ -30,15 +30,6 @@
             text-transform: uppercase;
         }
 
-        .reader-title {
-            color: #142033;
-            font-size: clamp(1.45rem, 2.3vw, 2.15rem);
-            font-weight: 950;
-            line-height: 1.18;
-            margin: 0;
-            overflow-wrap: anywhere;
-        }
-
         .reader-back {
             align-items: center;
             border: 1px solid rgba(10, 166, 215, .24);
@@ -102,7 +93,6 @@
     <section class="reader-header">
         <div>
             <span class="reader-kicker"><?= esc($resource['title']) ?></span>
-            <h1 class="reader-title"><?= esc($post['post_title']) ?></h1>
         </div>
         <a class="reader-back" href="<?= base_url('client/' . $resource['path']) ?>">
             <i class="fas fa-arrow-left"></i>

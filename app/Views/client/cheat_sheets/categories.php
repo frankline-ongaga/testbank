@@ -29,14 +29,6 @@
             text-transform: uppercase;
         }
 
-        .cheat-title {
-            color: #142033;
-            font-size: clamp(1.55rem, 2.2vw, 2.15rem);
-            font-weight: 900;
-            line-height: 1.16;
-            margin: 0;
-        }
-
         .cheat-copy {
             color: #516074;
             line-height: 1.65;
@@ -292,7 +284,6 @@
             display: none;
         }
 
-        .theme-dark .cheat-title,
         .theme-dark .cheat-access-card strong,
         .theme-dark .cheat-stat-value,
         .theme-dark .cheat-card-title,
@@ -349,7 +340,6 @@
     <div class="cheat-library-header">
         <div>
             <span class="cheat-kicker">Quick Reference Library</span>
-            <h1 class="cheat-title">Cheat Sheets</h1>
             <p class="cheat-copy">Browse high-yield reference sheets by category and open every sheet for the topic you want to review.</p>
         </div>
         <div class="cheat-access-card">
