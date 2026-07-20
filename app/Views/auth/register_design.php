@@ -139,6 +139,15 @@
             text-decoration: underline;
             text-underline-offset: 2px;
         }
+        .google-signup-link.is-disabled {
+            opacity: .55;
+            pointer-events: none;
+        }
+        .google-consent-note {
+            color: #64748b;
+            font-size: 13px;
+            margin: -12px 0 14px;
+        }
         .register-card .educate-btn {
             min-height: 54px;
             border-radius: 8px;
@@ -273,6 +282,9 @@
                                         </ul>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (session()->getFlashdata('error')): ?>
+                                    <div class="alert alert-danger"><?= esc(session()->getFlashdata('error')) ?></div>
+                                <?php endif; ?>
 
                                 <?php
                                     $productIntent = (string) ($productIntent ?? old('product') ?? '');
@@ -281,10 +293,21 @@
                                         $googleSignupUrl .= '&product=' . rawurlencode($productIntent);
                                     }
                                 ?>
-                                <a href="<?= esc($googleSignupUrl) ?>" class="link-btn h6 mb-24">
+                                <label class="policy-consent mb-24">
+                                    <input type="checkbox" id="google_terms_agreement" value="1">
+                                    <span>
+                                        I agree to the
+                                        <a href="<?= base_url('terms') ?>" target="_blank" rel="noopener">Terms and Conditions</a>
+                                        and
+                                        <a href="<?= base_url('refund_policy') ?>" target="_blank" rel="noopener">Refund Policy</a>
+                                        before signing up with Google.
+                                    </span>
+                                </label>
+                                <a href="#" data-google-base="<?= esc($googleSignupUrl) ?>" class="link-btn h6 mb-24 google-signup-link is-disabled" aria-disabled="true">
                                     <img src="<?= base_url('assets/media/icons/brands/google.png') ?>" alt="">
                                     Sign up with Google
                                 </a>
+                                <div class="google-consent-note">Tick the consent box to continue with Google signup.</div>
                                 <div class="text-center my-3 text-muted">or</div>
 
                                 <form method="post" action="<?= base_url('register') ?>" class="form-validator">
@@ -371,6 +394,31 @@
     <script src="<?= base_url('assets/vendor/nice-select/jquery.nice-select.min.js') ?>"></script>
     <script src="<?= base_url('assets/vendor/wow/wow.js') ?>"></script>
     <script src="<?= base_url('assets/js/app.js') ?>"></script>
+    <script>
+        (function () {
+            const consent = document.getElementById('google_terms_agreement');
+            const googleLink = document.querySelector('.google-signup-link');
+            if (!consent || !googleLink) {
+                return;
+            }
+
+            function syncGoogleConsent() {
+                const enabled = consent.checked;
+                googleLink.classList.toggle('is-disabled', !enabled);
+                googleLink.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+                googleLink.href = enabled ? googleLink.dataset.googleBase + '&terms=1' : '#';
+            }
+
+            consent.addEventListener('change', syncGoogleConsent);
+            googleLink.addEventListener('click', function (event) {
+                if (!consent.checked) {
+                    event.preventDefault();
+                    consent.focus();
+                }
+            });
+            syncGoogleConsent();
+        })();
+    </script>
 </body>
 
 </html>

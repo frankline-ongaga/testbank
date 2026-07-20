@@ -136,6 +136,9 @@ class Auth extends BaseController
             'email' => $this->request->getPost('email'),
             'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'status' => 'active',
+            'terms_accepted_at' => date('Y-m-d H:i:s'),
+            'terms_version' => $this->termsVersion(),
+            'terms_source' => 'email_signup',
         ], true);
 
         $this->userModel->assignRole($userId, 'student');
@@ -198,9 +201,15 @@ class Auth extends BaseController
 
         $context = strtolower(trim((string) $this->request->getGet('context')));
         if ($context === 'register') {
+            if ((string) $this->request->getGet('terms') !== '1') {
+                return redirect()->to(base_url('register'))
+                    ->with('error', 'Please agree to the Terms and Conditions and Refund Policy before signing up with Google.');
+            }
             session()->set('oauth_context', 'register');
+            session()->set('oauth_terms_accepted', true);
         } else {
             session()->remove('oauth_context');
+            session()->remove('oauth_terms_accepted');
         }
 
         $params = http_build_query([
@@ -274,6 +283,8 @@ class Auth extends BaseController
         $email = $claims['email'] ?? null;
         $name = $claims['given_name'] ?? ($claims['name'] ?? 'Student');
         $googleId = $claims['sub'] ?? null;
+        $oauthContext = (string) (session()->get('oauth_context') ?? '');
+        $oauthTermsAccepted = (bool) session()->get('oauth_terms_accepted');
         if (!$email || !$googleId) {
             return redirect()->to('/login/student')->with('error', 'Incomplete Google profile.');
         }
@@ -281,11 +292,19 @@ class Auth extends BaseController
         // Find or create user
         $user = $this->userModel->where('email', $email)->first();
         if (!$user) {
+            if (!$oauthTermsAccepted) {
+                session()->remove(['oauth_state', 'oauth_product_intent', 'oauth_context', 'oauth_terms_accepted']);
+                return redirect()->to(base_url('register'))
+                    ->with('error', 'Please agree to the Terms and Conditions and Refund Policy before signing up with Google.');
+            }
             $userId = $this->userModel->insert([
                 'first_name' => $name,
                 'email' => $email,
                 'google_id' => $googleId,
                 'status' => 'active',
+                'terms_accepted_at' => date('Y-m-d H:i:s'),
+                'terms_version' => $this->termsVersion(),
+                'terms_source' => $oauthContext === 'register' ? 'google_signup' : 'google_login',
             ], true);
             $this->userModel->assignRole($userId, 'student');
             $this->sendWelcomeEmail((string) $email, (string) $name);
@@ -306,8 +325,7 @@ class Auth extends BaseController
         ]);
 
         $productIntent = (string) (session()->get('oauth_product_intent') ?? '');
-        $oauthContext = (string) (session()->get('oauth_context') ?? '');
-        session()->remove(['oauth_state', 'oauth_product_intent', 'oauth_context']);
+        session()->remove(['oauth_state', 'oauth_product_intent', 'oauth_context', 'oauth_terms_accepted']);
 
         if ($productIntent !== '') {
             return redirect()->to(base_url('client/subscription') . '?product=' . rawurlencode($productIntent));
@@ -424,11 +442,17 @@ class Auth extends BaseController
         // Find or create user
         $user = $this->userModel->findByEmail($email);
         if (!$user) {
+            if ((string) $this->request->getPost('terms') !== '1') {
+                return $this->response->setStatusCode(403)->setJSON(['error' => 'Terms consent is required']);
+            }
             $userId = $this->userModel->insert([
                 'email' => $email,
                 'first_name' => $firstName,
                 'google_id' => $googleId,
                 'status' => 'active',
+                'terms_accepted_at' => date('Y-m-d H:i:s'),
+                'terms_version' => $this->termsVersion(),
+                'terms_source' => 'google_signup',
             ], true);
             $this->userModel->assignRole($userId, 'student');
             $this->sendWelcomeEmail((string) $email, (string) ($firstName ?: 'Student'));
@@ -526,6 +550,11 @@ class Auth extends BaseController
         return !empty($this->activeProductIdsForUser($userId))
             ? '/client/tests'
             : '/client/subscription';
+    }
+
+    private function termsVersion(): string
+    {
+        return (string) env('TERMS_VERSION', '2026-07-20');
     }
 
     private function sendWelcomeEmail(string $email, string $firstName = 'Student'): void

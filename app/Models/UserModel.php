@@ -21,6 +21,9 @@ class UserModel extends Model
         'password_hash',
         'google_id',
         'status',
+        'terms_accepted_at',
+        'terms_version',
+        'terms_source',
         'reset_token',
         'reset_expires_at',
     ];
@@ -56,7 +59,6 @@ class UserModel extends Model
         return array_map(static fn($r) => $r['name'], $rows);
     }
 }
-
 
 
 
