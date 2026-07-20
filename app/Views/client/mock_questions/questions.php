@@ -365,7 +365,21 @@
         .mock-feedback p {
             color: #475569;
             line-height: 1.65;
-            margin: 8px 0 0;
+            margin: 12px 0 0;
+        }
+
+        .mock-feedback p strong {
+            color: #142033;
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .mock-feedback p.mock-feedback-incorrect {
+            background: rgba(255, 255, 255, .52);
+            border-left: 4px solid #f59e0b;
+            border-radius: 10px;
+            padding: 10px 12px;
         }
 
         .mock-actions {
@@ -636,14 +650,91 @@
             }
 
             function explanationText(question) {
-                const parts = [];
-                if (question.rationale) {
-                    parts.push(question.rationale);
+                return feedbackSegments(question).map(function(segment) {
+                    return segment.label + ': ' + segment.text;
+                }).join('\n\n');
+            }
+
+            function feedbackSegments(question) {
+                const segments = [];
+                const parsedIncorrectLabels = new Set();
+                const markerPattern = /(Answer:|Rationale:|[A-Z]:\s*Why incorrect:)/g;
+                const rationale = String(question.rationale || '').trim();
+                const matches = [];
+                let match;
+
+                while ((match = markerPattern.exec(rationale)) !== null) {
+                    matches.push({ marker: match[0], index: match.index });
                 }
-                if (Array.isArray(question.choiceExplanations) && question.choiceExplanations.length) {
-                    parts.push(question.choiceExplanations.join('\n'));
+
+                if (matches.length) {
+                    matches.forEach(function(item, index) {
+                        const start = item.index + item.marker.length;
+                        const end = matches[index + 1] ? matches[index + 1].index : rationale.length;
+                        const text = rationale.slice(start, end).trim();
+                        if (!text) {
+                            return;
+                        }
+
+                        const marker = item.marker.replace(/\s+/g, ' ').trim();
+                        if (marker === 'Answer:') {
+                            return;
+                        }
+
+                        if (/^[A-Z]: Why incorrect:$/.test(marker)) {
+                            const label = marker.charAt(0);
+                            parsedIncorrectLabels.add(label);
+                            segments.push({
+                                label: label + ': Why incorrect',
+                                text: text,
+                                incorrect: true
+                            });
+                            return;
+                        }
+
+                        segments.push({
+                            label: 'Rationale',
+                            text: text,
+                            incorrect: false
+                        });
+                    });
+                } else if (rationale) {
+                    segments.push({
+                        label: 'Rationale',
+                        text: rationale,
+                        incorrect: false
+                    });
                 }
-                return parts.join('\n\n');
+
+                (question.choices || []).forEach(function(choice) {
+                    const label = String(choice.label || '');
+                    const explanation = String(choice.explanation || '').trim();
+                    if (!choice.isCorrect && explanation && !parsedIncorrectLabels.has(label)) {
+                        segments.push({
+                            label: label + ': Why incorrect',
+                            text: explanation,
+                            incorrect: true
+                        });
+                    }
+                });
+
+                return segments;
+            }
+
+            function appendFeedbackParagraph(label, text, isIncorrect) {
+                const paragraph = document.createElement('p');
+                if (isIncorrect) {
+                    paragraph.classList.add('mock-feedback-incorrect');
+                }
+
+                const heading = document.createElement('strong');
+                heading.textContent = label;
+                const copy = document.createElement('span');
+                copy.textContent = text;
+
+                paragraph.appendChild(heading);
+                paragraph.appendChild(copy);
+                feedback.appendChild(paragraph);
             }
 
             function renderNav() {
@@ -677,14 +768,27 @@
 
                 const title = document.createElement('strong');
                 title.textContent = isCorrect ? 'Correct answer' : 'Not quite yet';
-                const answer = document.createElement('small');
-                answer.textContent = 'Correct answer: ' + correctLabels(question).join(', ');
-                const body = document.createElement('p');
-                body.textContent = explanationText(question) || 'Review the correct answer before moving to the next question.';
 
                 feedback.appendChild(title);
-                feedback.appendChild(answer);
-                feedback.appendChild(body);
+                const correctChoices = (question.choices || []).filter(function(choice) {
+                    return choice.isCorrect;
+                });
+                const answerText = correctChoices.length
+                    ? correctChoices.map(function(choice) {
+                        return choice.label + '. ' + choice.content;
+                    }).join(' ')
+                    : correctLabels(question).join(', ');
+
+                appendFeedbackParagraph('Answer', answerText, false);
+
+                const segments = feedbackSegments(question);
+                if (segments.length) {
+                    segments.forEach(function(segment) {
+                        appendFeedbackParagraph(segment.label, segment.text, segment.incorrect);
+                    });
+                } else {
+                    appendFeedbackParagraph('Rationale', 'Review the correct answer before moving to the next question.', false);
+                }
             }
 
             function renderQuestion() {

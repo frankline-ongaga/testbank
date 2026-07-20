@@ -525,7 +525,7 @@ class Auth extends BaseController
 
         $roles = $this->userModel->getUserRoles($user['id']);
         if (!in_array($requiredRole, $roles)) {
-            return redirect()->back()->withInput()->with('error', 'You do not have access to this portal');
+            return redirect()->back()->withInput()->with('error', 'Please use the correct login page for your account.');
         }
 
         // Standard session data
