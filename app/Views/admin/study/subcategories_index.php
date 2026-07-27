@@ -260,10 +260,12 @@
                                 <i class="fas fa-pen"></i>
                                 Edit
                             </a>
-                            <a href="<?= base_url('admin/study/subcategory/' . (int) $sub['id'] . '/delete') ?>" class="study-admin-action study-admin-action-danger" onclick="return confirm('Delete this subcategory and its questions?');">
-                                <i class="fas fa-trash"></i>
-                                Delete
-                            </a>
+                            <form action="<?= base_url('admin/study/subcategory/' . (int) $sub['id'] . '/delete') ?>" method="post" class="d-inline" onsubmit="return confirm('Delete this subcategory only if it has no linked content?');">
+                                <button type="submit" class="study-admin-action study-admin-action-danger border-0">
+                                    <i class="fas fa-trash"></i>
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </article>

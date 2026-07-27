@@ -6,6 +6,9 @@ use App\Models\StudySubcategoryModel;
 use App\Models\StudyQuestionModel;
 use App\Models\StudyChoiceModel;
 use App\Models\StudyQuestionCategoryModel;
+use App\Models\StudyBankPdfModel;
+use App\Models\CheatSheetModel;
+use App\Models\MockQuestionModel;
 use CodeIgniter\Files\File;
 use CodeIgniter\HTTP\Response;
 
@@ -16,6 +19,9 @@ class StudyAdmin extends BaseController
     protected $questions;
     protected $choices;
     protected $questionCategories;
+    protected $studyBankPdfs;
+    protected $cheatSheets;
+    protected $mockQuestions;
 
     public function __construct()
     {
@@ -24,6 +30,9 @@ class StudyAdmin extends BaseController
         $this->questions = new StudyQuestionModel();
         $this->choices = new StudyChoiceModel();
         $this->questionCategories = new StudyQuestionCategoryModel();
+        $this->studyBankPdfs = new StudyBankPdfModel();
+        $this->cheatSheets = new CheatSheetModel();
+        $this->mockQuestions = new MockQuestionModel();
     }
 
     public function index()
@@ -117,16 +126,36 @@ class StudyAdmin extends BaseController
     public function deleteSubcategory($subcategoryId)
     {
         $subcategory = $this->subcategories->find((int)$subcategoryId);
-        if ($subcategory) {
-            // Optionally: also delete child questions and choices
-            $questionIds = array_column($this->questions->where('subcategory_id', (int)$subcategoryId)->findAll(), 'id');
-            if (!empty($questionIds)) {
-                $this->choices->whereIn('question_id', $questionIds)->delete();
-                $this->questions->whereIn('id', $questionIds)->delete();
-            }
-            $this->subcategories->delete((int)$subcategoryId);
+        if (!$subcategory) {
+            return redirect()->to(base_url('admin/study'));
         }
-        return redirect()->to(base_url('admin/study/'.$subcategory['category_id'].'/subcategories'));
+
+        $subcategoryId = (int)$subcategoryId;
+        $blockers = [
+            'study questions' => $this->questions->where('subcategory_id', $subcategoryId)->countAllResults(),
+            'question categories' => $this->questionCategories->where('subcategory_id', $subcategoryId)->countAllResults(),
+            'mock tests' => $this->mockQuestions->where('subcategory_id', $subcategoryId)->countAllResults(),
+            'study bank documents' => $this->studyBankPdfs->where('subcategory_id', $subcategoryId)->countAllResults(),
+            'cheat sheets' => $this->cheatSheets->where('subcategory_id', $subcategoryId)->countAllResults(),
+        ];
+
+        $activeBlockers = array_filter($blockers, static fn ($count) => (int)$count > 0);
+        if (!empty($activeBlockers)) {
+            $details = [];
+            foreach ($activeBlockers as $label => $count) {
+                $details[] = number_format((int)$count) . ' ' . $label;
+            }
+
+            return redirect()
+                ->to(base_url('admin/study/'.$subcategory['category_id'].'/subcategories'))
+                ->with('error', 'Subcategory not deleted because it still has linked content: ' . implode(', ', $details) . '. Move or delete those records first.');
+        }
+
+        $this->subcategories->delete($subcategoryId);
+
+        return redirect()
+            ->to(base_url('admin/study/'.$subcategory['category_id'].'/subcategories'))
+            ->with('message', 'Subcategory deleted successfully.');
     }
 
     // --- Custom Question Categories (per subcategory) ---

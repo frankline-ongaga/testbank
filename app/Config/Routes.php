@@ -152,7 +152,7 @@ $routes->group('admin', function($routes) {
     $routes->get('study/qcategories/(:num)/delete', 'StudyAdmin::deleteQuestionCategory/$1');
     $routes->get('study/subcategory/(:num)/edit', 'StudyAdmin::editSubcategory/$1');
     $routes->post('study/subcategory/(:num)/update', 'StudyAdmin::updateSubcategory/$1');
-    $routes->get('study/subcategory/(:num)/delete', 'StudyAdmin::deleteSubcategory/$1');
+    $routes->post('study/subcategory/(:num)/delete', 'StudyAdmin::deleteSubcategory/$1');
     
     // Study Bank PDFs Management
     $routes->get('study-bank-pdfs', 'StudyBankPdfs::adminIndex');
@@ -166,7 +166,7 @@ $routes->group('admin', function($routes) {
     $routes->post('study-bank-pdfs/subcategory/(:num)/upload', 'StudyBankPdfs::adminUpload/$1');
     $routes->get('study-bank-pdfs/pdf/(:num)/edit', 'StudyBankPdfs::adminEdit/$1');
     $routes->post('study-bank-pdfs/pdf/(:num)/update', 'StudyBankPdfs::adminUpdate/$1');
-    $routes->get('study-bank-pdfs/pdf/(:num)/delete', 'StudyBankPdfs::adminDelete/$1');
+    $routes->post('study-bank-pdfs/pdf/(:num)/delete', 'StudyBankPdfs::adminDelete/$1');
 
     // Cheat Sheets (images/PDFs)
     $routes->get('cheat-sheets', 'CheatSheets::adminIndex');
@@ -183,7 +183,7 @@ $routes->group('admin', function($routes) {
     $routes->get('cheat-sheets/doc/(:num)/download', 'CheatSheets::adminDownload/$1');
     $routes->get('cheat-sheets/doc/(:num)/edit', 'CheatSheets::adminEdit/$1');
     $routes->post('cheat-sheets/doc/(:num)/update', 'CheatSheets::adminUpdate/$1');
-    $routes->get('cheat-sheets/doc/(:num)/delete', 'CheatSheets::adminDelete/$1');
+    $routes->post('cheat-sheets/doc/(:num)/delete', 'CheatSheets::adminDelete/$1');
 });
 
 // Instructor Routes

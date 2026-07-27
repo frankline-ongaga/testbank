@@ -43,8 +43,11 @@
                         <td class="text-end">
                             <a href="<?= base_url('admin/study-bank-pdfs/pdf/'.$pdf['id'].'/edit') ?>" 
                                class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a>
-                            <a href="<?= base_url('admin/study-bank-pdfs/pdf/'.$pdf['id'].'/delete') ?>" 
-                               class="btn btn-sm btn-danger" onclick="return confirm('Delete this document?')" title="Delete"><i class="fas fa-trash"></i></a>
+                            <form action="<?= base_url('admin/study-bank-pdfs/pdf/'.$pdf['id'].'/delete') ?>" method="post" class="d-inline" onsubmit="return confirm('Delete this document record? The uploaded file will remain on the server.');">
+                                <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -62,6 +65,5 @@
         <?php endif; ?>
     </div>
 </div>
-
 
 

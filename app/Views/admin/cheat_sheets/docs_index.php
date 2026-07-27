@@ -35,7 +35,9 @@
                         <td class="text-end">
                             <a href="<?= base_url('admin/cheat-sheets/doc/' . (int)$doc['id'] . '/view') ?>" class="btn btn-outline-primary btn-sm">View</a>
                             <a href="<?= base_url('admin/cheat-sheets/doc/' . (int)$doc['id'] . '/edit') ?>" class="btn btn-outline-secondary btn-sm">Edit</a>
-                            <a href="<?= base_url('admin/cheat-sheets/doc/' . (int)$doc['id'] . '/delete') ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Delete this cheat sheet?');">Delete</a>
+                            <form action="<?= base_url('admin/cheat-sheets/doc/' . (int)$doc['id'] . '/delete') ?>" method="post" class="d-inline" onsubmit="return confirm('Delete this cheat sheet record? The uploaded file will remain on the server.');">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -53,4 +55,3 @@
         </div>
     </div>
 <?php endif; ?>
-

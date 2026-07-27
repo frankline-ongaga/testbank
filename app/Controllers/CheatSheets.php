@@ -264,15 +264,13 @@ class CheatSheets extends BaseController
         $doc = $this->cheatSheets->find((int)$id);
         if ($doc) {
             $categoryId = $this->categoryIdFromSubcategory((int)$doc['subcategory_id']);
-            if (!empty($doc['file_path']) && is_file($doc['file_path'])) {
-                @unlink($doc['file_path']);
-            }
+            // Keep the uploaded file on disk so accidental deletes can be recovered.
             $this->cheatSheets->delete((int)$id);
             $redirectUrl = $categoryId
                 ? base_url('admin/cheat-sheets/category/' . $categoryId . '/docs')
                 : base_url('admin/cheat-sheets');
             return redirect()->to($redirectUrl)
-                ->with('message', 'Cheat sheet deleted successfully.');
+                ->with('message', 'Cheat sheet record deleted. The uploaded file was left on the server for recovery.');
         }
         return redirect()->to(base_url('admin/cheat-sheets'));
     }

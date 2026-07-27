@@ -266,14 +266,10 @@ class StudyBankPdfs extends BaseController
     {
         $pdf = $this->pdfs->find((int)$pdfId);
         if ($pdf) {
-            // Delete file from filesystem
-            if (file_exists($pdf['file_path'])) {
-                unlink($pdf['file_path']);
-            }
-            // Delete from database
+            // Keep the uploaded file on disk so accidental deletes can be recovered.
             $this->pdfs->delete((int)$pdfId);
             return redirect()->to(base_url('admin/study-bank-pdfs/subcategory/' . $pdf['subcategory_id'] . '/pdfs'))
-                ->with('message', 'Document deleted successfully.');
+                ->with('message', 'Document record deleted. The uploaded file was left on the server for recovery.');
         }
         return redirect()->to(base_url('admin/study-bank-pdfs'));
     }
