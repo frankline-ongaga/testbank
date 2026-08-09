@@ -143,8 +143,53 @@ class Admin extends BaseController
 
     public function viewUsers()
     {
+        $db = \Config\Database::connect();
+        $now = date('Y-m-d H:i:s');
+        $users = $this->userModel->orderBy('created_at', 'DESC')->findAll();
+        $userIds = array_map(static fn ($user) => (int) $user['id'], $users);
+
+        $subscriptionsByUser = [];
+        if (!empty($userIds)) {
+            $subscriptionRows = $db->table('subscriptions s')
+                ->select('s.*, products.name as product_name, products.slug as product_slug, products.short_name as product_short_name')
+                ->join('products', 'products.id = s.product_id', 'left')
+                ->whereIn('s.user_id', $userIds)
+                ->orderBy('s.status', 'ASC')
+                ->orderBy('s.end_at', 'DESC')
+                ->get()
+                ->getResultArray();
+
+            foreach ($subscriptionRows as $subscription) {
+                $subscriptionsByUser[(int) $subscription['user_id']][] = $subscription;
+            }
+        }
+
+        $activePaidUsers = [];
+        $otherUsers = [];
+
+        foreach ($users as $user) {
+            $user['subscriptions'] = $subscriptionsByUser[(int) $user['id']] ?? [];
+            $user['active_subscriptions'] = array_values(array_filter(
+                $user['subscriptions'],
+                static fn ($subscription) => ($subscription['status'] ?? '') === 'active'
+                    && !empty($subscription['start_at'])
+                    && !empty($subscription['end_at'])
+                    && $subscription['start_at'] <= $now
+                    && $subscription['end_at'] >= $now
+            ));
+
+            if (!empty($user['active_subscriptions'])) {
+                $activePaidUsers[] = $user;
+                continue;
+            }
+
+            $otherUsers[] = $user;
+        }
+
         $data['title'] = 'Manage Users';
-        $data['users'] = $this->userModel->findAll();
+        $data['users'] = $users;
+        $data['activePaidUsers'] = $activePaidUsers;
+        $data['otherUsers'] = $otherUsers;
         return view('admin/layout/header', $data)
             . view('admin/users', $data)
             . view('admin/layout/footer');
