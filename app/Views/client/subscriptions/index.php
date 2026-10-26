@@ -17,8 +17,7 @@
             'name' => (string) $product['name'],
             'shortName' => $shortName,
             'description' => (string) ($product['description'] ?? 'Focused exam preparation with practice tests and rationales.'),
-            'monthly' => (float) $product['monthly_price'],
-            'quarterly' => (float) $product['quarterly_price'],
+            'plans' => \App\Models\ExamProductModel::accessPlans($product),
         ];
     }
 ?>
@@ -165,6 +164,10 @@
         .access-plan.is-selected {
             border-color: #0aa6d7;
             box-shadow: 0 0 0 3px rgba(10, 166, 215, .12);
+        }
+
+        .access-plan-annual {
+            grid-column: 1 / -1;
         }
 
         .access-plan-top {
@@ -407,6 +410,7 @@
                         $slug = (string) $product['slug'];
                         $active = $activeByProduct[$productId] ?? null;
                         $shortName = trim((string) ($product['short_name'] ?: $product['name']));
+                        $plans = \App\Models\ExamProductModel::accessPlans($product);
                     ?>
                     <article class="access-product" id="product-<?= esc($slug) ?>" data-product-card="<?= esc($slug) ?>">
                         <div class="access-product-head">
@@ -423,24 +427,19 @@
                         </div>
 
                         <div class="access-plan-grid">
-                            <div class="access-plan" data-plan-card="<?= esc($slug) ?>-monthly">
-                                <div class="access-plan-top">
-                                    <span class="access-plan-label">1 Month</span>
+                            <?php foreach ($plans as $planKey => $plan): ?>
+                                <div class="access-plan <?= $planKey === 'annual' ? 'access-plan-annual' : '' ?>" data-plan-card="<?= esc($slug . '-' . $planKey) ?>">
+                                    <div class="access-plan-top">
+                                        <span class="access-plan-label"><?= esc($plan['label']) ?></span>
+                                        <?php if ($planKey === array_key_last($plans)): ?>
+                                            <span class="access-plan-badge">Best value</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="access-plan-price">$<?= esc(number_format($plan['amount'], 0)) ?></div>
+                                    <div class="access-plan-note"><?= esc(ucfirst($plan['access'])) ?> of <?= esc($shortName) ?> practice tests and review content.</div>
+                                    <button class="access-select" type="button" data-select-plan data-product="<?= esc($slug) ?>" data-plan="<?= esc($planKey) ?>">Select <?= esc($plan['label']) ?></button>
                                 </div>
-                                <div class="access-plan-price">$<?= esc(number_format((float) $product['monthly_price'], 0)) ?></div>
-                                <div class="access-plan-note">30 days of <?= esc($shortName) ?> practice tests and review content.</div>
-                                <button class="access-select" type="button" data-select-plan data-product="<?= esc($slug) ?>" data-plan="monthly">Select 1 Month</button>
-                            </div>
-
-                            <div class="access-plan" data-plan-card="<?= esc($slug) ?>-quarterly">
-                                <div class="access-plan-top">
-                                    <span class="access-plan-label">3 Months</span>
-                                    <span class="access-plan-badge">Best value</span>
-                                </div>
-                                <div class="access-plan-price">$<?= esc(number_format((float) $product['quarterly_price'], 0)) ?></div>
-                                <div class="access-plan-note">90 days for deeper review, repeat attempts, and steadier prep.</div>
-                                <button class="access-select" type="button" data-select-plan data-product="<?= esc($slug) ?>" data-plan="quarterly">Select 3 Months</button>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </article>
                 <?php endforeach; ?>
@@ -501,15 +500,15 @@
             let selectedPlan = 'monthly';
 
             function planAmount(product, plan) {
-                return plan === 'quarterly' ? Number(product.quarterly) : Number(product.monthly);
+                return Number(product.plans[plan].amount);
             }
 
             function planLabel(plan) {
-                return plan === 'quarterly' ? '3 Months' : '1 Month';
+                return selectedProduct.plans[plan].label;
             }
 
             function planDays(plan) {
-                return plan === 'quarterly' ? '90 days' : '30 days';
+                return selectedProduct.plans[plan].access;
             }
 
             function updateSelectedCards() {
@@ -588,12 +587,12 @@
                         return item.slug === button.dataset.product;
                     });
 
-                    if (!product) {
+                    if (!product || !product.plans[button.dataset.plan]) {
                         return;
                     }
 
                     selectedProduct = product;
-                    selectedPlan = button.dataset.plan === 'quarterly' ? 'quarterly' : 'monthly';
+                    selectedPlan = button.dataset.plan;
                     renderCheckout();
                 });
             });

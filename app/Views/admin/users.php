@@ -26,6 +26,9 @@ $planLabel = static function ($plan): string {
     if ($plan === '3-month' || $plan === 'quarterly') {
         return '3 Months';
     }
+    if ($plan === '12-month' || $plan === 'annual') {
+        return '12 Months';
+    }
 
     return $plan !== '' ? ucwords(str_replace(['-', '_'], ' ', $plan)) : 'Not set';
 };

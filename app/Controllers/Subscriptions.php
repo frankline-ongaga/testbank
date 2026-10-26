@@ -87,15 +87,13 @@ class Subscriptions extends BaseController
             return redirect()->to('/subscriptions')->with('error', 'Please choose a valid product.');
         }
 
-        $isMonthly = in_array($plan, ['monthly', '1-month'], true);
-        $isQuarterly = in_array($plan, ['quarterly', '3-month'], true);
-        if (!$isMonthly && !$isQuarterly) {
+        $accessPlan = ExamProductModel::findAccessPlan($product, $plan);
+        if ($accessPlan === null) {
             return redirect()->to('/subscriptions')->with('error', 'Please choose a valid access plan.');
         }
 
-        $amount = $isMonthly ? (float) $product['monthly_price'] : (float) $product['quarterly_price'];
-        $days = $isMonthly ? 30 : 90;
-        $storedPlan = $isMonthly ? '1-month' : '3-month';
+        $amount = $accessPlan['amount'];
+        $storedPlan = $accessPlan['stored_plan'];
 
         $userId = (int) $this->session->get('user_id');
         if (!$userId) return redirect()->to('/login');
@@ -113,7 +111,7 @@ class Subscriptions extends BaseController
             $start = date('Y-m-d H:i:s', strtotime($activePass['end_at']));
         }
         
-        $end = date('Y-m-d H:i:s', strtotime($start . " +$days days"));
+        $end = date('Y-m-d H:i:s', strtotime($start . ' ' . $accessPlan['period']));
 
         // Record the access pass
         $passId = $this->subs->insert([
@@ -144,7 +142,7 @@ class Subscriptions extends BaseController
             $userName  = (string) ($this->session->get('username') ?? 'Student');
 
             if ($userEmail !== '') {
-                $planLabel = $isMonthly ? '1-Month' : '3-Month';
+                $planLabel = ucwords($storedPlan, '-');
                 $productName = (string) ($product['name'] ?? 'NCLEX Prep Course');
 
                 $startFormatted = date('M j, Y', strtotime($start));

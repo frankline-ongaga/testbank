@@ -16,34 +16,55 @@
 </section>
 <!-- Page Title Banner End -->
 
-<section class="py-60">
+<section class="py-60 exam-pricing-section">
     <div class="container">
         <style>
-            .pricing-intro { max-width: 820px; margin: 0 auto 34px; text-align: center; }
-            .pricing-intro h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 12px; }
-            .pricing-intro p { color: #5f6570; font-size: 1.08rem; }
-            .exam-pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; }
-            .exam-pricing-card { background: #fff; border: 1px solid #dbeafe; border-radius: 18px; overflow: hidden; box-shadow: 0 16px 36px rgba(15, 23, 42, .08); transition: transform .25s ease, box-shadow .25s ease; }
-            .exam-pricing-card:hover { transform: translateY(-5px); box-shadow: 0 22px 46px rgba(15, 23, 42, .12); }
-            .exam-pricing-head { padding: 28px; background: linear-gradient(135deg, rgba(10,166,215,.14), rgba(255,153,0,.12)); border-bottom: 1px solid #e7edf5; }
-            .exam-pricing-head h3 { margin: 0 0 10px; color: #111827; font-weight: 800; }
-            .exam-pricing-head p { margin: 0; color: #596273; min-height: 54px; }
-            .price-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 22px; }
-            .price-box { border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px; }
-            .price-box.best { border-color: #0aa6d7; box-shadow: inset 0 4px 0 #0aa6d7; }
-            .price-value { font-size: 2.3rem; font-weight: 900; color: #0aa6d7; line-height: 1; margin: 8px 0; }
-            .price-label { font-weight: 800; color: #111827; }
-            .price-note { color: #687386; font-size: .92rem; min-height: 42px; }
-            .pricing-features { padding: 0 24px 22px; }
-            .pricing-feature { display: flex; gap: 12px; align-items: flex-start; padding: 7px 0; color: #4b5563; }
-            .pricing-feature i { color: #0aa6d7; margin-top: 4px; }
-            .pricing-cta { padding: 0 24px 26px; }
-            @media (max-width: 480px) { .price-row { grid-template-columns: 1fr; } }
+            .exam-pricing-section { background: #f6f8fa; }
+            .exam-pricing-section * { letter-spacing: 0; }
+            .pricing-intro { max-width: 700px; margin: 0 auto 32px; text-align: center; }
+            .pricing-intro h2 { font-size: 30px; line-height: 1.3; margin-bottom: 10px; }
+            .pricing-intro p { color: #667085; font-size: 16px; line-height: 1.6; margin: 0; }
+            .exam-pricing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+            .exam-pricing-card { display: flex; flex-direction: column; min-width: 0; background: #fff; border: 1px solid #dce3e9; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 16px rgba(16, 24, 40, .04); }
+            .exam-pricing-head { padding: 24px 22px 20px; border-top: 3px solid #0aa6d7; }
+            .exam-pricing-head h3 { margin: 0 0 8px; color: #17212f; font-size: 24px; line-height: 1.3; font-weight: 800; }
+            .exam-pricing-head p { margin: 0; color: #667085; font-size: 14px; line-height: 1.6; min-height: 68px; }
+            .pricing-plans { margin: 0; padding: 0; }
+            .pricing-plan { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 14px; min-height: 88px; padding: 18px 22px; border-top: 1px solid #edf0f3; }
+            .pricing-plan dt { min-width: 0; margin: 0; }
+            .price-label { display: block; font-size: 16px; line-height: 1.4; font-weight: 700; color: #17212f; }
+            .price-note { display: block; margin-top: 4px; font-size: 13px; line-height: 1.5; font-weight: 400; color: #667085; }
+            .pricing-plan dd { margin: 0; text-align: right; white-space: nowrap; }
+            .price-value { display: block; font-size: 28px; font-weight: 800; color: #17212f; line-height: 1.2; }
+            .price-currency { display: block; margin-top: 3px; font-size: 11px; line-height: 1.4; color: #667085; }
+            .pricing-plan.is-annual { background: #fff7e8; border-top-color: #f7dfb7; }
+            .pricing-plan.is-annual .price-value { color: #a34e00; }
+            .price-best { display: inline-block; margin: 6px 0 0; padding: 3px 7px; border-radius: 4px; background: #ffdb58; color: #63430c; font-size: 11px; font-weight: 700; line-height: 1.4; }
+            .pricing-features { display: grid; gap: 10px; list-style: none; padding: 22px; margin: auto 0 0; border-top: 1px solid #edf0f3; }
+            .pricing-feature { display: flex; gap: 10px; align-items: flex-start; color: #526071; font-size: 13px; line-height: 1.5; }
+            .pricing-feature i { flex-shrink: 0; color: #0aa6d7; margin-top: 3px; }
+            .pricing-cta { padding: 0 22px 24px; }
+            .pricing-cta .pricing-access-button { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; padding: 12px 16px; border: 1px solid #0aa6d7; border-radius: 6px; background: #0aa6d7; color: #fff; font-size: 14px; line-height: 1.4; font-weight: 700; text-align: center; white-space: normal; transition: background .2s ease; }
+            .pricing-cta .pricing-access-button:hover { background: #0783ab; border-color: #0783ab; }
+            .pricing-cta .pricing-access-button:focus-visible { outline: 3px solid #ffdb58; outline-offset: 3px; }
+            @media (max-width: 991px) {
+                .exam-pricing-grid { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; gap: 20px; }
+                .exam-pricing-head p { min-height: 0; }
+                .pricing-features { margin-top: 0; }
+            }
+            @media (max-width: 480px) {
+                .pricing-intro h2 { font-size: 25px; }
+                .pricing-intro p { font-size: 14px; }
+                .exam-pricing-head { padding: 20px 18px 18px; }
+                .pricing-plan { padding: 16px 18px; }
+                .pricing-features { padding: 20px 18px; }
+                .pricing-cta { padding: 0 18px 20px; }
+            }
         </style>
 
         <div class="pricing-intro">
-            <h2>Choose the exam you are preparing for</h2>
-            <p>NCLEX, ATI TEAS 7, and HESI access are now separate products, so you only pay for the test bank you need.</p>
+            <h2>Choose your exam access</h2>
+            <p>Prepare for NCLEX, ATI TEAS 7, or HESI at your own pace. All packages are a one-time payment in USD.</p>
         </div>
 
         <div class="exam-pricing-grid">
@@ -54,25 +75,34 @@
                         <h3><?= esc($product['name']) ?></h3>
                         <p><?= esc($product['description'] ?? 'Focused practice tests, review questions, and clear rationales for your exam.') ?></p>
                     </div>
-                    <div class="price-row">
-                        <div class="price-box">
-                            <div class="price-label">1 Month</div>
-                            <div class="price-value">$<?= esc(number_format((float) $product['monthly_price'], 0)) ?></div>
-                            <div class="price-note">Best for a focused final review sprint.</div>
-                        </div>
-                        <div class="price-box best">
-                            <div class="price-label">3 Months</div>
-                            <div class="price-value">$<?= esc(number_format((float) $product['quarterly_price'], 0)) ?></div>
-                            <div class="price-note">More time to practice, review, and improve.</div>
-                        </div>
-                    </div>
-                    <div class="pricing-features">
-                        <div class="pricing-feature"><i class="fas fa-check-circle"></i><span>Product-specific practice tests</span></div>
-                        <div class="pricing-feature"><i class="fas fa-check-circle"></i><span>Detailed rationales for stronger review</span></div>
-                        <div class="pricing-feature"><i class="fas fa-check-circle"></i><span>Mobile-friendly learner dashboard</span></div>
-                    </div>
+                    <dl class="pricing-plans">
+                        <?php foreach (\App\Models\ExamProductModel::accessPlans($product) as $planKey => $plan): ?>
+                            <div class="pricing-plan <?= $planKey === 'annual' ? 'is-annual' : '' ?>">
+                                <dt>
+                                    <span class="price-label"><?= esc($plan['label']) ?></span>
+                                    <span class="price-note"><?= esc(match ($planKey) {
+                                        'annual' => 'A full year of access',
+                                        'quarterly' => '90 days of access',
+                                        default => '30 days of access',
+                                    }) ?></span>
+                                    <?php if ($planKey === 'annual'): ?>
+                                        <span class="price-best">Best value</span>
+                                    <?php endif; ?>
+                                </dt>
+                                <dd>
+                                    <span class="price-value">$<?= esc(number_format($plan['amount'], 0)) ?></span>
+                                    <span class="price-currency">USD</span>
+                                </dd>
+                            </div>
+                        <?php endforeach; ?>
+                    </dl>
+                    <ul class="pricing-features">
+                        <li class="pricing-feature"><i class="fas fa-check" aria-hidden="true"></i><span>Product-specific practice tests</span></li>
+                        <li class="pricing-feature"><i class="fas fa-check" aria-hidden="true"></i><span>Detailed answer rationales</span></li>
+                        <li class="pricing-feature"><i class="fas fa-check" aria-hidden="true"></i><span>Access on desktop and mobile</span></li>
+                    </ul>
                     <div class="pricing-cta">
-                        <a href="<?= esc($registerUrl); ?>" class="btn btn-primary btn-lg w-100" style="padding: 12px; font-size: 1.05rem; font-weight: 700;">
+                        <a href="<?= esc($registerUrl); ?>" class="pricing-access-button">
                             Get <?= esc($product['short_name'] ?: $product['name']) ?> Access
                         </a>
                     </div>
