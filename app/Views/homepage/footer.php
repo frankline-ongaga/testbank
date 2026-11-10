@@ -192,7 +192,7 @@
             <li><a href="<?= base_url('register'); ?>">Get Started</a></li>
 
             <li class="mobile-nav__cta-gap"><a href="<?= base_url('tutoring'); ?>" class="btn btn-primary btn-sm" style="font-weight:700; color:#fff;">Tutoring</a></li>
-            <li><a href="<?= base_url('free/test'); ?>" class="btn btn-warning btn-sm" style="font-weight:700; color:#000;">Take a Test</a></li>
+            <li><?php include __DIR__ . '/take_test_link.php'; ?></li>
           </ul>
         </nav>
       </div>

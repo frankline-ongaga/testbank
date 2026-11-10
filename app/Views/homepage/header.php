@@ -166,44 +166,7 @@
                 <?php 
                   $uri = service('uri');
                   $path = trim($uri->getPath(), '/');
-                  $segments = $uri->getSegments();
                   $isHome = ($path === '' || $path === 'index.php');
-                  // Detect current free test page
-                  $isFreeTest = (strpos($path, 'free/test') === 0 || strpos($path, 'index.php/free/test') === 0);
-                  $freeId = null;
-                  // If currently on a free test page, use that id
-                  if (!$freeId && !empty($segments) && count($segments) >= 3 && $segments[0] === 'free' && $segments[1] === 'test' && ctype_digit($segments[2])) {
-                    $freeId = (int)$segments[2];
-                  }
-                  // Prefer homepage section logic: use first available free test from the list
-                  if (!$freeId && !empty($freeTests) && is_array($freeTests)) {
-                    foreach ($freeTests as $ftTmp) { if (!empty($ftTmp['id'])) { $freeId = (int)$ftTmp['id']; break; } }
-                  }
-                  // Fallbacks
-                  if (!$freeId && !empty($activeFreeTest) && !empty($activeFreeTest['id'])) {
-                    $freeId = (int)$activeFreeTest['id'];
-                  }
-                  if (!$freeId && !empty($test) && !empty($test['is_free']) && !empty($test['id'])) {
-                    $freeId = (int)$test['id'];
-                  }
-                  // Absolute fallback: query DB for any active free test
-                  if (!$freeId) {
-                    try {
-                      $db = \Config\Database::connect();
-                      $row = $db->table('tests')
-                        ->where('is_free', 1)
-                        ->where('status', 'active')
-                        ->orderBy('id', 'DESC')
-                        ->get(1)
-                        ->getRowArray();
-                      if (!empty($row['id'])) {
-                        $freeId = (int)$row['id'];
-                      }
-                    } catch (\Throwable $e) {
-                      // Silently ignore DB issues in the header
-                    }
-                  }
-                  $takeTestUrl = $freeId ? base_url('free/test/' . $freeId) : base_url('client/tests');
                 ?>
                 <ul class="main-menu__list">
                      <li><a href="<?= base_url('register'); ?>">NCLEX</a></li>
@@ -216,7 +179,7 @@
 
                      <li><a href="<?php echo base_url('tutoring'); ?>" class="btn btn-primary btn-sm" style="font-weight:700; color:#fff;">Tutoring</a></li>
 
-                    <li><a href="<?= $takeTestUrl ?>" class="btn btn-warning btn-sm <?= $isFreeTest ? 'active' : '' ?>" style="font-weight:700; color:#000;">Take a Test</a></li>
+                    <li><?php include __DIR__ . '/take_test_link.php'; ?></li>
 
 
 
